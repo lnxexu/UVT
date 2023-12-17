@@ -22,7 +22,7 @@
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
   <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
   <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">TEAM</a>
-  <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">WORK</a>
+  <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">PROTOTYPE</a>
   <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">PRICING</a>
   <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
 </nav>
@@ -31,7 +31,9 @@
 <header>
   <img src="../assets/UIC.jpg" id = "UIC">
   <div class="w3-display-left w3-text-white" style="padding:48px">
-    <span class="w3-jumbo w3-hide-small"></span><br>
+    <span class="w3-jumbo w3-hide-small">
+
+    </span><br>
   </div> 
 </header>
 
@@ -122,8 +124,9 @@
 
 <!-- Work Section -->
 <div class="w3-container" style="padding:128px 16px" id="work">
-  <h3 class="w3-center">OUR WORK</h3>
+  <h3 class="w3-center">UVT PROTOTYPE</h3>
   <p class="w3-center w3-large">Choose if whether you are Security Guard or a OSAD staff</p>
+  <p class="w3-center w3-large">Note: Username: "demo", Password: "password"</p>
 
   <div class="w3-row-padding" style="margin-top:64px">
     <div :style="{ display: 'flex', justifyContent: 'space-evenly'}">
