@@ -127,8 +127,8 @@
 
   <div class="w3-row-padding" style="margin-top:64px">
     <div :style="{ display: 'flex', justifyContent: 'space-evenly'}">
-      <button class="button-57" role="button" @click="sekyupage()"><span class="text">Security Page</span><span>Security Page</span></button>
-      <button class="button-57" role="button" @click="OSADpage()"><span class="text">OSAD</span><span>OSAD</span></button>
+      <router-link to="/SekyuLogin"><button class="button-57" role="button" ><span class="text">Security Page</span><span>Security Page</span></button></router-link>
+      <router-link to = "/OSADLogin"><button class="button-57" role="button"><span class="text">OSAD</span><span>OSAD</span></button></router-link>
     </div>
   </div>
 </div>
@@ -195,12 +195,6 @@ export default {
     toggleSidebar() {
       const mySidebar = this.$refs.mySidebar;
       mySidebar.style.display = mySidebar.style.display === 'block' ? 'none' : 'block';
-    },
-    sekyupage() {
-      window.location.assign('SekyuLogin');
-    },
-    OSADpage() {
-      window.location.assign('OSADLogin');
     },
 
   },
