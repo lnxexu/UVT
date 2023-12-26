@@ -1,12 +1,12 @@
 <template>
   <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
-    <a href="#home" class="w3-bar-item w3-button w3-wide">UNIVERSITY VIOLATION TRACKER</a>
+    <a href="#" class="w3-bar-item w3-button w3-wide">UVT</a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
       <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
       <a href="#team" class="w3-bar-item w3-button"><i class="fa fa-user"></i> TEAM</a>
-      <a href="#work" class="w3-bar-item w3-button"><i class="fa fa-th"></i>PROTOTYPE</a>
+      <a href="#work" class="w3-bar-item w3-button"><i class="fa fa-th"></i> PROTOTYPE</a>
       <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
     </div>
     <!-- Hide right-floated links on small screens and replace them with a menu icon -->
@@ -29,10 +29,10 @@
 
 <!-- Header with full-height image -->
 <header>
-  <img src="../assets/UIC.jpg" id = "UIC">
+  <img src="../assets/UIC.jpg" id = "UIC" style="filter: brightness(0.5);">
   <div class="w3-display-left w3-text-white" style="padding:48px">
-    <span class="w3-jumbo w3-hide-small">
-
+    <span class="w3-jumbo w3-hide-small" style="text-transform: uppercase;display: flex;">
+      University Violation Tracker
     </span><br>
   </div> 
 </header>
@@ -40,27 +40,27 @@
 <!-- About Section -->
 <div class="w3-container" style="padding:128px 16px" id="about">
   <h3 class="w3-center">ABOUT THE COMPANY</h3>
-  <p class="w3-center w3-large">Key features of our company</p>
+  <p class="w3-center w3-large">Key features of our prototype</p>
   <div class="w3-row-padding w3-center" style="margin-top:64px">
     <div class="w3-quarter">
       <i class="fa fa-desktop w3-margin-bottom w3-jumbo w3-center"></i>
       <p class="w3-large">Responsive</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+      <p>The "University Violation Tracker" system aims to provide a consistent, efficient, and user-friendly experience across a diverse range of devices, ensuring that users can easily access and interact with the system anytime, anywhere.</p>
     </div>
     <div class="w3-quarter">
       <i class="fa fa-heart w3-margin-bottom w3-jumbo"></i>
       <p class="w3-large">Passion</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+      <p>The passion-driven engagement feature of the University Violation Tracker system is designed to inspire and sustain active participation, collaboration, and a shared commitment to fostering a positive university environment.</p>
     </div>
     <div class="w3-quarter">
       <i class="fa fa-diamond w3-margin-bottom w3-jumbo"></i>
       <p class="w3-large">Design</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+      <p>The modern and intuitive design feature of the University Violation Tracker system prioritizes user experience, accessibility, and a visually appealing interface, ultimately contributing to increased user engagement and the overall success of the system.</p>
     </div>
     <div class="w3-quarter">
       <i class="fa fa-cog w3-margin-bottom w3-jumbo"></i>
       <p class="w3-large">Support</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+      <p>The comprehensive support services feature of the University Violation Tracker system is designed to provide users with the resources and assistance they need, fostering a positive and collaborative user experience.</p>
     </div>
   </div>
 </div>
@@ -69,51 +69,62 @@
 
 
 <!-- Team Section -->
-<div class="w3-container" style="padding:128px 16px" id="team">
+<div class="w3-container w3-light-grey" style="padding:128px 16px;" id="team">
   <h3 class="w3-center">THE TEAM</h3>
-  <p class="w3-center w3-large">The ones who runs this company</p>
-  <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+  <p class="w3-center w3-large">The ones who made this possible</p>
+  <div class="w3-row-padding " style="margin-top:64px;display: flex;justify-content: space-evenly; filter:grayscale(0.4)">
     <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="" alt="John" style="width:100%">
+      <div class="w3-card team-member" style="width:350px; height:100%">
+        <img src="../assets/kobe.jpg" alt="John" style="width:100%; height:350px">
         <div class="w3-container">
-          <h3>John Doe</h3>
-          <p class="w3-opacity">CEO & Founder</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+          <h3>Kobe Corpuz</h3>
+          <p class="w3-opacity">Programmer</p>
+          <p>"You have to hurt in order to know. Fall in order to grow. Lose in order to gain. Because most of life’s lessons are learned in pain."</p>
+          <p><button class="w3-button w3-light-grey w3-block" @click="composeEmail('kcorpuz_220000002183@uic.edu.ph', 'Subject 1', 'Body of message 1')"><i class="fa fa-envelope"></i> Contact</button></p>
+        </div>
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom" >
+      <div class="w3-card team-member" style="width:350px;height:100%">
+        <img src="../assets/myk1.jpg" alt="Jane" style="width:100%; height:350px;">
+        <div class="w3-container">
+          <h3>Myk Lorence Palado</h3>
+          <p class="w3-opacity">Analyst</p>
+          <p>"Keep going. Everything you need will come to you at the perfect time."</p>
+          <p><button class="w3-button w3-light-grey w3-block" style="margin-top: 11.9%;" @click="composeEmail('mpalado_220000002436@uic.edu.ph', 'Subject 1', 'Body of message 1')" ><i class="fa fa-envelope"></i> Contact</button></p>
         </div>
       </div>
     </div>
     <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="" alt="Jane" style="width:100%">
+      <div class="w3-card team-member" style="width:350px; height:100%">
+        <img src="../assets/jam.jpg" alt="Mike" style="width:100%; height:350px">
         <div class="w3-container">
-          <h3>Anja Doe</h3>
-          <p class="w3-opacity">Art Director</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
-        </div>
-      </div>
-    </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="" alt="Mike" style="width:100%">
-        <div class="w3-container">
-          <h3>Mike Ross</h3>
+          <h3>Jazmine Rose Quitoras</h3>
           <p class="w3-opacity">Web Designer</p>
           <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+          <p><button class="w3-button w3-light-grey w3-block" @click="composeEmail('jquitoras_220000000357@uic.edu.ph', 'Subject 1', 'Body of message 1')"><i class="fa fa-envelope"></i> Contact</button></p>
         </div>
       </div>
     </div>
     <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="" alt="Dan" style="width:100%">
+      <div class="w3-card team-member" style="width:350px; height:100%  ">
+        <img src="../assets/gi.jpg" alt="Dan" style="width:100%; height:350px">
         <div class="w3-container">
-          <h3>Dan Star</h3>
-          <p class="w3-opacity">Designer</p>
+          <h3>Gi Linghon</h3>
+          <p class="w3-opacity">Documentator/Tester</p>
           <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+          <p><button class="w3-button w3-light-grey w3-block" @click="composeEmail('glinghon_220000002162@uic.edu.ph', 'Subject 1', 'Body of message 1')"><i class="fa fa-envelope"></i> Contact</button></p>
+        </div>
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-card team-member" style="width:350px; height:100%;">
+        <img src="../assets/chan.jpg" alt="Dan" style="width:100%; height:350px">
+        <div class="w3-container">
+          <h3>Christian Kyle Padilla</h3>
+          <p class="w3-opacity">Documentator/Tester</p>
+          <p>"If you don't take risks, you can't create a future."</p>
+          <p><button class="w3-button w3-light-grey w3-block" style="margin-top: 11.9%;" @click="composeEmail('cpadilla_210000000910@uic.edu.ph', 'Subject 1', 'Body of message 1')"><i class="fa fa-envelope"></i> Contact</button></p>
         </div>
       </div>
     </div>
@@ -129,9 +140,9 @@
   <p class="w3-center w3-large">Note: Username: "demo", Password: "password"</p>
 
   <div class="w3-row-padding" style="margin-top:64px">
-    <div :style="{ display: 'flex', justifyContent: 'space-evenly'}">
-      <router-link to="/SekyuLogin"><button class="button-57" role="button" ><span class="text">Security Page</span><span>Security Page</span></button></router-link>
-      <router-link to = "/OSADLogin"><button class="button-57" role="button"><span class="text">OSAD</span><span>OSAD</span></button></router-link>
+    <div style="display: flex; justifyContent: space-evenly; height: 300px">
+      <div class = "option"><router-link to="/SekyuLogin"><button class="button-57" role="button" ><span class="text">Security Page</span><span>Security Page</span></button></router-link></div>
+      <div class = "option"><router-link to = "/OSADLogin"><button class="button-57" role="button"><span class="text">OSAD</span><span>OSAD</span></button></router-link></div>
     </div>
   </div>
 </div>
@@ -142,9 +153,9 @@
   <h3 class="w3-center">CONTACT</h3>
   <p class="w3-center w3-large">Lets get in touch. Send us a message:</p>
   <div style="margin-top:48px">
-    <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> Chicago, US</p>
-    <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +00 151515</p>
-    <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: mail@mail.com</p>
+    <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> Davao City, Philippines</p>
+    <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: 09187085773</p>
+    <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: ephixa12321@gmail.com</p>
     <br>
     <form action="/action_page.php" target="_blank">
       <p><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
@@ -157,8 +168,6 @@
         </button>
       </p>
     </form>
-    <!-- Image of location/map -->
-    <img class="w3-image w3-greyscale" style="width:100%;margin-top:48px">
   </div>
 </div>
 
@@ -199,8 +208,10 @@ export default {
       const mySidebar = this.$refs.mySidebar;
       mySidebar.style.display = mySidebar.style.display === 'block' ? 'none' : 'block';
     },
-
-  },
+    composeEmail(email, subject, body) {
+      window.location.href = "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    }
+  }
   
 };
 </script>
@@ -211,12 +222,14 @@ export default {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 
 
-body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+body,h1,h2,h3,h4,h5,h6,span {font-family:"Raleway", sans-serif}
 
 body, html {
   height: 100%;
   line-height: 1.8;
 }
+
+
 
 /* Full height image header */
 .w3-bar .w3-button {
@@ -246,6 +259,7 @@ body, html {
   -webkit-user-select: none;
   touch-action: manipulation;
   border-radius: 5%;
+  display: flex;
 }
 
 .button-57 span:first-child {
@@ -293,4 +307,31 @@ body, html {
   opacity: 1;
   transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
 }
+.team-member {
+    width: 350px;
+    height: 400px; /* Adjust the height as needed */
+    overflow: hidden;
+     transition: transform 0.3s ease;
+  }
+
+  .team-member img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Crop the image to cover the entire container */
+  }
+  .team-member:hover {
+    transform: scale(1.05); /* Increase the size on hover */
+  }
+  .option{
+    width: 40%;
+    height: 100%;
+    border: #18181a 1px solid;
+    border-radius: 20px;
+  }
+  .option .button-57{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(0,30%);
+  }
 </style>
