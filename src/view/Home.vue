@@ -101,8 +101,8 @@
         <div class="w3-container">
           <h3>Jazmine Rose Quitoras</h3>
           <p class="w3-opacity">Web Designer</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-          <p><button class="w3-button w3-light-grey w3-block" @click="composeEmail('jquitoras_220000000357@uic.edu.ph', 'Subject 1', 'Body of message 1')"><i class="fa fa-envelope"></i> Contact</button></p>
+          <p>"Psalm 46:5" "Long story short, I survived"</p>
+          <p><button class="w3-button w3-light-grey w3-block"  style="margin-top: 19%;" @click="composeEmail('jquitoras_220000000357@uic.edu.ph', 'Subject 1', 'Body of message 1')"><i class="fa fa-envelope"></i> Contact</button></p>
         </div>
       </div>
     </div>
@@ -112,8 +112,8 @@
         <div class="w3-container">
           <h3>Gi Linghon</h3>
           <p class="w3-opacity">Documentator/Tester</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-          <p><button class="w3-button w3-light-grey w3-block" @click="composeEmail('glinghon_220000002162@uic.edu.ph', 'Subject 1', 'Body of message 1')"><i class="fa fa-envelope"></i> Contact</button></p>
+          <p>"Keep moving forward"</p>
+          <p><button class="w3-button w3-light-grey w3-block" style="margin-top: 19%;"  @click="composeEmail('glinghon_220000002162@uic.edu.ph', 'Subject 1', 'Body of message 1')"><i class="fa fa-envelope"></i> Contact</button></p>
         </div>
       </div>
     </div>
@@ -141,8 +141,8 @@
 
   <div class="w3-row-padding" style="margin-top:64px">
     <div style="display: flex; justifyContent: space-evenly; height: 300px">
-      <div class = "option"><router-link to="/SekyuLogin"><button class="button-57" role="button" ><span class="text">Security Page</span><span>Security Page</span></button></router-link></div>
-      <div class = "option"><router-link to = "/OSADLogin"><button class="button-57" role="button"><span class="text">OSAD</span><span>OSAD</span></button></router-link></div>
+      <div class = "option one"><router-link to="/SekyuLogin"><button class="button-57 Sekyu" role="button" ><span class="text">Security Page</span><span>Security Page</span></button></router-link></div>
+      <div class = "option two"><router-link to = "/OSADLogin"><button class="button-57 OSAD" role="button"><span class="text">OSAD</span><span>OSAD</span></button></router-link></div>
     </div>
   </div>
 </div>
@@ -259,7 +259,6 @@ body, html {
   -webkit-user-select: none;
   touch-action: manipulation;
   border-radius: 5%;
-  display: flex;
 }
 
 .button-57 span:first-child {
@@ -309,7 +308,7 @@ body, html {
 }
 .team-member {
     width: 350px;
-    height: 400px; /* Adjust the height as needed */
+    height: 400px; 
     overflow: hidden;
      transition: transform 0.3s ease;
   }
@@ -317,10 +316,10 @@ body, html {
   .team-member img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Crop the image to cover the entire container */
+    object-fit: cover;
   }
   .team-member:hover {
-    transform: scale(1.05); /* Increase the size on hover */
+    transform: scale(1.05); 
   }
   .option{
     width: 40%;
@@ -328,10 +327,59 @@ body, html {
     border: #18181a 1px solid;
     border-radius: 20px;
   }
-  .option .button-57{
+  .option .Sekyu{
     position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(0,30%);
+    top: 44%;
+    left: 40%;
   }
+  .option .OSAD{
+    position: relative;
+    top: 44%;
+    left: 46%;
+  }
+  .one{
+    background-image: url('../assets/Sekyu.PNG');
+    background-size: cover;
+  }
+  .two{
+    background-image: url('../assets/OSAD.PNG');
+    background-size: cover;
+  }
+
+  .one,
+.two {
+  position: relative;
+  background-size: cover;
+  transition: filter 0.5s ease, transform 0.5s ease; /* Adding transition for filter and transform */
+}
+
+.one:hover,
+.two:hover {
+  transform: scale(1.1); /* Scale effect on hover */
+}
+
+.one::before,
+.two::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0); /* Start with a fully transparent background */
+  transition: background 0.5s ease; /* Adding transition for background */
+  pointer-events: none; /* Allows mouse events to pass through the overlay */
+  border-radius: 20px;
+}
+
+.one:hover::before,
+.two:hover::before {
+  background: rgba(0, 0, 0, 0.5); /* Transition to semi-transparent black on hover */
+}
+
+/* Other styles for .one and .two can go here */
+
+/* Other styles for .one and .two can go here */
+
+
 </style>

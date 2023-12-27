@@ -16,19 +16,20 @@ export default {
       violationInput: ref(''),
       tableData: ref([]),
       isPopupOpen1: false,
-      isPopupOpen2: false
+      isPopupOpen2: false,
+      isLoaded: false,
     };
   },
   methods: {
     addViolation() {
       if (this.validateInputs()) {
         this.tableData.push({
-          name: this.name,
-          section: this.section,
-          studentID: this.studentID,
-          time: this.timeInput,
-          date: this.dateInput,
-          violation: this.violationInput,
+          name: this.name.value,
+          section: this.section.value,
+          studentID: this.studentID.value,
+          time: this.timeInput.value,
+          date: this.dateInput.value,
+          violation: this.violationInput.value,
         });
         this.clearInputs();
       }
@@ -37,22 +38,22 @@ export default {
       if (this.validateInputs()) {
         this.tableData.pop();
         this.tableData.push({
-          name: this.name,
-          section: this.section,
-          studentID: this.studentID,
-          time: this.timeInput,
-          date: this.dateInput,
-          violation: this.violationInput,
+          name: this.name.value,
+          section: this.section.value,
+          studentID: this.studentID.value,
+          time: this.timeInput.value,
+          date: this.dateInput.value,
+          violation: this.violationInput.value,
         });
       }
     },
     clearInputs() {
-      this.name = '';
-      this.section = '';
-      this.studentID = '';
-      this.timeInput = '';
-      this.dateInput = '';
-      this.violationInput = '';
+      this.name.value = '';
+      this.section.value = '';
+      this.studentID.value = '';
+      this.timeInput.value = '';
+      this.dateInput.value = '';
+      this.violationInput.value = '';
     },
     togglePopup1() {
       if (this.validateInputs(true)) {
@@ -70,42 +71,57 @@ export default {
       this.$emit("close");
     },
     validateInputs() {
-      if (!this.name.trim()) {
+      if (!this.name.value.trim()) {
         alert('Please enter a name.');
         return false;
       }
 
-      if (!this.section.trim()) {
+      if (!this.section.value.trim()) {
         alert('Please enter a section.');
         return false;
       }
-      if (!this.studentID.trim()) {
+      if (!this.studentID.value.trim()) {
         alert('Please enter Student ID.');
         return false;
       }
 
-      if (!this.timeInput.trim()) {
+      if (!this.timeInput.value.trim()) {
         alert('Please enter Time.');
         return false;
       }
 
-      if (!this.dateInput.trim()) {
+      if (!this.dateInput.value.trim()) {
         alert('Please enter Date.');
         return false;
       }
 
-      if (!this.violationInput.trim()) {
+      if (!this.violationInput.value.trim()) {
         alert('Please enter Violation.');
         return false;
       }
       return true;
     },
   },
-};
+  mounted() {
+    const visibilityDuration = 1000;
+    setTimeout(() => {
+      this.isLoaded = true;
+      const loaderContainers = document.getElementsByClassName("loader-container");
+      for (const container of loaderContainers) {
+        container.classList.add("loaded");
+      }
+    }, visibilityDuration);
+  },
+}
 </script>
 
+
 <template>
+  <div class="loader-container" id="loader">
+    <div class="loader"></div>
+  </div>
 <bg/>
+
 <div class = "Sekyu-page-container">
   <div id="transparent"></div>
 <div id="sekyu">
@@ -346,7 +362,7 @@ export default {
 }
 #section{
     width: 640px;
-    height: 30px;  
+    height: 30px;   
     position: absolute;
     top:560px;
     display: flex;
@@ -395,6 +411,35 @@ button {
     display: flex;
     justify-content: center;
   }
+  .loader-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Make sure it's above your content */
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loaded{
+  display: none;
+  opacity: 0;
+}   
 
 
 </style>

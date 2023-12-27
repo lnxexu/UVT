@@ -1,4 +1,7 @@
 <template>
+<div class="loader-container" id="loader">
+    <div class="loader"></div>
+  </div>
   <div class = "OSAD-container">
     <div id="OSADcontainer">
     <div id="logoStack">
@@ -121,6 +124,7 @@ export default {
         condition: 'Sunny', // Replace with actual data
       },
       pendingReportsCount: 0,
+      isLoaded: false,
     }
   },
   methods: {
@@ -196,6 +200,14 @@ export default {
     this.fetchWeather(); // Call the method to fetch weather information
     this.updateClock()
     this.fetchPendingReportsCount();
+    const visibilityDuration = 1000;
+    setTimeout(() => {
+      this.isLoaded = true;
+      const loaderContainers = document.getElementsByClassName("loader-container");
+      for (const container of loaderContainers) {
+        container.classList.add("loaded");
+      }
+    }, visibilityDuration);
   },
   
 };
@@ -500,6 +512,37 @@ hr{
   border-radius: 8px;
   
 }
+
+
+.loader-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Make sure it's above your content */
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loaded{
+  display: none;
+  opacity: 0;
+}     
 
 
 </style>
