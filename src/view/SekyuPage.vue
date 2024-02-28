@@ -23,37 +23,23 @@ export default {
   methods: {
     addViolation() {
       if (this.validateInputs()) {
-        this.tableData.push({
-          name: this.name.value,
-          section: this.section.value,
-          studentID: this.studentID.value,
-          time: this.timeInput.value,
-          date: this.dateInput.value,
-          violation: this.violationInput.value,
-        });
+        this.tableData.push(this.getFormData());
         this.clearInputs();
       }
     },
     addViolation2() {
       if (this.validateInputs()) {
         this.tableData.pop();
-        this.tableData.push({
-          name: this.name.value,
-          section: this.section.value,
-          studentID: this.studentID.value,
-          time: this.timeInput.value,
-          date: this.dateInput.value,
-          violation: this.violationInput.value,
-        });
+        this.tableData.push(this.getFormData());
       }
     },
     clearInputs() {
-      this.name.value = '';
-      this.section.value = '';
-      this.studentID.value = '';
-      this.timeInput.value = '';
-      this.dateInput.value = '';
-      this.violationInput.value = '';
+      this.name = '';
+      this.section = '';
+      this.studentID = '';
+      this.timeInput = '';
+      this.dateInput = '';
+      this.violationInput = '';
     },
     togglePopup1() {
       if (this.validateInputs(true)) {
@@ -68,53 +54,50 @@ export default {
     closePopup() {
       this.isPopupOpen1 = false;
       this.isPopupOpen2 = false;
-      this.$emit("close");
+      this.$emit('close');
     },
-    validateInputs() {
-      if (!this.name.value.trim()) {
-        alert('Please enter a name.');
-        return false;
-      }
+    validateInputs(skipAlerts = false) {
+      const inputs = [
+    { value: this.name, message: 'name' },
+    { value: this.section, message: 'section' },
+    { value: this.studentID, message: 'Student ID' },
+    { value: this.timeInput, message: 'Time' },
+    { value: this.dateInput, message: 'Date' },
+    { value: this.violationInput, message: 'Violation' },
+  ];
+  for (const input of inputs) {
+    if (!input.value.trim()) {
+      if (!skipAlerts) alert(`Please enter ${input.message}.`);
+      return false;
+    }
+  }
+  return true;
+},
 
-      if (!this.section.value.trim()) {
-        alert('Please enter a section.');
-        return false;
-      }
-      if (!this.studentID.value.trim()) {
-        alert('Please enter Student ID.');
-        return false;
-      }
-
-      if (!this.timeInput.value.trim()) {
-        alert('Please enter Time.');
-        return false;
-      }
-
-      if (!this.dateInput.value.trim()) {
-        alert('Please enter Date.');
-        return false;
-      }
-
-      if (!this.violationInput.value.trim()) {
-        alert('Please enter Violation.');
-        return false;
-      }
-      return true;
+    getFormData() {
+      return {
+        name: this.name.value,
+        section: this.section.value,
+        studentID: this.studentID.value,
+        time: this.timeInput.value,
+        date: this.dateInput.value,
+        violation: this.violationInput.value,
+      };
     },
   },
   mounted() {
     const visibilityDuration = 1000;
     setTimeout(() => {
       this.isLoaded = true;
-      const loaderContainers = document.getElementsByClassName("loader-container");
+      const loaderContainers = document.getElementsByClassName('loader-container');
       for (const container of loaderContainers) {
-        container.classList.add("loaded");
+        container.classList.add('loaded');
       }
     }, visibilityDuration);
   },
-}
-</script>
+};
 
+</script>
 
 <template>
   <div class="loader-container" id="loader">
@@ -181,8 +164,8 @@ export default {
       <p>Date: {{ dateInput }}</p>
       <p>Violation: {{ violationInput }}</p>
       <div class="options">
-        <button type="button" @click="closePopup" class="btn btn-danger back">Back</button>
-        <button type="button" @click="togglePopup2"  class="btn btn-success confirm">Confirm</button>
+        <button type="button" @click="closePopup()" class="btn btn-danger back">Back</button>
+        <button type="button" @click="togglePopup2()"  class="btn btn-success confirm">Confirm</button>
       </div>
     </div>
 </PopSekyu>
@@ -192,7 +175,7 @@ export default {
   <div class="content">
     <p>The report has been sent to the OSAD.</p>
     <div class="content-button">
-    <button type="button" @click="closePopup" class="btn btn-danger backAll">Back</button>
+    <button type="button" @click="closePopup()" class="btn btn-danger backAll">Back</button>
     </div>
   </div>
 </PopSekyu>
