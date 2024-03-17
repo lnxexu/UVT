@@ -26,7 +26,7 @@ export default {
         this.tableData.push(this.getFormData());
         this.clearInputs();
       }
-    },
+    },  
     addViolation2() {
       if (this.validateInputs()) {
         this.tableData.pop();
@@ -93,7 +93,7 @@ export default {
       for (const container of loaderContainers) {
         container.classList.add('loaded');
       }
-    }, visibilityDuration);
+    }, visibilityDuration)  
   },
 };
 
@@ -112,43 +112,41 @@ export default {
 </div>
 <div id="container1">
   <div id = "id">
-  <div id="image"></div>
-  <div id="name">
-    <h2 class="info">Jazmine Rose Quitoras</h2>
-  </div>
-  <div id="section">
-    <h3 class="'info'">BSIT-2B</h3>
-  </div>
-</div>
-<div id="container-content">
-  <div id="header">
-    <h2 id = "first">Student ID</h2>
-    <h2 id = "second">Time</h2>
-    <h2 id = "third">Date</h2>
-    <h2 id = "fourth">Violation</h2>
-    <div id="fields">
-      <div class="form-outline">
-        <input v-model="studentID" type="text" class="form-control" />
-        <label class="form-label" for="form1"></label>
-      </div>
-      <div class="cs-form">
-        <input v-model="timeInput" type="time" class="form-control" />
-      </div>
-      <div class="md-form md-outline input-with-post-icon datepicker">
-        <input v-model="dateInput" placeholder="Select date" type="date" id="example" class="form-control">
-        <label for="example"></label>
-      </div>
+    <div id="image"></div>
+    <div id="name">
+      <h2 class="info">Jazmine Rose Quitoras</h2>
     </div>
-    <div id="below-input">
-      <input v-model="violationInput" type="text" class="form-control" />
-      <label class="form-label" for="form4"></label>
+    <div id="section">
+      <h3 class="'info'">BSIT-2B</h3>
     </div>
   </div>
-</div>
-<div id="buttons">
-  <button type="button" @click="clearInputs()" id = "option1" class="btn btn-danger">Clear</button>
-  <button type="button" @click="togglePopup1()"  id = "option2" class="btn btn-success">Send</button>
-</div>
+  <div id="container-content">
+    <div id="header">
+      <h2 id = "first">Student ID</h2>
+      <input v-model="studentID" type="text" class="form-control" id = "stud" />
+      <h2 id = "second">Violation</h2>
+      <div class="btn-group">
+        <div class="dropdown">
+          <button type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown trigger
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Menu item 1</a></li>
+            <li><a class="dropdown-item" href="#">Menu item 2</a></li>
+            <li><a class="dropdown-item" href="#">Menu item 3</a></li>
+          </ul>
+        </div>
+      </div>
+      <h2 id = "third">If others please specify</h2>
+      <div id="below-input">
+        <input v-model="specify" type="text" class="form-control" />
+      </div>
+    </div>
+  </div>
+  <div id="buttons">
+    <button type="button" @click="clearInputs()" id = "option1" class="btn btn-danger">Clear</button>
+    <button type="button" @click="togglePopup1()"  id = "option2" class="btn btn-success">Send</button>
+  </div>
 </div>
 
 <PopSekyu v-if="isPopupOpen1">
@@ -187,6 +185,7 @@ export default {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 #transparent {
   width: 100%; 
@@ -203,7 +202,6 @@ export default {
 }
 #sekyu{
   color: #FFF;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 100em;
   font-style: normal;
   font-weight: 300;
@@ -222,6 +220,8 @@ export default {
   transform: translate(-50%, -50%);
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  min-width: 600px;
 }
 #container-content{
   width: 56.5%; 
@@ -229,11 +229,10 @@ export default {
   top: 17%;
   left: 37%;
   background-color: white;
-  position: absolute;
+  position: relative;
   border-radius: 20px;
-}
-#header{
-  height: 100%;
+  min-width: 600px;
+  box-sizing: border-box;
 }
 
 #header h2{
@@ -245,49 +244,35 @@ export default {
   border-radius: 5px;
 }
 #header #first{   
-    position: relative;
-    top: 0.938em;
-    left: 7.2%;
+    position: fixed;
+    top: 3.68em;
+    left: 38%;
 }
 #header #second{   
-    position: relative;
-    top: 0.938em;
-    left: 14.7%;
-}
+    position: fixed;
+    top: 3.67em;
+    left: 68%;
+} 
 #header #third{   
-    position: relative;
-    top: 0.938em;
-    left: 25.7%;
+    position: fixed;
+    top: 8.5em;
+    left: 38%;
 }
-#header #fourth{   
-    position: relative;
-    top: 5.763em;
-    left: -24.5%;
-}
-#fields{
-    position: absolute;
-    top: 30%;
-    left: 4.7%;
-    width: 90%;
-    display: flex;
-    flex-direction: row;
-    height: 10.5%;
-}
-#fields .form-outline{
-  position: relative;
+.form-outline{
+  position: fixed;
   border: rgb(189, 175, 175) 1px solid;  
   width: 70%;
   border-radius: 5px;
   margin: 0 1%;
-
 }
-#fields .cs-form{
+
+ .cs-form{
     position: relative;
     margin: 0 1%;
     width: 70%;
     border-radius: 5px;
 }
-#fields .md-form {
+ .md-form {
     position: relative;  
     margin: 0 1%;
     width: 70%;
@@ -301,16 +286,17 @@ export default {
     position: fixed;
     top: 10%;
     left: 7%;
+    min-width: 400px;
+    box-sizing: border-box;
 }
-#below-input{
-    position: absolute;
-    height: 13%;
-    width: 63%;
-    top: 73%;
-    left: 19%;
-    border:rgb(189, 175, 175) 1px solid;  
+.form-control{
+    position: fixed;
+    height: 6.2%;
+    width: 49%;
+    top: 53%;
+    left: 40.5%;
     border-radius: 5px;
-    display: inline-flex;
+
 }
 #buttons{
   position: absolute;
@@ -395,14 +381,14 @@ button {
     justify-content: center;
   }
   .loader-container {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999; /* Make sure it's above your content */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
 }
 
 .loader {
@@ -423,6 +409,22 @@ button {
   display: none;
   opacity: 0;
 }   
+
+.btn-group  {
+  position: fixed;
+  left: 70.4%;
+  top: 14.68em;
+  width: 19%;
+  height: 6.2%;
+}
+
+#stud{
+  position: fixed;
+  left: 40.49%;
+  top: 14.68em;
+  width: 23%;
+  height: 6.2%;
+}
 
 
 </style>

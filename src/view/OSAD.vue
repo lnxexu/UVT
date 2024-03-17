@@ -42,9 +42,7 @@
   </div>
 
 </div>
-
-
-  </div>
+</div>
 <div id="transparent"></div>
 <div id="OSAD">
   <h1>OSAD</h1>
@@ -62,25 +60,36 @@
   </div>
   <nav>
     <ul>
-      <li><img src="../assets/bell.png" class = "icon4">
-        <a @click = "showReports()">Reports</a>
+      <div @click = "showReports()">
+        <li><img src="../assets/bell.png" class = "icon4">
+          <a>Reports</a>
       </li>
+    </div>
+    <div @click = "showHome()">
       <li><img src="../assets/homepage.png" class = "icon1">
-        <a @click = "showHome()">Home Page</a></li>
+        <a>Home Page</a>
+      </li>
+    </div>
+    <div @click = "showSecurityAccounts()">
       <li><img src="../assets/securityAccount.png" class = "icon2">
-        <a @click = "showSecurityAccounts()">Security Accounts</a>
+        <a>Security Accounts</a>
       </li>
+    </div>
+    <div @click="showViolations()">
       <li><img src="../assets/clock.png" class = "icon3">
-        <a @click="showViolations()">Violation Tracker</a>
+        <a>Violation Tracker</a>
       </li>
+    </div>
+    <div @click="showPopup()">
       <li><img src="../assets/logout.png" class = "icon5">
-        <a @click="showPopup()">Log Out</a>
+        <a>Log Out</a>
       </li>
-    </ul>
-  </nav>
+    </div>
+  </ul>
+</nav>
 </div>
 </div>
-<div v-if="violations" @close="closeContentPage">
+<div v-if="violationsPage" @close="closeContentPage">
   <Violations />
 </div>
 <div v-if="SecurityAccounts" @close="closeContentPage">
@@ -112,7 +121,7 @@ export default {
   components: { bg, Popup, Violations, SecurityAccounts, Reports },
   data() {
     return{
-      violations: false,
+      violationsPage: false,
       SecurityAccounts: false,
       Reports: false,
       Popup: false,
@@ -121,7 +130,7 @@ export default {
       securityGuardName: 'Travis Scott', // Replace with actual data
       weather: {
         temperature: 25, // Replace with actual data
-        condition: 'Sunny', // Replace with actual data
+        condition: 'Sunny', // Replace with actual datta
       },
       pendingReportsCount: 0,
       isLoaded: false,
@@ -137,12 +146,18 @@ export default {
       document.querySelector('.navigation').classList.remove('active')
     },
     showViolations(){
-      this.violations = !this.violations;
+      this.violationsPage = !this.violationsPage;
+      this.SecurityAccounts = false;
+      this.Reports = false;
     },
     showSecurityAccounts(){
+      this.violationsPage = false;
       this.SecurityAccounts = !this.SecurityAccounts;
+      this.Reports = false;
     },
     showReports(){
+      this.violationsPage = false;
+      this.SecurityAccounts = false;
       this.Reports = !this.Reports;
     },
     showPopup(){

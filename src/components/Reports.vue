@@ -32,11 +32,15 @@ export default {
       receivedReports: [],
       selectedReport: null,
       closeReport: true,
+      closeViolation: true,
     };
   },
   methods: {
     receiveReport(report) {
       this.receivedReports.push(report);
+    },
+    toggleExpansion() {
+      document.querySelector('.violation-list-container').classList.toggle('expanded')
     },
     messageClicked(report) {
       // Set the selected report for detailed view
@@ -59,6 +63,14 @@ export default {
   height: 100%;
   background-color: #f1f1f1;
 }
+.reports-list-container.expanded {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
 
 ul {
   list-style-type: none;
@@ -90,6 +102,8 @@ h2, p {
   padding: 10px;
   background-color: #ddd;
   border-radius: 5px;
+  position: relative;
+  left: 95%;
 }
 
 .exit-button:hover {

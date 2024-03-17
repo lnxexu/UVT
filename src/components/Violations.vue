@@ -1,6 +1,6 @@
 <template>
   <div class="violation-list-container" v-if="closeViolation">
-    <div class="exit-button" @click="close()">
+    <div class="exit-button"  @click="close()">
         <div class="bar2"></div>
         <div class="bar2"></div>
       </div>
@@ -12,16 +12,18 @@
           {{ violation.title }}
         </li>
       </ul>
-
       <!-- Show ViolationDetails component when a violation is selected -->
       <ViolationDetails v-if="selectedViolation" :selectedViolation="selectedViolation" />
     </div>
   </div>
+
+
 </template>
 
 <script>
 import ViolationDetails from './ViolationDetails.vue';
 import OSAD from '../view/OSAD.vue';
+
 
 export default {
   data() {
@@ -33,23 +35,28 @@ export default {
       ],
       selectedViolation: null,
       closeViolation: true,
-    };
-  },
-  methods: {
-    showViolationDetails(violation) {
-      this.selectedViolation = violation;
-    },
-    close() {
-      this.closeViolation = false;
-      this.$emit("close");
-    },
 
+    };
   },
   components: {
     ViolationDetails,
   },
+  methods: {
+    toggleExpansion() {
+      document.querySelector('.violation-list-container').classList.toggle('expanded');
+    },
+    showViolationDetails(violation) {
+      this.selectedViolation = violation;
+    },
+    close() { 
+      this.closeViolation = !this.closeViolation;
+      this.$emit("close");
+      
+    },
+  },
 };
 </script>
+
 
 <style scoped>
   .exit-button {
@@ -59,6 +66,8 @@ export default {
     padding: 10px;
     background-color: #ddd;
     border-radius: 5px;
+    position: relative;
+    left: 95%;
   }
   
   .exit-button:hover {
@@ -71,15 +80,20 @@ export default {
     background-color: #333;
     margin: 5px 0;
   }
-
 .violation-list-container {
-
   position: absolute;
   z-index: 5;
   left: 20%;
   width: 80%;
   height: 100%;
   background-color: #f1f1f1;
+}
+.violation-list-container.expanded {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 
 .main-content {

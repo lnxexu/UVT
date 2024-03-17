@@ -32,10 +32,10 @@
         securityGuards: [
             { id: 1, name: '21 Savage', badgeNumber: 'SG001', age: 30, contactNumber: '123-456-7890' },
             { id: 2, name: 'Metro Boomin', badgeNumber: 'SG002', age: 28, contactNumber: '987-654-3210' },
-            { id: 3, name: 'Drake', badgeNumber: 'SG001', age: 30, contactNumber: '123-456-7890' },
-            { id: 4, name: 'J. Cole', badgeNumber: 'SG001', age: 30, contactNumber: '123-456-7890' },
-            { id: 5, name: 'Bas', badgeNumber: 'SG001', age: 30, contactNumber: '123-456-7890' },
-            { id: 6, name: 'JID', badgeNumber: 'SG001', age: 30, contactNumber: '123-456-7890' },
+            { id: 3, name: 'Drake', badgeNumber: 'SG003', age: 30, contactNumber: '123-456-7890' },
+            { id: 4, name: 'J. Cole', badgeNumber: 'SG004', age: 30, contactNumber: '123-456-7890' },
+            { id: 5, name: 'Bas', badgeNumber: 'SG005', age: 30, contactNumber: '123-456-7890' },
+            { id: 6, name: 'JID', badgeNumber: 'SG006', age: 30, contactNumber: '123-456-7890' },
         ],
         closeSekyu: true,
         selectedGuard: null,
@@ -100,6 +100,8 @@
     padding: 10px;
     background-color: #ddd;
     border-radius: 5px;
+    position: relative;
+    left: 95%;
   }
   
   .exit-button:hover {
