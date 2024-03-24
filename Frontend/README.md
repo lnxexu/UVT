@@ -1,5 +1,7 @@
 # Download and run
 
+Front-end
+
 Open your VSCode, and open terminal then type:
 git clone https://github.com/lnxexu/UVT.git
 
@@ -10,6 +12,12 @@ cd frontend
 npm install
 
 npm run dev
+
+
+
+
+Back-end
+
 
 
 ## "UVT" (University Violation Tracker)
