@@ -5,6 +5,8 @@ git clone https://github.com/lnxexu/UVT.git
 
 cd UVT
 
+cd frontend
+
 npm install
 
 npm run dev
