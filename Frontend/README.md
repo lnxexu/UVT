@@ -1,9 +1,13 @@
 # Download and run
 
 Open your VSCode, and open terminal then type:
+
 git clone https://github.com/lnxexu/UVT.git
+
 cd UVT
+
 npm install
+
 npm run dev
 
 
