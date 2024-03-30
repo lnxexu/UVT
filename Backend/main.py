@@ -27,8 +27,8 @@ class Administrator(Base):
 class Exception(Base):
     __tablename__ = "exception"
     exceptionID = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True)
-    dateStart = sqlalchemy.Column(sqlalchemy.String)
-    dateEnd = sqlalchemy.Column(sqlalchemy.String)
+    dateStart = sqlalchemy.Column(sqlalchemy.Date)
+    dateEnd = sqlalchemy.Column(sqlalchemy.Date)
     studentID = sqlalchemy.Column(sqlalchemy.Integer)
 
 class SchoolRules(Base):
@@ -73,11 +73,51 @@ class ViolationDetails(Base):
 
 
 # Pydantic model for data validation
-class ProductIn(BaseModel):
+class AdministratorInfo(BaseModel):
     adminID: int 
     name: str
     position: str
     contactInformation: str
+
+class ExceptionInfo(BaseModel):
+    exceptionID: int
+    dateStart: str
+    dateEnd: str
+    studentID: int
+
+class SchoolRulesInfo(BaseModel):
+    ruleID: int
+    description: str
+    category: str
+
+class SecurityGuardInfo(BaseModel):
+    guardID: int
+    name: str
+    contactNumber: str
+    shift: int
+
+class StudentInfo(BaseModel):
+    studentID: int
+    name: str
+    section: str
+    contactInformation: int
+
+class ViolationInfo(BaseModel):
+    violationID: int
+    description: str
+    ruleID: int
+    adminID: int
+
+class ViolationDetailsInfo(BaseModel):
+    reportID: int
+    date: int
+    venue: str
+    time: int
+    status: str
+    sanctions: str
+    studentID: int
+    violationID: int
+    guardID: int
 
 
 # Dependency function to get database session

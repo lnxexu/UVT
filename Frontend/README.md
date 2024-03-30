@@ -7,3 +7,12 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
 
+## venv Setup
+
+1. Open a terminal 
+2. Type 'python -m venv .venv'
+3. Ctrl + Shift + P
+4. Then type 'python:Select Interpreter' and click it
+5. Then click "Enter interpreter path..."
+6. Then click "Find..."
+7. 

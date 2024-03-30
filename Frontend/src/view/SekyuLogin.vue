@@ -42,7 +42,7 @@ export default{
       <p>Don't have an account? <a href="/SignUpSecurity">Sign Up</a></p>
     </div>
   </div>
-  <button id="login" class="raise" @click = "authenticate()">LOG IN</button>
+  <button id="login-button" class="raise" @click = "authenticate()">LOG IN</button>
   </div>
 </div>
 </div>
@@ -138,6 +138,10 @@ button {
   line-height: 1;
   margin: 0.5em;
   padding: 1em 2em;
+  border-radius: 10px;
+  position: fixed;
+  left: 76%;
+  top: 62%;
 }
 
 

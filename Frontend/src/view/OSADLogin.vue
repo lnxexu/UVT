@@ -42,7 +42,7 @@ export default{
       <p>Don't have an account? <a href="/SignUpOSAD">Sign Up</a></p>
     </div>
   </div>
-  <button id="login" class="raise" type = "submit" @click="authenticate()">LOG IN</button>
+  <button id="login-button" class="raise" type = "submit" @click="authenticate()">LOG IN</button>
   </div>
 </div>
 </div>

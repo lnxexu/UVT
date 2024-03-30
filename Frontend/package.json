@@ -14,7 +14,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/vue-fontawesome": "^3.0.5",
-    "cypress": "^13.7.1",
     "mdb-vue-ui-kit": "^4.1.1",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0"

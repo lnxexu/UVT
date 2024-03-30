@@ -36,9 +36,7 @@
     <div class="dashboard-item pending-reports-item hover-effect">
       <h2 class="integral-font">Pending Reports</h2>
       <div class="pending-reports-count"><h1>{{ pendingReportsCount }}</h1></div>
-    </div>
-
-   
+    </div> 
   </div>
 
 </div>
@@ -101,8 +99,6 @@
 <div v-if="Popup" @close="closeContentPage">
   <popup />
 </div>
-
-
 <bg/>
 </template>
 
