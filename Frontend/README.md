@@ -1,6 +1,31 @@
-# Vue 3 + Vite
+# Download and run
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Front-end
+
+Open your VSCode, and open terminal then type:
+git clone https://github.com/lnxexu/UVT.git
+
+cd UVT
+
+cd frontend
+
+npm install
+
+npm run dev
+
+
+
+
+Back-end
+
+
+
+## "UVT" (University Violation Tracker)
+
+- "UVT" (University Violation Tracker) is a system designed to streamline the process of reporting and managing student violations of school rules and regulations. Additionally, it serve the purpose of reducing paper usage by storing relevant files and information electronically.
+
+
+## Acc
 
 ## Recommended IDE Setup
 
