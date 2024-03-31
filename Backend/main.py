@@ -1,6 +1,7 @@
+from datetime import date, datetime, time, timedelta
 import os
 from fastapi import FastAPI, Depends
-from sqlalchemy import create_engine
+from sqlalchemy import VARCHAR, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session
 import sqlalchemy
@@ -70,6 +71,14 @@ class ViolationDetails(Base):
     violationID = sqlalchemy.Column(sqlalchemy.Integer)
     guardID = sqlalchemy.Column(sqlalchemy.Integer)
 
+class PendingViolationDetails(Base):
+    __tablename__ = "pending"
+    studentID = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True)
+    name = sqlalchemy.Column(sqlalchemy.String)
+    section = sqlalchemy.Column(sqlalchemy.String)
+    violation = sqlalchemy.Column(sqlalchemy.String)
+    dateAndTime = sqlalchemy.Column(sqlalchemy.DateTime)
+    description = sqlalchemy.Column(sqlalchemy.String)
 
 
 # Pydantic model for data validation
@@ -119,6 +128,13 @@ class ViolationDetailsInfo(BaseModel):
     violationID: int
     guardID: int
 
+class PendingViolationDetailsInfo(BaseModel):
+    name :str
+    section :str
+    studentID :int
+    violation :str
+    dateAndTime: datetime = None
+    description :str
 
 # Dependency function to get database session
 def get_db():
@@ -154,26 +170,33 @@ def get_student(db: Session = Depends(get_db)):
     student = db.query(Student).all()
     return student
 
+@app.get("/violation")
+def get_violation(db: Session = Depends(get_db)):
+    violation = db.query(Violation).all()
+    return violation
+
 @app.get("/violationDetails")
 def get_violationDetails(db: Session = Depends(get_db)):
     vDetails = db.query(ViolationDetails).all()
     return vDetails
 
 
-@app.post("/addproduct")
-def add_product(product: ProductIn, db: Session = Depends(get_db)):
-    new_product = Product(
-        ProductID=product.ProductID,
-        ProductName=product.ProductName,
-        Category=product.Category,
-        Description=product.Description,
-        UnitPrice=product.UnitPrice,
-        StockQuantity=product.StockQuantity
+
+
+@app.post("/addViolation")
+def add_violation(violations: ViolationDetailsInfo, db: Session = Depends(get_db)):
+    new_violation = ViolationDetailsInfo(
+        name = violations.name,
+        section = violations.section,
+        studentID = violations.studentID,
+        violation = violations.violation,
+        dateAndTime = violations.dateAndTime,
+        description = violations.description
     )
-    db.add(new_product)
+    db.add(new_violation)
     db.commit()
-    db.refresh(new_product)  
-    return {"message": "Product added successfully"}  
+    db.refresh(new_violation)  
+    return {"message": "violation added successfully"}  
 
 app.add_middleware(
     CORSMiddleware,

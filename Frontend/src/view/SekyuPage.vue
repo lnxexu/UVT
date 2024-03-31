@@ -2,24 +2,25 @@
 import { ref } from 'vue';
 import bg from "../components/Background.vue";
 import PopSekyu from '../components/PopupSekyu.vue';
-import Popup from '../components/Popup.vue';
+import PopupComponent from '../components/Popup.vue'; 
+import axios from "axios";
 
 export default {
   name: 'SekyuPage',
-  components: { bg, PopSekyu, Popup },
+  components: { bg, PopSekyu, PopupComponent }, 
   data() {
     return {
       name: 'Jazmine Rose Quitoras',
       section: 'BSIT-2B',
       studentID: '220000000351',
       violationInput: '',
+      currentDateTime: '',
       specify: '',
       tableData: [],
       isPopupOpen1: false,
       isPopupOpen2: false,
       isLoaded: false,
       Popup: false,
-      currentDateTime: '',
       error1: false,
       error2: false,
       error3: false,
@@ -29,6 +30,7 @@ export default {
     };
   },
   mounted() {
+    this.post();
     this.updateDateTime();
     const visibilityDuration = 1000;
     setInterval(this.updateDateTime, 1000);
@@ -38,9 +40,29 @@ export default {
       for (const container of loaderContainers) {
         container.classList.add('loaded');
       }
-    }, visibilityDuration)  
+    }, visibilityDuration);
+
   },
   methods: {
+    async post() {
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/addViolation',
+        {
+          name: this.name,
+          section: this.section,
+          studentID: this.studentID,
+          violationInput: this.violationInput,
+          currentDateTime: this.currentDateTime,
+          specify: this.specify
+        });
+        this.tableData = response.data;
+        console.log(this.tableData)
+        console.log('na sent na')
+      } 
+      catch(error) {
+        console.error(error);
+      }
+    },
     updateDateTime() {
       var currentDateTime = new Date();
       var year = currentDateTime.getFullYear();
@@ -55,15 +77,9 @@ export default {
       this.currentDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     show() {
-      document.querySelector('.hamburger').classList.toggle('open')
-      document.querySelector('.navigation').classList.toggle('active')
+      document.querySelector('.hamburger').classList.toggle('open');
+      document.querySelector('.navigation').classList.toggle('active');
     },
-    addViolation() {
-      if (this.validateInputs()) {
-        this.tableData.push(this.getFormData());
-        this.clearInputs();
-      }
-    },  
     clearInputs() {
       this.name = '';
       this.section = '';
@@ -73,15 +89,13 @@ export default {
       this.error1 = false;
       this.error2 = false;
       this.error3 = false;
-      this.error4 = false,
-      this.error5 = false,
+      this.error4 = false;
+      this.error5 = false;
       this.invalid = false;
     },
     togglePopup1() {
       if (this.validateInputs()) {
-        console.log('asadasd')
         this.isPopupOpen1 = true;
-        this.addViolation2();
       }
     },
     togglePopup2() {
@@ -95,9 +109,6 @@ export default {
     },
     showPopup(){
       this.Popup = !this.Popup;
-    },
-    closeContentPage(){
-      this.contentPageVisible = false;
     },
     validateInputs() {
       this.error1 = false;
@@ -131,6 +142,7 @@ export default {
   }
 };
 </script>
+
 
 
 <template>
@@ -198,8 +210,7 @@ export default {
           <div class="btn-group">
             <select v-model="violationInput" id="display" class="form-select" aria-label="Default select example" @change="validateInputs">
               <option value="0" disabled selected>Select violation</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
+              <option value="Incomplete uniform">Incomplete uniform</option>
               <!-- Add your options here -->
             </select>
             <span v-if="error2" class="error" id="error2">This field is required.</span>
@@ -213,7 +224,7 @@ export default {
         </div>
         <div id="buttons">
           <button type="button" @click="clearInputs()" id="option1" class="btn btn-danger">Clear</button>
-          <button type="submit" @click="togglePopup1()" id="option2" class="btn btn-success" :disabled="isSubmitDisabled">Send</button>
+          <button type="submit" @click="togglePopup1()" id="option2" class="btn btn-success">Send</button>
         </div>
       </form>
     </div>
@@ -236,7 +247,7 @@ export default {
       <p>Description: {{ specify }}</p>
       <div class="options">
         <button type="button" @click="closePopup()" class="btn btn-danger back">Back</button>
-        <button type="button" @click="togglePopup2()"  class="btn btn-success confirm">Confirm</button>
+        <button type="button" @click="togglePopup2() ,post()"  class="btn btn-success confirm">Confirm</button>
       </div>
     </div>
 </PopSekyu>

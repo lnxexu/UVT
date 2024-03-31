@@ -38,6 +38,18 @@ export default {
       ],
     };
   },
+  methods: {
+    async fetchViolations() {
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/violation');
+        this.violations = response.data;
+        console.log(this.violations)
+      } 
+      catch(error) {
+        console.error(error);
+      }
+    },
+  }
 };
 </script>
 
