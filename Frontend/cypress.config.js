@@ -1,6 +1,7 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
+<<<<<<< HEAD
   component: {
     devServer: {
       framework: "vue",
@@ -15,6 +16,8 @@ export default defineConfig({
     },
   },
 
+=======
+>>>>>>> 18134f7757a787893fc91204cd933c8952f79895
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
