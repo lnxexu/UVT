@@ -16,7 +16,14 @@ export default {
       violationInput: '',
       currentDateTime: '',
       specify: '',
-      tableData: [],
+      tableData: [{
+        name: '',
+      section: '',
+      studentID: '',
+      violationInput: '',
+      currentDateTime: '',
+      specify: '',
+      }],
       isPopupOpen1: false,
       isPopupOpen2: false,
       isLoaded: false,
@@ -30,7 +37,7 @@ export default {
     };
   },
   mounted() {
-    this.post();
+ 
     this.updateDateTime();
     const visibilityDuration = 1000;
     setInterval(this.updateDateTime, 1000);
@@ -45,23 +52,22 @@ export default {
   },
   methods: {
     async post() {
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/addViolation',
-        {
-          name: this.name,
-          section: this.section,
-          studentID: this.studentID,
-          violationInput: this.violationInput,
-          currentDateTime: this.currentDateTime,
-          specify: this.specify
-        });
-        this.tableData = response.data;
-        console.log(this.tableData)
-        console.log('na sent na')
-      } 
-      catch(error) {
-        console.error(error);
-      }
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/pending/', {
+                name: this.name,
+                section: this.section,
+                studentID: this.studentID,
+                violationInput: this.violationInput,
+                currentDateTime: this.currentDateTime,
+                specify: this.specify
+            });
+            this.tableData = response.data;
+            console.log(this.tableData);
+            console.log('Data sent successfully');
+        } catch(error) {
+            console.error('Error sending data:', error);
+            // Handle error: e.g., display error message to the user
+        }
     },
     updateDateTime() {
       var currentDateTime = new Date();

@@ -1,13 +1,16 @@
 from datetime import date, datetime, time, timedelta
 import os
 from fastapi import FastAPI, Depends
-from sqlalchemy import VARCHAR, create_engine
+from fastapi.exception_handlers import http_exception_handler
+from fastapi.params import Form
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+
 
 # Database configuration
 DB_URL = "mysql+pymysql://kobe:oliviahyejoo@localhost:3306/dbgroup12"
@@ -73,12 +76,27 @@ class ViolationDetails(Base):
 
 class PendingViolationDetails(Base):
     __tablename__ = "pending"
-    studentID = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True)
+    pendingReportID = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True)
+    studentID = sqlalchemy.Column(sqlalchemy.Integer)
     name = sqlalchemy.Column(sqlalchemy.String)
     section = sqlalchemy.Column(sqlalchemy.String)
     violation = sqlalchemy.Column(sqlalchemy.String)
     dateAndTime = sqlalchemy.Column(sqlalchemy.DateTime)
     description = sqlalchemy.Column(sqlalchemy.String)
+
+class OSADAccount(Base):
+    __tablename__ = "osadacc"
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True)
+    username = sqlalchemy.Column(sqlalchemy.String)
+    password = sqlalchemy.Column(sqlalchemy.String)
+    email = sqlalchemy.Column(sqlalchemy.String)
+
+class SekyuAccount(Base):
+    __tablename__ = "sekyuacc"
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True)
+    username = sqlalchemy.Column(sqlalchemy.String)
+    password = sqlalchemy.Column(sqlalchemy.String)
+    email = sqlalchemy.Column(sqlalchemy.String)
 
 
 # Pydantic model for data validation
@@ -133,9 +151,20 @@ class PendingViolationDetailsInfo(BaseModel):
     section :str
     studentID :int
     violation :str
-    dateAndTime: datetime = None
+    dateAndTime: datetime 
     description :str
 
+class OSADAccInfo(BaseModel):
+    id: int
+    username: str
+    password: str
+    email: str
+
+class SekyuAccInfo(BaseModel):
+    id: int
+    username: str
+    password: str
+    email: str
 # Dependency function to get database session
 def get_db():
     try:
@@ -144,7 +173,7 @@ def get_db():
     finally:
         db.close()
 
-
+# GET
 @app.get("/admin")
 def get_administrator(db: Session = Depends(get_db)):
     admin = db.query(Administrator).all()
@@ -180,23 +209,130 @@ def get_violationDetails(db: Session = Depends(get_db)):
     vDetails = db.query(ViolationDetails).all()
     return vDetails
 
+@app.get("/OSADusers/", response_model=list)
+def read_users(db: Session = Depends(get_db)):
+    users = db.query(OSADAccount).all()
+    return [{"id": user.id, "username": user.username} for user in users]
+
+@app.get("/sekyuUsers/", response_model=list)
+def read_users(db: Session = Depends(get_db)):
+    users = db.query(SekyuAccount).all()
+    return [{"id": user.id, "username": user.username} for user in users]
+
+@app.get("/OSADusers/{user_id}", response_model=dict)
+def read_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(OSADAccount).filter(OSADAccount.id == user_id).first()
+    if user:
+        return {"id": user.id, "username": user.username}
+    raise http_exception_handler(status_code=404, detail="User not found")
+
+@app.get("/sekyuUsers/{user_id}", response_model=dict)
+def read_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(SekyuAccount).filter(SekyuAccount.id == user_id).first()
+    if user:
+        return {"id": user.id, "username": user.username}
+    raise http_exception_handler(status_code=404, detail="User not found")
+
+# POST
 
 
+@app.post("/osadacc/", response_model=dict)
+async def create_user(email: str = Form(...), username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
+    # Hash the password using bcrypt
+    hashed_password = password
 
-@app.post("/addViolation")
-def add_violation(violations: ViolationDetailsInfo, db: Session = Depends(get_db)):
-    new_violation = ViolationDetailsInfo(
-        name = violations.name,
-        section = violations.section,
-        studentID = violations.studentID,
-        violation = violations.violation,
-        dateAndTime = violations.dateAndTime,
-        description = violations.description
-    )
-    db.add(new_violation)
-    db.commit()
-    db.refresh(new_violation)  
-    return {"message": "violation added successfully"}  
+    try:
+        new_user = OSADAccount(email=email, username=username, password=hashed_password)
+
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        return {"id": new_user.id, "username": new_user.username}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+    
+
+@app.post("/pending/", response_model=dict)
+async def send_report(
+    name: str = Form(...),
+    section: str  = Form(...),
+    studentID: int  = Form(...), 
+    violation: str  = Form(...),
+    dateAndTime: datetime  = Form(...), 
+    description: str  = Form(...), 
+    db: Session = Depends(get_db)):
+    try:
+        send_report = PendingViolationDetails(
+            name=name, 
+            section=section,
+            studentID=studentID,
+            violation=violation, 
+            dateAndTime=dateAndTime,
+            description=description,
+            )
+
+        db.add(send_report)
+        db.commit()
+        db.refresh(send_report)
+        return {"data": send_report}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+# PUT
+@app.put("/users/{user_id}", response_model=dict)
+async def update_user(
+    user_id: int,
+    email: str = Form(...),
+    username: str = Form(...),
+    password: str = Form(...),
+    db=Depends(get_db)
+):
+    # Hash the password using bcrypt
+    hashed_password = hash_password(password)
+
+    # Update user information in the database 
+    query = "UPDATE users SET email = %s, username = %s, password = %s WHERE id = %s"
+    db[0].execute(query, (email, username, hashed_password, user_id))
+
+    # Check if the update was successful
+    if db[0].rowcount > 0:
+        db[1].commit()
+        return {"message": "User updated successfully"}
+    
+    # If no rows were affected, user not found
+    raise http_exception_handler(status_code=404, detail="User not found")
+
+
+# DELETE
+@app.delete("/users/{user_id}", response_model=dict)
+async def delete_user(
+    user_id: int,
+    db=Depends(get_db)
+):
+    try:
+        # Check if the user exists
+        query_check_user = "SELECT id FROM users WHERE id = %s"
+        db[0].execute(query_check_user, (user_id,))
+        existing_user = db[0].fetchone()
+
+        if not existing_user:
+            raise http_exception_handler(status_code=404, detail="User not found")
+
+        # Delete the user
+        query_delete_user = "DELETE FROM users WHERE id = %s"
+        db[0].execute(query_delete_user, (user_id,))
+        db[1].commit()
+
+        return {"message": "User deleted successfully"}
+    except Exception as e:
+        # Handle other exceptions if necessary
+        raise http_exception_handler(status_code=500, detail=f"Internal Server Error: {str(e)}")
+    finally:
+        # Close the database cursor
+        db[0].close()
+
+# Password hashing function using bcrypt
 
 app.add_middleware(
     CORSMiddleware,
