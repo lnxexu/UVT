@@ -16,9 +16,6 @@ npm run dev
 
 
 
-Back-end
-
-
 
 ## "UVT" (University Violation Tracker)
 
