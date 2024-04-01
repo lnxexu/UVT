@@ -16,9 +16,6 @@ npm run dev
 
 
 
-Back-end
-
-
 
 ## "UVT" (University Violation Tracker)
 
@@ -26,6 +23,14 @@ Back-end
 
 
 ## Acc
+
+Dami Acc
+
+username: demo
+
+password: password
+
+
 
 ## Recommended IDE Setup
 
