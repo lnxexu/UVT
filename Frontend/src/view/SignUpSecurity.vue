@@ -93,7 +93,7 @@ export default{
   z-index: 1;
 }
 #formsi{
-    max-width: 700px;
+    max-width: 500px;
     margin: 30px auto;
     background: black;
     text-align: left;
@@ -108,7 +108,7 @@ export default{
     color: #aaa;
     display: inline-block;
     margin: 25px 0 15px;
-    font-size: 0.6em;
+    font-size: 1em;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
@@ -123,11 +123,11 @@ export default{
     text-align: center;
 }
 .button{
-    background: #F2D8E4;
+    background: #CE2774;
     border: 0;
     padding: 10px 20px;
-    margin-top: 20px;
-    color: black;
+    margin-top: 25px;
+    color: rgb(247, 243, 243);
     border-radius: 20px;
     text-transform: uppercase;
     font-weight: bold;
