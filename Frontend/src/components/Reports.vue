@@ -7,18 +7,18 @@
     </div>
     <div class="main-content">
       <h1>Received Messages</h1>
-    <ul v-if="receivedReports.length > 0">
+    <ul v-if="this.receivedReports.length > 0">
       <li v-for="(report, index) in receivedReports" :key="index" @click="messageClicked(report)">
-        {{ report.studentName }} - {{ report.violatedRules }} ({{ report.date }} {{ report.time }})
+        {{ report.pReportID }} 
       </li>
     </ul>
     <p v-else>No reports received yet.</p>
 
     <!-- Display detailed information when a message is clicked -->
     <div v-if="selectedReport">
-      <h2>{{ selectedReport.studentName }}</h2>
-      <p><strong>Violated Rules:</strong> {{ selectedReport.violatedRules }}</p>
-      <p><strong>Date and Time Violated:</strong> {{ selectedReport.date }} {{ selectedReport.time }}</p>
+      <h2>{{ selectedReport.studentID }}</h2>
+      <p><strong>Violated Rules:</strong> {{ selectedReport.violation }}</p>
+      <p><strong>Date and Time Violated:</strong> {{ selectedReport.dateAndTime }}</p>
       <!-- Add more details as needed -->
     </div>
   </div>
@@ -50,7 +50,22 @@ export default {
       this.closeReport = false;
       this.$emit("close");
     },
+    fetchData() {
+      // Fetch data from the API
+      // Replace the URL with the actual API endpoint
+      axios.get("http://127.0.0.1:8000/pending")
+        .then((response) => {
+          this.receivedReports = response.data;
+          console.log(this.receivedReports.length)
+        })
+        .catch((error) => {
+          console.error(error);
+        });
   }
+},
+mounted() {
+    this.fetchData();
+  },
 };
 </script>
 

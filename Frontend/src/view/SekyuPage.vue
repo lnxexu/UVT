@@ -16,14 +16,7 @@ export default {
       violationInput: '',
       currentDateTime: '',
       specify: '',
-      tableData: [{
-        name: '',
-      section: '',
-      studentID: '',
-      violationInput: '',
-      currentDateTime: '',
-      specify: '',
-      }],
+      tableData: [{}],
       isPopupOpen1: false,
       isPopupOpen2: false,
       isLoaded: false,
@@ -33,11 +26,11 @@ export default {
       error3: false,
       error4: false,
       error5: false,
-      invalid: false
+      invalid: false,
+      responseData: null
     };
   },
   mounted() {
- 
     this.updateDateTime();
     const visibilityDuration = 1000;
     setInterval(this.updateDateTime, 1000);
@@ -51,23 +44,20 @@ export default {
 
   },
   methods: {
-    async post() {
-        try {
-            const response = await axios.post('http://127.0.0.1:8000/pending/', {
-                name: this.name,
-                section: this.section,
-                studentID: this.studentID,
-                violationInput: this.violationInput,
-                currentDateTime: this.currentDateTime,
-                specify: this.specify
-            });
-            this.tableData = response.data;
-            console.log(this.tableData);
-            console.log('Data sent successfully');
-        } catch(error) {
-            console.error('Error sending data:', error);
-            // Handle error: e.g., display error message to the user
-        }
+    async submitForm() {
+      try {
+        const response = await axios.post('http://127.0.0.1:3306/pending', {
+          name: this.name,
+          section: this.section,
+          studentID: this.studentID,
+          violation: this.violation,
+          dateAndTime: this.dateAndTime,
+          description: this.description
+        })
+        this.responseData = response.data
+      } catch (error) {
+        console.error(error)
+      }
     },
     updateDateTime() {
       var currentDateTime = new Date();
@@ -196,11 +186,15 @@ export default {
     <div id="id">
       <div id="image"></div>
       <div id="name">
-        <h2 class="info">{{ name }}</h2>
+        <h2 class="info">
+          <textarea  v-model = 'name' readonly="readonly">{{ name }}</textarea>
+        </h2>
         <span v-if="error4" class="error" id="error4">No name</span>
       </div>
       <div id="section">
-        <h3 class="'info'">{{ section }}</h3>
+        <h3 class="info">
+          <textarea  v-model = 'section' readonly="readonly">{{ section }}</textarea>
+        </h3>
         <span v-if="error5" class="error" id="error5">No section</span>
       </div>
     </div>
@@ -208,7 +202,7 @@ export default {
       <form class="needs-validation" @submit.prevent="submitForm" ref="form" novalidate>
         <div id="header">
           <h2 id="first">Student ID</h2>
-          <input v-model="studentID" type="text" class="form-control" id="stud" required pattern="22000000\d{4}" @input="validateInputs"/>
+          <input v-model="studentID" type="text" class="form-control" id="stud" required pattern="22000000\d{4}" @input="validateInputs" readonly="readonly"/>
           <span v-if="error1" class="error" id="error1">This field is required.</span>
           <span v-if="invalid" class="error" id="invalid">Invalid input</span>
 

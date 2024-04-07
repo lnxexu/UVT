@@ -12,9 +12,5 @@
     width: 100%; 
     background-image: url('../assets/a.png') ;
     background-size: cover;
-  
 }
 </style>
-<script>
-export default{};
-</script>

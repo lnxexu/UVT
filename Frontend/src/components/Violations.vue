@@ -9,7 +9,7 @@
       <h1>Violation List</h1>
       <ul>
         <li v-for="(violation, index) in violations" :key="index" @click="showViolationDetails(violation)">
-          {{ violation.title }}
+          {{ violation.reportID }} ({{ violation.dateTime }}) 
         </li>
       </ul>
       <!-- Show ViolationDetails component when a violation is selected -->
@@ -22,48 +22,46 @@
 
 <script>
 import ViolationDetails from './ViolationDetails.vue';
-import OSAD from '../view/OSAD.vue';
-
-
+import axios from 'axios';
 export default {
   data() {
     return {
-      violations: [
-        { title: 'Violation 1', description: 'Description 1' },
-        { title: 'Violation 2', description: 'Description 2' },
-        // Add more violations as needed
-      ],
+      violations: [],
       selectedViolation: null,
       closeViolation: true,
-
     };
   },
   components: {
     ViolationDetails,
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
-    async fetchViolations() {
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/violation');
-        this.violations = response.data;
-        console.log(this.violations)
-      } 
-      catch(error) {
-        console.error(error);
-      }
+    fetchData() {
+      // Fetch data from the API
+      // Replace the URL with the actual API endpoint
+      axios.get("http://127.0.0.1:8000/violationDetails")
+        .then((response) => {
+          this.violations = response.data;
+          console.log()
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     toggleExpansion() {
       document.querySelector('.violation-list-container').classList.toggle('expanded');
     },
     showViolationDetails(violation) {
       this.selectedViolation = violation;
+      console.log(this.selectedViolation)
     },
     close() { 
       this.closeViolation = !this.closeViolation;
       this.$emit("close");
-      
     },
-  },
+  }, // Add a missing closing bracket here
 };
 </script>
 

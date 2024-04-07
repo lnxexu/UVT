@@ -49,7 +49,6 @@ export default{
 </template>
 
 <style scoped>
-
 .bg{
   background-color: #0D0D0D;
   height: 100vh;

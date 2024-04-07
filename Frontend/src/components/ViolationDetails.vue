@@ -1,22 +1,30 @@
 <template>
   <div class="blackBG">
-    <h2>{{ selectedViolation.title }}</h2>
-    <p>{{ selectedViolation.description }}</p>
+    <h2>{{ selectedViolation.reportID }}</h2>
+    <p>{{ selectedViolation.studentID }}</p>
     <table class="table">
       <thead>
         <tr>
+          <th>Report ID</th>
+          <th>Student ID</th>
           <th>Date</th>
-          <th>Time</th>
-          <th>Violation ID</th>
+          <th>Venue</th>
           <th>Status</th>
+          <th>Sanctions</th>
+          <th>Violation ID</th>
+          <th>Guard ID</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(entry, index) in tableData" :key="index">
-          <td>{{ entry.date }}</td>
-          <td>{{ entry.time }}</td>
-          <td>{{ entry.violation }}</td>
-          <td>{{ entry.status }}</td>
+        <tr in selectedViolation >
+          <td>{{ selectedViolation.reportID }}</td>
+          <td>{{ selectedViolation.studentID }}</td>
+          <td>{{ selectedViolation.dateTime }}</td>
+          <td>{{ selectedViolation.venue }}</td>
+          <td>{{ selectedViolation.status }}</td>
+          <td>{{ selectedViolation.sanctions }}</td>
+          <td>{{ selectedViolation.violationID }}</td>
+          <td>{{ selectedViolation.guardID }}</td>
         </tr>
       </tbody>
     </table>
@@ -25,31 +33,10 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "ViolationDetails",
   props: ['selectedViolation'],
-  data() {
-    return {
-      // Assuming you have some data for the table
-      tableData: [
-        { date: '2023-01-01', time: '12:00 PM', violation: 'V123', status: 'Resolved' },
-        { date: '2023-01-02', time: '02:30 PM', violation: 'V124', status: 'Pending' },
-        // Add more entries as needed
-      ],
-    };
-  },
-  methods: {
-    async fetchViolations() {
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/violation');
-        this.violations = response.data;
-        console.log(this.violations)
-      } 
-      catch(error) {
-        console.error(error);
-      }
-    },
-  }
 };
 </script>
 
