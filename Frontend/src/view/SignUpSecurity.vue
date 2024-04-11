@@ -13,6 +13,7 @@
                 <option value="SR.">Sr.</option>
                 <option value="II">II</option>
                 <option value="III">III</option>
+                <option value="III">None</option>
             </select>
 
             <label class = "label">Gender:</label>
@@ -123,14 +124,15 @@ export default{
     text-align: center;
 }
 .button{
-    background: #CE2774;
-    border: 0;
-    padding: 10px 20px;
-    margin-top: 25px;
-    color: rgb(247, 243, 243);
-    border-radius: 20px;
-    text-transform: uppercase;
-    font-weight: bold;
+    background: #CE2774; 
+    border: 0; 
+    padding: 10px 20px; 
+    margin-top: 20px; 
+    margin-right: 10px;
+    color: #ffffff; 
+    border-radius: 10px; 
+    text-transform: uppercase; 
+    font-weight: bold; 
 }
 .input,select{
     display: block;
