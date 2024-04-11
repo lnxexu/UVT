@@ -58,27 +58,27 @@
   </div>
   <nav>
     <ul>
-      <div @click = "showReports()">
+      <div id="1st" @click = "showReports()">
         <li><img src="../assets/bell.png" class = "icon4">
           <a>Reports</a>
       </li>
     </div>
-    <div @click = "showHome()">
+    <div id="2nd" @click = "showHome()">
       <li><img src="../assets/homepage.png" class = "icon1">
         <a>Home Page</a>
       </li>
     </div>
-    <div @click = "showSecurityAccounts()">
+    <div id="3rd" @click = "showSecurityAccounts()">
       <li><img src="../assets/securityAccount.png" class = "icon2">
         <a>Security Accounts</a>
       </li>
     </div>
-    <div @click="showViolations()">
+    <div id="4th"@click="showViolations()">
       <li><img src="../assets/clock.png" class = "icon3">
         <a>Violation Tracker</a>
       </li>
     </div>
-    <div @click="showPopup()">
+    <div id="5th" @click="showPopup()">
       <li><img src="../assets/logout.png" class = "icon5">
         <a>Log Out</a>
       </li>

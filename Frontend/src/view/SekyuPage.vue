@@ -46,7 +46,7 @@ export default {
   methods: {
     async submitForm() {
       try {
-        const response = await axios.post('http://127.0.0.1:3306/pending', {
+        const response = await axios.post('http://127.0.0.1:5173/pending', {
           name: this.name,
           section: this.section,
           studentID: this.studentID,

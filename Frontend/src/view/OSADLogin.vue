@@ -137,6 +137,10 @@ button {
   line-height: 1;
   margin: 0.5em;
   padding: 1em 2em;
+  border-radius: 10px;
+  position: fixed;
+  left: 76%;
+  top: 62%;
 }
 
 
@@ -161,4 +165,6 @@ button:focus {
   height: 2.7em;
   border-radius: 7em;
 }
+
+
 </style>

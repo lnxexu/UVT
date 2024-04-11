@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException  # Added import statement
 from models.database import SessionLocal, get_db
 from models.models import SekyuAccount
 from sqlalchemy.orm import Session
@@ -8,7 +8,7 @@ router = APIRouter()
 @router.get("/sekyuUsers")
 def read_users(db: Session = Depends(get_db)):
     users = db.query(SekyuAccount).all()
-    return [{"id": user.id, "username": user.username} for user in users]
+    return users
 
 @router.get("/sekyuUsers/{user_id}", response_model=dict)
 def read_user(user_id: int, db: Session = Depends(get_db)):

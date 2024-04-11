@@ -4,7 +4,6 @@ from models.database import SessionLocal, get_db
 from models.models import PendingViolationDetails, PendingViolationDetailsInfo
 from sqlalchemy.orm import Session
 
-
 router = APIRouter()
 
 
@@ -39,3 +38,4 @@ async def send_report(
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+    

@@ -36,9 +36,6 @@ export default {
     };
   },
   methods: {
-    receiveReport(report) {
-      this.receivedReports.push(report);
-    },
     toggleExpansion() {
       document.querySelector('.violation-list-container').classList.toggle('expanded')
     },

@@ -1,7 +1,6 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
-<<<<<<< HEAD
   component: {
     devServer: {
       framework: "vue",
@@ -9,16 +8,8 @@ export default defineConfig({
     },
   },
 
-  component: {
-    devServer: {
-      framework: "vue",
-      bundler: "vite",
-    },
-  },
-
-=======
->>>>>>> 18134f7757a787893fc91204cd933c8952f79895
   e2e: {
+    baseUrl: 'http://localhost:5173',
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },

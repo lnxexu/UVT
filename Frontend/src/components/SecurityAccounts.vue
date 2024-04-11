@@ -8,15 +8,15 @@
       <div class="main-content">
         <h1>Security Guards List</h1>
         <ul :class="{ 'scrollable-list': securityGuards.length >= 5 }">
-          <li v-for="guard in securityGuards" :key="guard.id" @click="showGuardDetails(guard)">
-            {{ guard.name }} - Badge Number: {{ guard.badgeNumber }}
+          <li v-for="guard in securityGuards" :key="guard.guardID" @click="showGuardDetails(guard)">
+            {{ guard.name }} - Badge Number: {{ guard.guardID }}
           </li>
         </ul>
   
         <!-- Detailed view for the selected guard -->
         <div v-if="selectedGuard">
           <h2>{{ selectedGuard.name }}</h2>
-          <p><strong>Badge Number:</strong> {{ selectedGuard.badgeNumber }}</p>
+          <p><strong>Badge Number:</strong> {{ selectedGuard.guardID }}</p>
           <p><strong>Age:</strong> {{ selectedGuard.age }}</p>
           <p><strong>Contact Number:</strong> {{ selectedGuard.contactNumber }}</p>
           <!-- Add more personal information as needed -->
@@ -29,17 +29,13 @@
   export default {
     data() {
       return {
-        securityGuards: [
-            { id: 1, name: '21 Savage', badgeNumber: 'SG001', age: 30, contactNumber: '123-456-7890' },
-            { id: 2, name: 'Metro Boomin', badgeNumber: 'SG002', age: 28, contactNumber: '987-654-3210' },
-            { id: 3, name: 'Drake', badgeNumber: 'SG003', age: 30, contactNumber: '123-456-7890' },
-            { id: 4, name: 'J. Cole', badgeNumber: 'SG004', age: 30, contactNumber: '123-456-7890' },
-            { id: 5, name: 'Bas', badgeNumber: 'SG005', age: 30, contactNumber: '123-456-7890' },
-            { id: 6, name: 'JID', badgeNumber: 'SG006', age: 30, contactNumber: '123-456-7890' },
-        ],
+        securityGuards: [],
         closeSekyu: true,
         selectedGuard: null,
       };
+    },
+    mounted() {
+      this.fetchData();
     },
     methods: {
       close() {
@@ -49,7 +45,20 @@
       showGuardDetails(guard) {
         this.selectedGuard = guard;
       },
+      fetchData() {
+      // Fetch data from the API
+      // Replace the URL with the actual API endpoint
+      axios.get("http://127.0.0.1:8000/securityGuard")
+        .then((response) => {
+          this.securityGuards = response.data;
+          console.log(this.securityGuards.length)
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      }
     },
+    
   };
   </script>
   

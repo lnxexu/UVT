@@ -30,6 +30,7 @@ class SecurityGuard(Base):
     guardID = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     contactNumber = Column(Integer)
+    age = Column(Integer)
 
 class Student(Base):
     __tablename__ = "student"
@@ -109,6 +110,7 @@ class SecurityGuardInfo(BaseModel):
     guardID: int
     name: str
     contactNumber: str
+    age: int
 
 class StudentInfo(BaseModel):
     studentID: int
