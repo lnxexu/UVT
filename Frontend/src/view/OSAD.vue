@@ -275,7 +275,7 @@ export default {
   left: 0%;
   top: 0;
   opacity: 50%;
-  border: #F2D8E4 5px solid;
+  border: #CE2774 5px solid;
 } 
 button {
   cursor: pointer;
@@ -358,7 +358,7 @@ span {
   text-transform: uppercase;
   list-style-type: none;
   padding: 1.5em 2em;
-  border-bottom: 1pt solid #252525;
+  border-bottom: 1pt solid #1b1a1a;
 }
 
 .hamburger,
@@ -433,6 +433,7 @@ span {
   text-align: center;
   padding: 20px;
   border-radius: 8px;
+  border: 2px solid #CE2774;
   width: 200px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -480,7 +481,7 @@ hr{
 
 .pending-reports-item{
   background-color: #c0c0c0;
-  color: #333;
+  color: #191717;
   position: absolute;
   top: 50%;
   left: 5%;
@@ -514,7 +515,7 @@ hr{
 
 
 .dashboard{
-  background-color: #FFF;
+  background-color: #F7DCE8;
   position: absolute;
   text-transform: uppercase;
   top: 10%;
@@ -523,7 +524,6 @@ hr{
   border-radius: 8px;
   
 }
-
 
 .loader-container {
   position: fixed;
