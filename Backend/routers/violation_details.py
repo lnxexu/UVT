@@ -16,3 +16,11 @@ def get_specifyViolation(report_id: int, db: Session = Depends(get_db)):
     if get_specify:
         return {"id": get_specify.reportID, "Violation ID": get_specify.violationID, "date": get_specify.dateTime, "status": get_specify.status, "venue":get_specify.venue}
     raise HTTPException(status_code=404, detail="Violation not found")
+
+@router.get("/violationDetails/student/{studentID}")
+def get_violation_by_student(studentID: int, db: Session = Depends(get_db)):
+    violation = db.query(ViolationDetails).filter(ViolationDetails.studentID == studentID).all()
+    if violation is None:
+        raise HTTPException(status_code=404, detail="Violation not found")
+    return violation
+

@@ -28,12 +28,10 @@
         </tr>
       </tbody>
     </table>
-    <!-- Add more details as needed -->
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "ViolationDetails",
   props: ['selectedViolation'],
@@ -56,10 +54,10 @@ export default {
 
 .table th,
 .table td {
-  border: 1px solid black; /* Set border color to black */
+  border: 1px solid black; 
   padding: 10px;
   text-align: left;
-  background-color: white; /* Set background color to white */
+  background-color: white; 
 }
 
 .table th {
@@ -70,6 +68,4 @@ export default {
 .table tbody tr:hover {
   background-color: #555;
 }
-
-/* Add more styles as needed */
 </style>

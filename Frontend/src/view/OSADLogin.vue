@@ -2,27 +2,38 @@
 import bg from "../components/Background.vue"
 import AuthenticationService from "../store.js"
 
-export default{
+export default {
   name: 'OSADLogin',
-  components: {bg},
+  components: { bg },
   data() {
     return {
       username: '',
       password: '',
+      errorMessage: '', // Added for displaying authentication errors
     };
   },
   methods: {
+    // Use AuthenticationService to authenticate
     authenticate() {
-      if (AuthenticationService.login(this.username, this.password)) {
-        this.$router.push({ name: 'OSAD' });
-      } 
-      else {
-        alert('Authentication failed');
-      }
+      this.errorMessage = ''; // Clear previous error message
+      AuthenticationService.login(this.username, this.password)
+        .then(() => {
+          // Redirect to /OSAD upon successful authentication
+          this.$router.push('/OSAD');
+        })
+        .catch((error) => {
+          // Handle authentication failure
+          if (error.response && error.response.status === 401) {
+            this.errorMessage = 'Incorrect username or password. Please try again.';
+          } else {
+            this.errorMessage = 'Authentication failed. Please try again later.';
+          }
+        });
     },
   },
 };
 </script>
+
 <template>
 <div class = "bg">
   <div class="OSAD-login-container">

@@ -1,5 +1,4 @@
 <script>
-import { ref } from 'vue';
 import bg from "../components/Background.vue";
 import PopSekyu from '../components/PopupSekyu.vue';
 import PopupComponent from '../components/Popup.vue'; 
@@ -7,16 +6,16 @@ import axios from "axios";
 
 export default {
   name: 'SekyuPage',
-  components: { bg, PopSekyu, PopupComponent }, 
+  components: { bg, PopSekyu, PopupComponent,axios }, 
   data() {
     return {
       name: 'Jazmine Rose Quitoras',
       section: 'BSIT-2B',
       studentID: '220000000351',
-      violationInput: '',
-      currentDateTime: '',
-      specify: '',
-      tableData: [{}],
+      violation: '',
+      dateTime: '',
+      description: '',
+      tableData: [],
       isPopupOpen1: false,
       isPopupOpen2: false,
       isLoaded: false,
@@ -44,33 +43,35 @@ export default {
 
   },
   methods: {
-    async submitForm() {
-      try {
-        const response = await axios.post('http://127.0.0.1:5173/pending', {
-          name: this.name,
-          section: this.section,
-          studentID: this.studentID,
-          violation: this.violation,
-          dateAndTime: this.dateAndTime,
-          description: this.description
+    submitForm() {
+      const formData = {
+        name: this.name,
+        section: this.section,
+        studentID: this.studentID,
+        violation: this.violation,
+        description: this.description,
+        dateTime: this.dateTime};
+      axios.post('http://127.0.0.1:8000/pendingAdd',formData)
+        .then((response) => {
+          this.tableData = response.data;
+          console.log(response.data);
         })
-        this.responseData = response.data
-      } catch (error) {
-        console.error(error)
-      }
+        .catch((error) => {
+          console.log(error);
+        });
     },
     updateDateTime() {
-      var currentDateTime = new Date();
-      var year = currentDateTime.getFullYear();
-      var month = ('0' + (currentDateTime.getMonth() + 1)).slice(-2);
-      var day = ('0' + currentDateTime.getDate()).slice(-2);
-      var hours = currentDateTime.getHours();
-      var minutes = currentDateTime.getMinutes();
-      var seconds = currentDateTime.getSeconds();
+      var dateTime = new Date();
+      var year = dateTime.getFullYear();
+      var month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
+      var day = ('0' + dateTime.getDate()).slice(-2);
+      var hours = dateTime.getHours();
+      var minutes = dateTime.getMinutes();
+      var seconds = dateTime.getSeconds();
       hours = (hours < 10 ? "0" : "") + hours;
       minutes = (minutes < 10 ? "0" : "") + minutes;
       seconds = (seconds < 10 ? "0" : "") + seconds;
-      this.currentDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      this.dateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     show() {
       document.querySelector('.hamburger').classList.toggle('open');
@@ -80,8 +81,8 @@ export default {
       this.name = '';
       this.section = '';
       this.studentID = '';
-      this.violationInput = '';
-      this.specify = '';
+      this.violation = '';
+      this.description = '';
       this.error1 = false;
       this.error2 = false;
       this.error3 = false;
@@ -127,10 +128,10 @@ export default {
       } else if (!/^22000000\d{4}$/.test(trimmedStudentID)) {
         this.invalid = true;
       }
-      if (!this.violationInput) {
+      if (!this.violation) {
         this.error2 = true;
       }
-      if (!this.specify) {
+      if (!this.description) {
         this.error3 = true;
       }
       return !(this.error1 || this.error2 || this.error3 || this.invalid || this.error4 || this.error5);
@@ -208,7 +209,7 @@ export default {
 
           <h2 id="second">Violation</h2>
           <div class="btn-group">
-            <select v-model="violationInput" id="display" class="form-select" aria-label="Default select example" @change="validateInputs">
+            <select v-model="violation" id="display" class="form-select" aria-label="Default select example" @change="validateInputs">
               <option value="0" disabled selected>Select violation</option>
               <option value="Incomplete uniform">Incomplete uniform</option>
               <!-- Add your options here -->
@@ -218,7 +219,7 @@ export default {
 
           <h2 id="third">If others please specify</h2>
           <div id="below-input">
-            <input v-model="specify" type="text" class="form-control" @input="validateInputs">
+            <input v-model="description" type="text" class="form-control" @input="validateInputs">
             <span v-if="error3" class="error" id="error3">This field is required. Type None if there are no Description</span>
           </div>
         </div>
@@ -242,12 +243,12 @@ export default {
       <p>Student's Name : {{ name }}</p>
       <p>Student's Section : {{ section }}</p>
       <p>Student's ID : {{ studentID }}</p>
-      <p>Date and Time: {{ currentDateTime }}</p>
-      <p>Violation: {{ violationInput }}</p>
-      <p>Description: {{ specify }}</p>
+      <p>Date and Time: {{ dateTime }}</p>
+      <p>Violation: {{ violation }}</p>
+      <p>Description: {{ description }}</p>
       <div class="options">
         <button type="button" @click="closePopup()" class="btn btn-danger back">Back</button>
-        <button type="button" @click="togglePopup2() ,post()"  class="btn btn-success confirm">Confirm</button>
+        <button type="button" @click="togglePopup2()"  class="btn btn-success confirm">Confirm</button>
       </div>
     </div>
 </PopSekyu>
@@ -261,7 +262,6 @@ export default {
     </div>
   </div>
 </PopSekyu>
-
 <div v-if="Popup" @close="closeContentPage">
   <popup />
 </div>
@@ -275,6 +275,7 @@ export default {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 #transparent {
   width: 100%; 
   height: 10%; 
@@ -288,6 +289,7 @@ export default {
   align-items: center;
   opacity: 40%;
 }
+
 #sekyu{
   color: #FFF;
   font-size: 100em;
@@ -297,6 +299,7 @@ export default {
   top: 6.5%;
   left: 5.5%;
 }
+
 #container1 {
   width: 100%; 
   height: 73%; 
@@ -322,7 +325,6 @@ export default {
   min-width: 600px;
   box-sizing: border-box;
 }
-
 #header h2{
   display: inline;
   color: white;
@@ -333,19 +335,19 @@ export default {
   text-transform: uppercase;
 }
 #header #first{   
-    position: fixed;
-    top: 3.68em;
-    left: 38%;
+  position: fixed;
+  top: 3.68em;
+  left: 38%;
 }
 #header #second{   
-    position: fixed;
-    top: 3.67em;
-    left: 68%;
+  position: fixed;
+  top: 3.67em;
+  left: 68%;
 } 
 #header #third{   
-    position: fixed;
-    top: 8.5em;
-    left: 38%;
+  position: fixed;
+  top: 8.5em;
+  left: 38%;
 }
 .form-outline{
   position: fixed;
@@ -354,102 +356,97 @@ export default {
   border-radius: 5px;
   margin: 0 1%;
 }
-
- .cs-form{
-    position: relative;
-    margin: 0 1%;
-    width: 70%;
-    border-radius: 5px;
+.cs-form{
+  position: relative;
+  margin: 0 1%;
+  width: 70%;
+  border-radius: 5px;
 }
- .md-form {
-    position: relative;  
-    margin: 0 1%;
-    width: 70%;
-    border-radius: 5px;
+.md-form {
+  position: relative;  
+  margin: 0 1%;
+  width: 70%;
+  border-radius: 5px;
 }
 #image{
-    background: rgb(255, 255, 255);
-    border-radius: 50%;
-    width: 22%;
-    height: 55%;
-    position: fixed;
-    top: 10%;
-    left: 7%;
-    min-width: 400px;
-    box-sizing: border-box;
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  width: 22%;
+  height: 55%;
+  position: fixed;
+  top: 10%;
+  left: 7%;
+  min-width: 400px;
+  box-sizing: border-box;
 }
 .form-control{
-    position: fixed;
-    height: 6.2%;
-    width: 49%;
-    top: 53%;
-    left: 40.5%;
-    border-radius: 5px;
+  position: fixed;
+  height: 6.2%;
+  width: 49%;
+  top: 53%;
+  left: 40.5%;
+  border-radius: 5px;
 }
 #buttons{
   position: absolute;
   top: 120%;
 }
 #buttons #option1{
-    position: fixed;
-    left: 45%;
-    width: 300px;
+  position: fixed;
+  left: 45%;
+  width: 300px;
 }
 #option2{
-    position: fixed;
-    left: 70%;
-    width: 300px;   
+  position: fixed;
+  left: 70%;
+  width: 300px;   
 }
 #label h3{
-    color:white;
-    padding: 10px;
-    text-align: center;
+  color:white;
+  padding: 10px;
+  text-align: center;
 }
 #name{
-    width: 640px;
-    height: 40px;
-    position: absolute;
-    top:520px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 640px;
+  height: 15px;
+  position: absolute;
+  top: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #id{
-    width: 500px;
+  width: 500px;
 }
 #section{
-    width: 640px;
-    height: 30px;   
-    position: absolute;
-    top:560px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 640px;
+  height: 15px;   
+  position: absolute;
+  top:560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .info {
-    margin-bottom: 10px; 
+  margin-bottom: 10px; 
 }
-
 .options{
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
-
 .back, .confirm{
   width: 20%;
   height: 10%;
 }
 .content-button{
-    width: 500px;
-    display: flex;
+  width: 500px;
+  display: flex;
   justify-content: center;
-
 }
 .backAll{
   width: 20%;
   height: 10%;
-
 }
 .popup-content {
   padding: 20px;
@@ -458,27 +455,25 @@ export default {
   font: 1.4em sans-serif;
   font-weight: 500;
 }
-  
 button {
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  .content p{
-    display: flex;
-    justify-content: center;
-  }
-  .loader-container {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.9); 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
-
+.content p{
+  display: flex;
+  justify-content: center;
+}
+.loader-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
 .loader {
   border: 8px solid #f3f3f3;
   border-top: 8px solid #3498db;
@@ -487,17 +482,14 @@ button {
   height: 50px;
   animation: spin 1s linear infinite;
 }
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
 .loaded{
   display: none;
   opacity: 0;
 }   
-
 .btn-group  {
   position: fixed;
   left: 70.4%;
@@ -505,7 +497,6 @@ button {
   width: 19%;
   height: 6.2%;
 }
-
 #stud{
   position: fixed;
   left: 40.49%;
@@ -513,12 +504,9 @@ button {
   width: 23%;
   height: 6.2%;
 }
-
-.hamburger,
-.bar {
+.hamburger,.bar {
   position: fixed;
 }
-
 .hamburger {
   display: block;
   top: 5.5%;
@@ -529,7 +517,6 @@ button {
   border: 0;
   background: 0 0;
 }
-
 .bar {
   top: 3px;
   background: #F2D8E4;
@@ -538,33 +525,26 @@ button {
   transition: all 0.3s ease-in;
   border: black 1px solid;
 }
-
 #bar2 {
   top: 11px;
 }
-
 #bar3 {
   top: 19px;
 }
-
 .navigation.active {
   left: 0;
 }
-
 .hamburger.open #bar1 {
   background-color: white;
   transform: rotate(45deg) translate(6px, 5px);
 }
-
 .hamburger.open #bar2 {
   opacity: 0;
 }
-
 .hamburger.open #bar3 {
   background-color: white;
   transform: rotate(-45deg) translate(6px, -5px);
 }
-
 .navigation {
   position: fixed;
   left: -500px;
@@ -585,35 +565,29 @@ button {
 .navigation.active {
   left: 0;
 }
-
 #user {
   position: relative;
   top: 17%;
 }
-
 #userIcon {
   position: relative;
   left: 12%;
 }
-
 nav {
   position: absolute;
   top: 30%;
   left: 35%;
   transform: translateX(-50%);
 }
-
 nav ul li {
   width: 130%;
   left: 2%;
   display: flex;
   align-items: center;
 }
-
 nav ul li img {
   margin-right: 27%;
 }
-
 nav ul li a::after {
   content: '';
   width: 0;
@@ -624,11 +598,9 @@ nav ul li a::after {
   bottom: -6px;
   transition: 0.5s;
 }
-
 nav ul li a:hover::after {
   width: 100%;
 }
-
 span {
   position: relative;
   left: 17%;
@@ -680,6 +652,12 @@ a {
   top: 37.5%;
   left: 40.5%;
 }
-
-
+textarea{
+  border: #0D0D0D;
+  background-color: transparent;
+  color: #f3f3f3;
+  text-align: center;
+  height: 1.7em;
+  width: 100%;
+}
 </style>

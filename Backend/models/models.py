@@ -64,7 +64,7 @@ class PendingViolationDetails(Base):
     name = Column(String)
     section = Column(String)
     violation = Column(String)
-    dateAndTime = Column(DateTime)
+    dateTime = Column(DateTime)
     description = Column(String)
 
 class OSADAccount(Base):
@@ -86,8 +86,6 @@ class SekyuAccount(Base):
     gender = Column(String)
     age = Column(Integer)
     suffix = Column(String)
-
-
 
 class AdministratorInfo(BaseModel):
     adminID: int 
@@ -126,7 +124,7 @@ class ViolationInfo(BaseModel):
 
 class ViolationDetailsInfo(BaseModel):
     reportID: int
-    dateTime: datetime
+    dateTime: datetime 
     venue: str
     status: str
     sanctions: str
@@ -140,7 +138,7 @@ class PendingViolationDetailsInfo(BaseModel):
     section :str
     studentID :int
     violation :str
-    dateAndTime: datetime 
+    dateTime: datetime 
     description :str
 
 class OSADAccInfo(BaseModel):

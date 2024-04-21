@@ -23,38 +23,39 @@ export default{
   },
 };
 </script>
+
 <template>
 <div class = "bg">
   <div class="Sekyu-login-container">
-  <div class="shadow-box">
-    <h1>For Security Guards</h1>
-    <div id="forms">
-      <hr>
-    <div class="form-group">
-      <label for="email">Email: </label>
-      <input type="text" id="email" class="size" pattern="^[a-zA-Z0-9]+@gmail\.com$" v-model="username" required/>
-    </div>
-    <div class="form-group">
-      <label for="password">Password: </label>
-      <input type="password" id="password" class="size" v-model="password" required/>
-    </div>
-    <div id="signup">
-      <p>Don't have an account? <a href="/SignUpSecurity">Sign Up</a></p>
+    <div class="shadow-box">
+      <h1>For Security Guards</h1>
+      <div id="forms">
+        <hr>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="text" id="email" class="size" pattern="^[a-zA-Z0-9]+@gmail\.com$" v-model="username" required/>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" class="size" v-model="password" required/>
+        </div>
+        <div id="signup">
+          <p>Don't have an account?<a href="/SignUpSecurity">Sign Up</a></p>
+        </div>
+      </div>
+      <button id="login-button" class="raise" @click = "authenticate()">LOG IN</button>
     </div>
   </div>
-  <button id="login-button" class="raise" @click = "authenticate()">LOG IN</button>
-  </div>
-</div>
 </div>
 </template>
 
 <style scoped>
-
 .bg{
   background-color: #0D0D0D;
   height: 100vh;
   width: 100%;
 }
+
 .Sekyu-login-container {
   width: 100%; 
   height: 700px; 

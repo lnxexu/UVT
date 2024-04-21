@@ -6,7 +6,7 @@
       <div class="bar2"></div>
     </div>
     <div class="main-content">
-      <h1>Received Messages</h1>
+      <h1>Received Reports</h1>
     <ul v-if="this.receivedReports.length > 0">
       <li v-for="(report, index) in receivedReports" :key="index" @click="messageClicked(report)">
         {{ report.pReportID }} 
@@ -14,15 +14,15 @@
     </ul>
     <p v-else>No reports received yet.</p>
 
-    <!-- Display detailed information when a message is clicked -->
     <div v-if="selectedReport">
       <h2>{{ selectedReport.studentID }}</h2>
       <p><strong>Violated Rules:</strong> {{ selectedReport.violation }}</p>
       <p><strong>Date and Time Violated:</strong> {{ selectedReport.dateAndTime }}</p>
-      <!-- Add more details as needed -->
-    </div>
-  </div>
-  </div>
+      <button @click="deleteReport">Delete</button>
+      <p v-if="reportDeleted">Report has been deleted.</p>
+</div>
+</div>
+</div>
 </template>
 
 <script>
@@ -33,6 +33,7 @@ export default {
       selectedReport: null,
       closeReport: true,
       closeViolation: true,
+      reportDeleted: false
     };
   },
   methods: {
@@ -48,19 +49,27 @@ export default {
       this.$emit("close");
     },
     fetchData() {
-      // Fetch data from the API
-      // Replace the URL with the actual API endpoint
       axios.get("http://127.0.0.1:8000/pending")
-        .then((response) => {
-          this.receivedReports = response.data;
-          console.log(this.receivedReports.length)
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-  }
-},
-mounted() {
+      .then((response) => {
+        this.receivedReports = response.data;
+        console.log(this.receivedReports.length)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    },
+    deleteReport() {
+      axios.delete("http://127.0.0.1:8000/pendingDelete/{pReportID}")
+      .then((response) => {
+        console.log(response.data);
+        this.reportDeleted = true;
+      })
+      .catch((error) => {
+        console.error(error);
+      });  
+    },
+  },
+  mounted() {
     this.fetchData();
   },
 };

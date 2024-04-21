@@ -6,7 +6,7 @@ from typing import List
 
 router = APIRouter()
 
-@router.get("/OSADusers", response_model=List[OSADAccInfo])
+@router.get("/OSADusers")
 def read_users(db: Session = Depends(get_db)):
     users = db.query(OSADAccount).all()
     return users
@@ -15,7 +15,7 @@ def read_users(db: Session = Depends(get_db)):
 def read_user(user_id: int, db: Session = Depends(get_db)):
     user = db.query(OSADAccount).filter(OSADAccount.id == user_id).first()
     if user:
-        return {"id": user.id}
+        return {"id": user.id, "name":user.fullname}
     raise HTTPException(status_code=404, detail="User not found")
 
 @router.post("/OSADusers/add", response_model=dict)

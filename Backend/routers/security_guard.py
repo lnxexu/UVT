@@ -9,3 +9,9 @@ router = APIRouter()
 def get_security_guard(db: Session = Depends(get_db)):
     security_guards = db.query(SecurityGuard).all()
     return security_guards
+
+
+@router.get("/securityGuard/{guardID}")
+def get_security_guard_by_id(guardID: int, db: Session = Depends(get_db)):
+    security_guard = db.query(SecurityGuard).filter(SecurityGuard.guardID == guardID).first()
+    return security_guard

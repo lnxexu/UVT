@@ -1,24 +1,25 @@
 <template>
   <div class="violation-list-container" v-if="closeViolation">
-    <div class="exit-button"  @click="close()">
-        <div class="bar2"></div>
-        <div class="bar2"></div>
-      </div>
-    <!-- Main Content -->
+    <div class="exit-button" @click="close()">
+      <div class="bar2"></div>
+      <div class="bar2"></div>
+    </div>
     <div class="main-content">
       <h1>Violation List</h1>
+      <div id="searchbar">
+        <input id = "search" type="text" v-model="student_id" placeholder="Search Student" />
+        <button id= "submit"@click="fetchData()">Submit</button>
+      </div>
       <ul>
         <li v-for="(violation, index) in violations" :key="index" @click="showViolationDetails(violation)">
           {{ violation.reportID }} ({{ violation.dateTime }}) 
         </li>
       </ul>
-      <!-- Show ViolationDetails component when a violation is selected -->
-      <ViolationDetails v-if="selectedViolation" :selectedViolation="selectedViolation" />
+      <ViolationDetails v-if="selectedViolation" :selectedViolation="selectedViolation" @close="closeViolation = false" />
     </div>
   </div>
-
-
 </template>
+
 
 <script>
 import ViolationDetails from './ViolationDetails.vue';
@@ -29,22 +30,24 @@ export default {
       violations: [],
       selectedViolation: null,
       closeViolation: true,
+      student_id: null,
     };
   },
   components: {
     ViolationDetails,
-  },
-  mounted() {
-    this.fetchData();
+  },  
+  computed: {
+    filteredViolations() {
+      return this.violations.filter(violation => {
+        return violation.reportID.toLowerCase().includes(this.student_id.toLowerCase());
+      });
+    },
   },
   methods: {
-    fetchData() {
-      // Fetch data from the API
-      // Replace the URL with the actual API endpoint
-      axios.get("http://127.0.0.1:8000/violationDetails")
+    async fetchData() {
+      axios.get(`http://127.0.0.1:8000/violationDetails/student/${this.student_id}`)
         .then((response) => {
           this.violations = response.data;
-          console.log()
         })
         .catch((error) => {
           console.error(error);
@@ -55,39 +58,35 @@ export default {
     },
     showViolationDetails(violation) {
       this.selectedViolation = violation;
-      console.log(this.selectedViolation)
+      this.$emit("close");
     },
     close() { 
       this.closeViolation = !this.closeViolation;
-      this.$emit("close");
     },
-  }, // Add a missing closing bracket here
+  } 
 };
 </script>
 
-
 <style scoped>
-  .exit-button {
-    cursor: pointer;
-    display: inline-block;
-    margin: 10px;
-    padding: 10px;
-    background-color: #ddd;
-    border-radius: 5px;
-    position: relative;
-    left: 95%;
-  }
-  
-  .exit-button:hover {
-    background-color: #ccc;
-  }
-  
-  .bar2 {
-    width: 20px;
-    height: 2px;
-    background-color: #333;
-    margin: 5px 0;
-  }
+.exit-button {
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px;
+  padding: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  position: relative;
+  left: 95%;
+}
+.exit-button:hover {
+  background-color: #ccc;
+}
+.bar2 {
+  width: 20px;
+  height: 2px;
+  background-color: #333;
+  margin: 5px 0;
+}
 .violation-list-container {
   position: absolute;
   z-index: 5;
@@ -96,14 +95,10 @@ export default {
   height: 100%;
   background-color: #f1f1f1;
 }
+  
 .violation-list-container.expanded {
   width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
 }
-
 .main-content {
   flex: 1;
   padding: 20px;
@@ -124,5 +119,25 @@ li {
 
 li:hover {
   background-color: #ccc;
+}
+
+#search {
+  margin: 10px;
+  padding: 10px;
+  width: 20%;
+  border-radius: 5px;
+}
+
+#submit {
+  margin: 10px;
+  padding: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#searchbar {
+  display: flex;
+  justify-content: center;
 }
 </style>

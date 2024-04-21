@@ -15,27 +15,26 @@
     <hr>
     <div class="dashboard-item clock-item hover-effect">
       <div class="clock integral-font"><h1 style="font-size:70px;">{{ currentTime }}</h1></div>
-      <div class="weather-info">
-        <div class="temperature">{{ weather.temperature }}°C</div>
-        <div class="condition">{{ weather.condition }}</div>
+      <div class="date">
+        <h1 style="font-size: 40px; position: relative; top: 20%; left: -15%;">{{ new Date().toLocaleDateString() }}</h1>
       </div>
     </div>
 
     <div class="dashboard-item reports-item hover-effect">
       <h2 class="integral-font ">Violation Reports Today</h2>
-      <div class="reports-count">{{ violationReportsToday }}</div>
+      <div class="reports-count"><h1>{{ violationReportsToday }}</h1></div>
     </div>
 
     <h1 class = "name-dashboard integral-font"> dashboard</h1>
 
     <div class="dashboard-item guard-item hover-effect">
-      <h2 class="integral-font ">Security Guard On Duty</h2>
-      <div class="guard-name">{{ securityGuardName }}</div>
+      <h2 class="integral-font ">Total Violation</h2>
+      <div class="guard-name"><h1>{{ violationReportsTotal }}</h1></div>
     </div>
 
     <div class="dashboard-item pending-reports-item hover-effect">
       <h2 class="integral-font">Pending Reports</h2>
-      <div class="pending-reports-count"><h1>{{ pendingReportsCount }}</h1></div>
+      <div class="pending-reports-count"><h1>{{ pendingViolationReports }}</h1></div>
     </div> 
   </div>
 
@@ -110,8 +109,6 @@ import SecurityAccounts from "../components/SecurityAccounts.vue";
 import Reports from "../components/Reports.vue";
 import { ref } from 'vue';
 
-
-
 export default {
   name: 'OSAD',
   components: { bg, Popup, Violations, SecurityAccounts, Reports },
@@ -121,15 +118,15 @@ export default {
       SecurityAccounts: false,
       Reports: false,
       Popup: false,
+      pendingViolationReports: '',
       violationReportsToday: 0,
       currentTime: this.getCurrentTime(),
-      securityGuardName: 'Travis Scott', // Replace with actual data
-      weather: {
-        temperature: 25, // Replace with actual data
-        condition: 'Sunny', // Replace with actual datta
-      },
-      pendingReportsCount: 0,
+      violationReportsTotal:'',
       isLoaded: false,
+      weather: {
+        temperature: 0,
+        condition: '',
+      },
     }
   },
   methods: {
@@ -173,44 +170,35 @@ export default {
       const seconds = now.getSeconds().toString().padStart(2, '0');
       return `${hours}:${minutes}:${seconds}`;
     },
-
-    // Example method to fetch violation reports (replace with your actual implementation)
-    fetchViolationReports() {
-      // Assuming you have a backend API to fetch violation reports
-      // Replace this with your actual API endpoint and logic
-      // For simplicity, setting a hardcoded value here
-      this.violationReportsToday = 10; // Replace with your actual data
+    fetchPendingViolationReports() {
+      axios.get("http://127.0.0.1:8000/pendingCount")
+        .then((response) => {
+          this.pendingViolationReports = response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
-    fetchWeather() {
-      // Assuming you have an API key and endpoint for weather data
-      // Replace this with your actual API endpoint and logic
-      // For simplicity, setting hardcoded values here
-      this.weather = {
-        temperature: 25,
-        condition: 'Sunny',
-      };
-    },
-    fetchPendingReportsCount() {
-      // Assume you have an API call or some logic to fetch the count of pending reports
-      // For example, you might fetch it from a backend API
-      // Replace this with your actual logic
-      setTimeout(() => {
-        // Simulating an asynchronous operation
-        this.pendingReportsCount = 5; // Replace with the actual count
-      }, 1000);
+    fetchTotalViolation() {
+      axios.get("http://127.0.0.1:8000/violationCount")
+        .then((response) => {
+          this.violationReportsTotal = response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     updateClock() {
-      // Update the clock every second
       setInterval(() => {
         this.currentTime = this.getCurrentTime();
       }, 1000);
     },
+    
   },
   mounted() {
-    this.fetchViolationReports();
-    this.fetchWeather(); // Call the method to fetch weather information
+    this.fetchTotalViolation();
+    this.fetchPendingViolationReports();
     this.updateClock()
-    this.fetchPendingReportsCount();
     const visibilityDuration = 1000;
     setTimeout(() => {
       this.isLoaded = true;
