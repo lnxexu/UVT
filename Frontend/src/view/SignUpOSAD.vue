@@ -40,6 +40,7 @@
             <p><strong>Email:</strong> {{ email }}</p>
             <p><strong>Password:</strong> {{ password }}</p>
             <button class="button" @click="createAccount">Confirm</button>
+
             <button class="button" @click="showPopup = false">Cancel</button>
         </div>
     </div>
@@ -190,14 +191,17 @@ export default {
     text-align: center; 
 } 
 .button{ 
-    background: #F2D8E4; 
+    background: #CE2774; 
     border: 0; 
     padding: 10px 20px; 
     margin-top: 20px; 
-    color: black; 
-    border-radius: 20px; 
+    margin-right: 10px;
+    color: #ffffff; 
+    border-radius: 10px; 
     text-transform: uppercase; 
-    font-weight: bold; 
+    font-weight: bold;
+
+
 } 
 .input,select{ 
     display: block; 
