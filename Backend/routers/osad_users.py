@@ -4,7 +4,7 @@ from models.models import OSADAccount, OSADAccInfo
 from sqlalchemy.orm import Session
 from typing import List
 
-router = APIRouter()
+router = APIRouter(tags=["OSAD"])
 
 @router.get("/OSADusers")
 def read_users(db: Session = Depends(get_db)):

@@ -21,6 +21,7 @@ export default{
     },
     methods:{
         close() {
+            this.$emit('handlePopupClose', false);
             this.closePopup = false;
             this.$emit("close");
         },

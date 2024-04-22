@@ -39,6 +39,7 @@
     },
     methods: {
       close() {
+        this.$emit('handleSecurityAccountsClose', false);
         this.closeSekyu = false;
         this.$emit("close");
       },

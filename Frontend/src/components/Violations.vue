@@ -8,7 +8,9 @@
       <h1>Violation List</h1>
       <div id="searchbar">
         <input id = "search" type="text" v-model="student_id" placeholder="Search Student" />
+        <!-- make a span that will show after the button is clicked if the student is existing in the database  -->
         <button id= "submit"@click="fetchData()">Submit</button>
+        <span id="studentExists"v-if="studentExists">Student does not exist in the database.</span>
       </div>
       <ul>
         <li v-for="(violation, index) in violations" :key="index" @click="showViolationDetails(violation)">
@@ -24,13 +26,16 @@
 <script>
 import ViolationDetails from './ViolationDetails.vue';
 import axios from 'axios';
+
 export default {
+  name: "Violations",
   data() {
     return {
       violations: [],
       selectedViolation: null,
       closeViolation: true,
       student_id: null,
+      studentExists: false,
     };
   },
   components: {
@@ -45,13 +50,19 @@ export default {
   },
   methods: {
     async fetchData() {
-      axios.get(`http://127.0.0.1:8000/violationDetails/student/${this.student_id}`)
-        .then((response) => {
-          this.violations = response.data;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/violationDetails/student/${this.student_id}`);
+        this.violations = response.data;
+        if (this.violations.length === 0) {
+          this.studentExists = true;
+        } else {
+          this.studentExists = false;
+        }
+      } 
+      catch (error) {
+        console.error(error);
+        this.studentExists = false;
+      }
     },
     toggleExpansion() {
       document.querySelector('.violation-list-container').classList.toggle('expanded');
@@ -61,6 +72,7 @@ export default {
       this.$emit("close");
     },
     close() { 
+      this.$emit('handleViolationsPageClose', false);
       this.closeViolation = !this.closeViolation;
     },
   } 
@@ -134,10 +146,26 @@ li:hover {
   background-color: #ddd;
   border-radius: 5px;
   cursor: pointer;
+
 }
 
 #searchbar {
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  flex-wrap: wrap;
 }
+
+#studentExists {
+  position: fixed;
+  color: red;
+  font-size: 20px;
+  margin-top: 5%;
+
+}
+
 </style>

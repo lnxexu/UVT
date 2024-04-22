@@ -3,7 +3,7 @@ from models.database import SessionLocal, get_db
 from models.models import Student, StudentInfo
 from sqlalchemy.orm import Session
 
-router = APIRouter()
+router = APIRouter(tags=["Student"])
 
 @router.get("/student", response_model=list[StudentInfo])
 def get_student(db: Session = Depends(get_db)):

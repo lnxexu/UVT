@@ -3,7 +3,7 @@ from models.database import SessionLocal, get_db
 from models.models import Violation, ViolationInfo
 from sqlalchemy.orm import Session
 
-router = APIRouter()
+router = APIRouter(tags=["Violation"])
 
 @router.get("/violation", response_model=list[ViolationInfo])
 def get_violation(db: Session = Depends(get_db)):

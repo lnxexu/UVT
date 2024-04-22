@@ -1,5 +1,5 @@
 <script>
-import bg from "../components/Background.vue";
+import bg from "../components/Background2.vue";
 import PopSekyu from '../components/PopupSekyu.vue';
 import PopupComponent from '../components/Popup.vue'; 
 import axios from "axios";
@@ -50,16 +50,29 @@ export default {
         studentID: this.studentID,
         violation: this.violation,
         description: this.description,
-        dateTime: this.dateTime};
-      axios.post('http://127.0.0.1:8000/pendingAdd',formData)
+        dateTime: this.dateTime
+      };
+
+      // Basic input validation
+      for (let key in formData) {
+        if (!formData[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
+      }
+
+      // Convert formData to query parameters
+      const params = new URLSearchParams(formData).toString();
+
+      axios.post(`http://127.0.0.1:8000/pendingAdd?${params}`)
         .then((response) => {
           this.tableData = response.data;
           console.log(response.data);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
-    },
+      },
     updateDateTime() {
       var dateTime = new Date();
       var year = dateTime.getFullYear();
@@ -161,17 +174,12 @@ export default {
     </div>
     <nav>
       <ul>
-        <div @click="showReports()">
+        <div @click="">
           <li><img src="../assets/bell.png" class="icon4">
             <a>Reports</a>
           </li>
         </div>
-        <div @click="showHome()">
-          <li><img src="../assets/homepage.png" class="icon1">
-            <a>Home Page</a>
-          </li>
-        </div>
-        <div @click="showPopup()">
+        <div @click="">
           <li><img src="../assets/logout.png" class="icon5">
             <a>Log Out</a>
           </li>
@@ -212,7 +220,14 @@ export default {
             <select v-model="violation" id="display" class="form-select" aria-label="Default select example" @change="validateInputs">
               <option value="0" disabled selected>Select violation</option>
               <option value="Incomplete uniform">Incomplete uniform</option>
-              <!-- Add your options here -->
+              <option value="Improper haircut">Improper haircut</option>
+              <option value="NO ID">No ID</option>
+              <option value="Improper undershirt">Improper undershirt</option>
+              <option value="Improper hair color">Improper hair color</option>
+              <option value="Bullying">Bullying</option>
+              <option value="Littering">Littering</option>
+              <option value="Loitering">Loitering</option>
+              <option value="Smoking">Smoking</option>
             </select>
             <span v-if="error2" class="error" id="error2">This field is required.</span>
           </div>

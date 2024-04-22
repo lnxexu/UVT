@@ -200,8 +200,6 @@ export default {
     border-radius: 10px; 
     text-transform: uppercase; 
     font-weight: bold;
-
-
 } 
 .input,select{ 
     display: block; 

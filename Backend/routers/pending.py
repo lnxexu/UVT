@@ -3,7 +3,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from models.database import SessionLocal, get_db
 from models.models import PendingViolationDetails, PendingViolationDetailsInfo
 from sqlalchemy.orm import Session
-router = APIRouter()
+
+router = APIRouter(tags=["Pending"])
 
 
 @router.get("/pending")

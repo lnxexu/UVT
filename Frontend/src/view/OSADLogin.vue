@@ -1,36 +1,25 @@
 <script>
 import bg from "../components/Background.vue"
-import AuthenticationService from "../store.js"
+import authService from '../store.js';
 
 export default {
-  name: 'OSADLogin',
-  components: { bg },
   data() {
     return {
       username: '',
       password: '',
-      errorMessage: '', // Added for displaying authentication errors
+      error: null
     };
   },
+  components: { bg },
   methods: {
-    // Use AuthenticationService to authenticate
-    authenticate() {
-      this.errorMessage = ''; // Clear previous error message
-      AuthenticationService.login(this.username, this.password)
-        .then(() => {
-          // Redirect to /OSAD upon successful authentication
-          this.$router.push('/OSAD');
-        })
-        .catch((error) => {
-          // Handle authentication failure
-          if (error.response && error.response.status === 401) {
-            this.errorMessage = 'Incorrect username or password. Please try again.';
-          } else {
-            this.errorMessage = 'Authentication failed. Please try again later.';
-          }
-        });
-    },
-  },
+    login() {
+      if (authService.login(this.username, this.password)) {
+        this.$router.push({ name: 'OSAD' });
+      } else {
+        this.error = 'Invalid username or password';
+      }
+    }
+  }
 };
 </script>
 

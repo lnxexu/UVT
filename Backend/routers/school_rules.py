@@ -3,7 +3,7 @@ from models.database import SessionLocal, get_db
 from models.models import SchoolRules, SchoolRulesInfo
 from sqlalchemy.orm import Session
 
-router = APIRouter()
+router = APIRouter(tags=["School Rules"])
 
 @router.get("/schoolRules", response_model=list[SchoolRulesInfo])
 def get_school_rules(db: Session = Depends(get_db)):

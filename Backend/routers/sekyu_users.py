@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException  # Added import statement
+from fastapi import APIRouter, Depends, HTTPException  
 from models.database import SessionLocal, get_db
 from models.models import SekyuAccount
 from sqlalchemy.orm import Session
 
-router = APIRouter()
+router = APIRouter(tags=["Security Guard"])  
 
 @router.get("/sekyuUsers")
 def read_users(db: Session = Depends(get_db)):

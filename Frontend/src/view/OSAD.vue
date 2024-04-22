@@ -53,7 +53,7 @@
   </button>
   <div id = "user">
     <img src="../assets/user.png" id = "userIcon">
-    <span>USERNAME</span>
+    <span>{{  }}</span>
   </div>
   <nav>
     <ul>
@@ -87,16 +87,16 @@
 </div>
 </div>
 <div v-if="violationsPage" @close="closeContentPage">
-  <Violations />
+  <Violations @handleViolationsPageClose="handleViolationsPageClose" />
 </div>
 <div v-if="SecurityAccounts" @close="closeContentPage">
-  <SecurityAccounts />
+  <SecurityAccounts @handleSecurityAccountsClose="handleSecurityAccountsClose" />
 </div>
 <div v-if="Reports" @close="closeContentPage">
-  <Reports />
+  <Reports @handleReportClose="handleReportClose" />
 </div>
 <div v-if="Popup" @close="closeContentPage">
-  <popup />
+  <popup @handlePopupClose="handlePopupClose"/>
 </div>
 <bg/>
 </template>
@@ -130,6 +130,18 @@ export default {
     }
   },
   methods: {
+    handleReportClose(value) {
+      this.Reports = value;
+    },
+    handleViolationsPageClose(value) {
+      this.violationsPage = value;
+    },
+    handleSecurityAccountsClose(value) {
+      this.SecurityAccounts = value;
+    },
+    handlePopupClose(value) {
+      this.Popup = value;
+    },
     show() {
       document.querySelector('.hamburger').classList.toggle('open')
       document.querySelector('.navigation').classList.toggle('active')

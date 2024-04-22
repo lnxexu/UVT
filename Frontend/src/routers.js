@@ -7,7 +7,8 @@ import OSADLoginVue from './view/OSADLogin.vue'
 import SignUpSecurity from './view/SignUpSecurity.vue'
 import SignUpOSAD from './view/SignUpOSAD.vue'
 import Violations from './components/Violations.vue'
-
+import ForgotPasswordSecurity from './view/ForgotPasswordSecurity.vue'
+import ForgotPasswordOSAD from './view/ForgotPasswordOSAD.vue'
 
 
 const router = createRouter({
@@ -54,7 +55,17 @@ const router = createRouter({
       path: '/Violations',
       name: 'Violations',
       component: Violations
-    }
+    },
+    {
+      path: '/ForgotPasswordSecurity',
+      name: 'ForgotPasswordSecurity',
+      component: ForgotPasswordSecurity
+    },
+    {
+      path: '/ForgotPasswordOSAD',
+      name: 'ForgotPasswordOSAD',
+      component: ForgotPasswordOSAD
+    },
   ]
 })
 

@@ -3,7 +3,7 @@ from models.database import SessionLocal, get_db
 from models.models import Exception, ExceptionInfo
 from sqlalchemy.orm import Session
 
-router = APIRouter()
+router = APIRouter(tags=["Exception"])
 
 @router.get("/exception", response_model=list[ExceptionInfo])
 def get_exception(db: Session = Depends(get_db)):

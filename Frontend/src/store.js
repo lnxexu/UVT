@@ -1,21 +1,18 @@
-// AuthenticationService.js
 export default {
-  isAuthenticated: false,
-
+  user: null,
   login(username, password) {
-    // Perform authentication logic here
-    // For simplicity, check for a hardcoded username and password
+    // Replace this with your actual login logic
     if (username === 'demo' && password === 'password') {
-      this.isAuthenticated = true;
+      this.user = { username };
       return true;
-    } else {
-      return false;
     }
+    return false;
   },
-
   logout() {
-    // Perform logout logic here
-    // For simplicity, just set isAuthenticated to false
-    this.isAuthenticated = false;
+    this.user = null;
   },
+  isAuthenticated() {
+    return this.user !== null;
+  }
 };
+

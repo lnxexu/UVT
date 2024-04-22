@@ -41,6 +41,7 @@ export default{
         </div>
         <div id="signup">
           <p>Don't have an account?<a href="/SignUpSecurity">Sign Up</a></p>
+          <p>Forgot your password?<a href="/ForgotPasswordSecurity">Click Here</a></p>
         </div>
       </div>
       <button id="login-button" class="raise" @click = "authenticate()">LOG IN</button>
