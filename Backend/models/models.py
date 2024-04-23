@@ -54,8 +54,8 @@ class ViolationDetails(Base):
     status = Column(Integer)
     sanctions = Column(String)
     studentID = Column(Integer)
-    violationID = Column(Integer)
-    guardID = Column(Integer)
+    violation = Column(String)
+    guard = Column(String)
 
 class PendingViolationDetails(Base):
     __tablename__ = "pending"
@@ -66,6 +66,10 @@ class PendingViolationDetails(Base):
     violation = Column(String)
     dateTime = Column(DateTime)
     description = Column(String)
+    venue = Column(String)
+    status = Column(String)
+    sanction = Column(String)
+    guard = Column(String)
 
 class OSADAccount(Base):
     __tablename__ = "osadacc"
@@ -140,6 +144,10 @@ class PendingViolationDetailsInfo(BaseModel):
     violation :str
     dateTime: datetime 
     description :str
+    venue :str
+    status :str
+    sanction :str
+    guard :str
 
 class OSADAccInfo(BaseModel):
     id: int

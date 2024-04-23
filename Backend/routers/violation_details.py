@@ -1,7 +1,8 @@
 from fastapi import APIRouter,Depends, HTTPException
 from models.database import SessionLocal, get_db
-from models.models import ViolationDetails, ViolationDetailsInfo
+from models.models import ViolationDetails, ViolationDetailsInfo, PendingViolationDetailsInfo
 from sqlalchemy.orm import Session
+from datetime import datetime
 
 router = APIRouter(tags=["Violation Details"])
 
@@ -23,4 +24,28 @@ def get_violation_by_student(studentID: int, db: Session = Depends(get_db)):
     if violation is None:
         raise HTTPException(status_code=404, detail="Violation not found")
     return violation
+
+@router.post("/violationDetailsPost" )
+def create_violation_details( 
+    studentID: int , 
+    violation: str ,
+    dateTime: datetime,  
+    venue: str,
+    sanctions: str,
+    status: str,
+    guard: str,
+    db: Session = Depends(get_db)):
+    new_violation = ViolationDetails(  
+        studentID=studentID,
+        violation=violation, 
+        dateTime=dateTime, 
+        venue=venue, 
+        sanctions=sanctions, 
+        status=status, 
+        guard=guard)
+    db.add(new_violation)
+    db.commit()
+    db.refresh(new_violation)
+    return new_violation
+
 

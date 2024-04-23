@@ -1,12 +1,12 @@
 <script>
 import bg from "../components/Background2.vue";
 import PopSekyu from '../components/PopupSekyu.vue';
-import PopupComponent from '../components/Popup.vue'; 
+import Popup from '../components/LogOutSekyu.vue';
 import axios from "axios";
 
 export default {
   name: 'SekyuPage',
-  components: { bg, PopSekyu, PopupComponent,axios }, 
+  components: { bg, Popup, PopSekyu, axios }, 
   data() {
     return {
       name: 'Jazmine Rose Quitoras',
@@ -120,6 +120,9 @@ export default {
     showPopup(){
       this.Popup = !this.Popup;
     },
+    closeContentPage(){
+      this.Popup = false;
+    },
     validateInputs() {
       this.error1 = false;
       this.error2 = false;
@@ -148,8 +151,8 @@ export default {
         this.error3 = true;
       }
       return !(this.error1 || this.error2 || this.error3 || this.invalid || this.error4 || this.error5);
-    }
-  }
+    },
+  }  
 };
 </script>
 
@@ -196,13 +199,13 @@ export default {
       <div id="image"></div>
       <div id="name">
         <h2 class="info">
-          <textarea  v-model = 'name' readonly="readonly">{{ name }}</textarea>
+          <input class = "stuInfo" v-model = 'name' readonly="readonly" />
         </h2>
         <span v-if="error4" class="error" id="error4">No name</span>
       </div>
       <div id="section">
         <h3 class="info">
-          <textarea  v-model = 'section' readonly="readonly">{{ section }}</textarea>
+          <input class = "stuInfo" v-model = 'section' readonly="readonly" />
         </h3>
         <span v-if="error5" class="error" id="error5">No section</span>
       </div>
@@ -667,12 +670,14 @@ a {
   top: 37.5%;
   left: 40.5%;
 }
-textarea{
-  border: #0D0D0D;
+.stuInfo{
+  border: none;
+  outline: none;
   background-color: transparent;
   color: #f3f3f3;
   text-align: center;
   height: 1.7em;
   width: 100%;
-}
+} 
+
 </style>

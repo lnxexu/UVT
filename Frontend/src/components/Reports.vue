@@ -26,6 +26,7 @@
       <p><strong>Guard: </strong> {{ selectedReport.guard }}</p>
       <button id="editButton" @click="edit">Edit</button>
       <button id="deleteReportButton" @click="deleteReport">Delete</button>
+      <button id="approveButton" @click="approve">Approve</button>
       <div id="edit-modal" v-if="editedReport">
         <div id="edit">
           <div class="exit-button"  @click="closePop()" >
@@ -37,11 +38,26 @@
           <p><strong>Date and Time:</strong> {{ editedReport.dateTime }}</p>
           <p><strong>Violation:</strong> {{ editedReport.violation }}</p>
           <input class="input" type="text" v-model="editedReport.violation">
-          <p><strong>Venue: </strong> <input class="input" type="text" v-model="venue"></p>
-          <p><strong>Sanction: </strong> <input class="input" type="text" v-model="sanction"></p>
-          <p><strong>Status: </strong> <input class="input" type="text" v-model="status"></p>
-          <p><strong>Guard: </strong> <input class="input" type="text" v-model="guard"></p>
+          <p><strong>Venue: </strong> <input class="input" type="text" v-model="editedReport.venue"></p>
+          <p><strong>Sanction: </strong> <input class="input" type="text" v-model="editedReport.sanction"></p>
+          <p><strong>Status: </strong> <input class="input" type="text" v-model="editedReport.status"></p>
+          <p><strong>Guard: </strong> <input class="input" type="text" v-model="editedReport.guard"></p>
           <button id="save" @click="save">Save</button>
+        </div>
+        <div id="confirm-popup" v-if="showConfirmPopup">
+          <p>Are you sure you want to save these changes?</p>
+          <p><strong>Report ID: </strong>{{ editedReport.pReportID }}</p>
+          <p><strong>Student ID: </strong>{{ editedReport.studentID }}</p>
+          <p><strong>Date and Time: </strong>{{ editedReport.dateTime }}</p> 
+          <p><strong>Violation: </strong>{{ editedReport.violation }}</p>
+          <p><strong>Venue: </strong>{{ editedReport.venue }}</p>
+          <p><strong>Sanction: </strong>{{ editedReport.sanction }}</p>
+          <p><strong>Status: </strong>{{ editedReport.status }}</p>
+          <p><strong>Guard: </strong>{{ editedReport.guard }}</p>
+          <div class="buttons">
+            <button id = "yes" @click="yes">Yes</button>
+            <button id = "no" @click="showConfirmPopup = false">No</button>
+          </div>
         </div>
       </div>
       <p v-if="reportDeleted">Report has been deleted.</p>
@@ -56,6 +72,7 @@ export default {
     return {
       receivedReports: [],
       selectedReport: null,
+      showConfirmPopup: false,
       closeReport: true,
       closeViolation: true,
       reportDeleted: false,
@@ -67,10 +84,13 @@ export default {
     };
   },
   computed: {
-  reports() {
-    return this.$store.state.reports;
-  }
-},
+    reports() {
+      return this.$store.state.reports;
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
     toggleExpansion() {
       document.querySelector('.violation-list-container').classList.toggle('expanded')
@@ -79,13 +99,38 @@ export default {
       this.editedReport = Object.assign({}, this.selectedReport);
     },
     save() {
-      if (window.confirm('Are you sure you want to save these changes?')) {
-        this.selectedReport = this.editedReport;
-      }
+      this.showConfirmPopup = true;
     },
-    
+    yes() {
+      this.showConfirmPopup = false;
+      const formData = {
+        violation: this.editedReport.violation,
+        venue: this.editedReport.venue,
+        sanction: this.editedReport.sanction,
+        status: this.editedReport.status,
+        guard: this.editedReport.guard
+      };
+      const id = this.editedReport.pReportID;
+      for (let key in formData) {
+        if (!formData[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
+      }
+      const params = new URLSearchParams(formData).toString();
+      const newData = id + "?" + params;
+      axios.put(`http://127.0.0.1:8000/pendingUpdate/${newData}`)
+      .then((response) => {
+        console.log(response.data);
+        this.editedReport = null;
+        this.showConfirmPopup = false;
+        alert('Changes saved successfully!');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    },
     messageClicked(report) {
-      // Set the selected report for detailed view
       this.selectedReport = report;
       this.editedReport = null;
     },
@@ -104,14 +149,54 @@ export default {
       });
     },
     deleteReport() {
-      axios.delete(`http://127.0.0.1:8000/pendingDelete/${this.pReportID}`)
+      const formData = {
+        pReportID: this.selectedReport.pReportID,
+        studentID: this.selectedReport.studentID,
+        dateTime: this.selectedReport.dateTime,
+        violation: this.selectedReport.violation
+      };
+      for (let key in formData) {
+        if (!formData[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
+      }
+      axios.delete(`http://127.0.0.1:8000/pendingDelete/${formData.pReportID}`)
       .then((response) => {
         console.log(response.data);
         this.reportDeleted = true;
       })
       .catch((error) => {
         console.error(error);
-      });  
+      });
+    },
+    approve() {
+      console.log("Approve");
+      const formData = {
+        pReportID: this.selectedReport.pReportID,
+        studentID: this.selectedReport.studentID,
+        dateTime: this.selectedReport.dateTime,
+        violation: this.selectedReport.violation,
+        venue: this.selectedReport.venue,
+        sanction: this.selectedReport.sanction,
+        status: this.selectedReport.status,
+        guard: this.selectedReport.guard
+      };
+      for (let key in formData) {
+        if (!formData[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
+      }
+      const params = new URLSearchParams(formData).toString();
+      axios.post(`http://http://127.0.0.1:8000/violationDetailsPost/${params}`)
+      .then((response) => {
+        console.log(response.data);
+        this.reportDeleted = true;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     },
     closePop() {
       this.editedReport = null;
@@ -247,4 +332,77 @@ button {
   width: 30%;
 
 }
+#save:hover {
+  background-color: #45a049;
+}
+
+#confirm-popup {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 5px;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  transition: 0.3s;
+  z-index: 9999;
+  border: #333 1px solid;
+}
+#confirm-popup button {
+  padding: 10px;
+  margin: 5px;
+  background-color: #cccccc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+#confirm-popup button#yes {
+  background-color: #4CAF50;
+  color: white;
+}
+#confirm-popup button#yes:hover {
+  background-color: #45a049;
+}
+#confirm-popup button#no {
+  background-color: #f44336;
+  color: white;
+}
+#confirm-popup button#no:hover {
+  background-color: #ff2819;
+}
+
+#confirm-popup p {
+  margin: 0;
+  padding: 5px;
+}
+#confirm-popup h2 {
+  margin: 0;
+  padding: 5px;
+}
+#confirm-popup strong {
+  margin: 0;
+  padding: 5px;
+}
+#confirm-popup button ::hover {
+  background-color: #ccc;
+
+}
+#confirm-popup .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 </style>

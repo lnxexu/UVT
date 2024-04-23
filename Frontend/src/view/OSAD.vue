@@ -1,90 +1,74 @@
 <template>
 <div class="loader-container" id="loader">
-    <div class="loader"></div>
-  </div>
-  <div class = "OSAD-container">
-    <div id="OSADcontainer">
+  <div class="loader"></div>
+</div>
+<div class = "OSAD-container">
+  <div id="OSADcontainer">
     <div id="logoStack">
       <img src="../assets/logoUVT1.png" alt="logo" />
       <img src="../assets/logoUVT1.png" alt="logo" />
       <img src="../assets/logoUVT1.png" alt="logo" />
-
     </div>
-<div class = "dashboard">
-  <div class="dashboard-container">
-    <hr>
-    <div class="dashboard-item clock-item hover-effect">
-      <div class="clock integral-font"><h1 style="font-size:70px;">{{ currentTime }}</h1></div>
-      <div class="date">
-        <h1 style="font-size: 40px; position: relative; top: 20%; left: -15%;">{{ new Date().toLocaleDateString() }}</h1>
+    <div class = "dashboard">
+      <div class="dashboard-container">
+        <hr>
+        <div class="dashboard-item clock-item hover-effect">
+          <div class="clock integral-font"><h1 style="font-size:70px;">{{ currentTime }}</h1></div>
+          <div class="date">
+            <h1 style="font-size: 40px; position: relative; top: 20%; left: -15%;">{{ new Date().toLocaleDateString() }}</h1>
+          </div>
+        </div>
+        <div class="dashboard-item reports-item hover-effect">
+          <h2 class="integral-font ">Violation Reports Today</h2>
+          <div class="reports-count"><h1>{{ violationReportsToday }}</h1></div>
+        </div>
+        <h1 class = "name-dashboard integral-font"> dashboard</h1>
+        <div class="dashboard-item guard-item hover-effect">
+          <h2 class="integral-font ">Total Violation</h2>
+          <div class="guard-name"><h1>{{ violationReportsTotal }}</h1></div>
+        </div>
+        <div class="dashboard-item pending-reports-item hover-effect">
+          <h2 class="integral-font">Pending Reports</h2>
+          <div class="pending-reports-count"><h1>{{ pendingViolationReports }}</h1></div>
+        </div> 
       </div>
     </div>
-
-    <div class="dashboard-item reports-item hover-effect">
-      <h2 class="integral-font ">Violation Reports Today</h2>
-      <div class="reports-count"><h1>{{ violationReportsToday }}</h1></div>
-    </div>
-
-    <h1 class = "name-dashboard integral-font"> dashboard</h1>
-
-    <div class="dashboard-item guard-item hover-effect">
-      <h2 class="integral-font ">Total Violation</h2>
-      <div class="guard-name"><h1>{{ violationReportsTotal }}</h1></div>
-    </div>
-
-    <div class="dashboard-item pending-reports-item hover-effect">
-      <h2 class="integral-font">Pending Reports</h2>
-      <div class="pending-reports-count"><h1>{{ pendingViolationReports }}</h1></div>
-    </div> 
   </div>
-
-</div>
-</div>
-<div id="transparent"></div>
-<div id="OSAD">
-  <h1>OSAD</h1>
-</div>
-<div class="navigation">
-  <div class="overlay"></div>
-  <button class = "hamburger" @click="show()">
-    <div id="bar1" class="bar"></div>
-    <div id="bar2" class="bar"></div>
-    <div id="bar3" class="bar"></div>
-  </button>
-  <div id = "user">
-    <img src="../assets/user.png" id = "userIcon">
-    <span>{{  }}</span>
+  <div id="transparent"></div>
+  <div id="OSAD">
+    <h1>OSAD</h1>
   </div>
-  <nav>
-    <ul>
-      <div id="1st" @click = "showReports()">
-        <li><img src="../assets/bell.png" class = "icon4">
-          <a>Reports</a>
-      </li>
+  <div class="navigation">
+    <div class="overlay"></div>
+    <button class = "hamburger" @click="show()">
+      <div id="bar1" class="bar"></div>
+      <div id="bar2" class="bar"></div>
+      <div id="bar3" class="bar"></div>
+    </button>
+    <div id = "user">
+      <img src="../assets/user.png" id = "userIcon">
+      <span>{{  }}</span>
     </div>
-    <div id="2nd" @click = "showHome()">
-      <li><img src="../assets/homepage.png" class = "icon1">
-        <a>Home Page</a>
-      </li>
-    </div>
-    <div id="3rd" @click = "showSecurityAccounts()">
-      <li><img src="../assets/securityAccount.png" class = "icon2">
-        <a>Security Accounts</a>
-      </li>
-    </div>
-    <div id="4th"@click="showViolations()">
-      <li><img src="../assets/clock.png" class = "icon3">
-        <a>Violation Tracker</a>
-      </li>
-    </div>
-    <div id="5th" @click="showPopup()">
-      <li><img src="../assets/logout.png" class = "icon5">
-        <a>Log Out</a>
-      </li>
-    </div>
-  </ul>
-</nav>
-</div>
+    <nav>
+      <ul>
+        <div id="1st" @click = "showReports()">
+          <li><img src="../assets/bell.png" class = "icon4"><a>Reports</a></li>
+        </div>
+        <div id="2nd" @click = "showHome()">
+          <li><img src="../assets/homepage.png" class = "icon1"><a>Home Page</a></li>
+        </div>
+        <div id="3rd" @click = "showSecurityAccounts()">
+          <li><img src="../assets/securityAccount.png" class = "icon2"><a>Security Accounts</a></li>
+        </div>
+        <div id="4th"@click="showViolations()">
+          <li><img src="../assets/clock.png" class = "icon3"><a>Violation Tracker</a></li>
+        </div>
+        <div id="5th" @click="showPopup()">
+          <li><img src="../assets/logout.png" class = "icon5"><a>Log Out</a></li>
+        </div>
+      </ul>
+    </nav>
+  </div>
 </div>
 <div v-if="violationsPage" @close="closeContentPage">
   <Violations @handleViolationsPageClose="handleViolationsPageClose" />
@@ -96,14 +80,14 @@
   <Reports @handleReportClose="handleReportClose" />
 </div>
 <div v-if="Popup" @close="closeContentPage">
-  <popup @handlePopupClose="handlePopupClose"/>
+  <Popup @handlePopupClose="handlePopupClose"/>
 </div>
 <bg/>
 </template>
 
 <script>
 import bg from "../components/Background.vue";
-import Popup from '../components/Popup.vue';
+import Popup from '../components/LogOutOSAD.vue';
 import Violations from '../components/Violations.vue';
 import SecurityAccounts from "../components/SecurityAccounts.vue";
 import Reports from "../components/Reports.vue";
@@ -123,10 +107,6 @@ export default {
       currentTime: this.getCurrentTime(),
       violationReportsTotal:'',
       isLoaded: false,
-      weather: {
-        temperature: 0,
-        condition: '',
-      },
     }
   },
   methods: {

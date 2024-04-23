@@ -54,4 +54,20 @@ def delete_pending(pReportID: int, db: Session = Depends(get_db)):
         return {"message": "Deleted"}
     raise HTTPException(status_code=404, detail="Not found")
 
+
+@router.put("/pendingUpdate/{pReportID}")
+def update_pending(pReportID: int, violation: str, venue: str, sanction: str, status: str, guard: str, db: Session = Depends(get_db)):
+    update = db.query(PendingViolationDetails).filter(PendingViolationDetails.pReportID == pReportID).first()
+    if update:
+        update.violation = violation
+        update.venue = venue
+        update.sanction = sanction
+        update.status = status
+        update.guard = guard
+        db.commit()
+        return {"message": "Updated"}
+    print(f"Did not find record with pReportID {pReportID}")
+    raise HTTPException(status_code=404, detail="Not found")
+
+
     
