@@ -91,6 +91,9 @@ export default {
   mounted() {
     this.fetchData();
   },
+  created() {
+    this.fetchData();
+  },
   methods: {
     toggleExpansion() {
       document.querySelector('.violation-list-container').classList.toggle('expanded')
@@ -171,9 +174,7 @@ export default {
       });
     },
     approve() {
-      console.log("Approve");
       const formData = {
-        pReportID: this.selectedReport.pReportID,
         studentID: this.selectedReport.studentID,
         dateTime: this.selectedReport.dateTime,
         violation: this.selectedReport.violation,
@@ -188,15 +189,17 @@ export default {
           return;
         }
       }
+      console.log(formData);
       const params = new URLSearchParams(formData).toString();
-      axios.post(`http://http://127.0.0.1:8000/violationDetailsPost/${params}`)
-      .then((response) => {
-        console.log(response.data);
-        this.reportDeleted = true;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      axios.post(`http://127.0.0.1:8000/violationDetailsPost?${params}`)
+        .then((response) => {
+          console.log(response.data);
+          this.deleteReport();
+          this.reportDeleted = true;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     closePop() {
       this.editedReport = null;

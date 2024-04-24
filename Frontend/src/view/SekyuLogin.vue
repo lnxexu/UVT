@@ -1,26 +1,44 @@
 <script>
 import bg from "../components/Background.vue"
-import AuthenticationService from "../store.js"
-
-export default{
-    name: 'OSADLogin',
-    components: {bg},
-    data() {
+import axios from 'axios';
+export default {
+  data() {
     return {
-      username: '',
+      email: '',
       password: '',
+      error: null
     };
   },
+  components: { bg },
   methods: {
-    authenticate() {
-      if (AuthenticationService.login(this.username, this.password)) {
-        this.$router.push({ name: 'SekyuPage' });
-      } 
-      else {
-        alert('Authentication failed');
+    login() {
+      const formData = {
+        email: this.email,
+        password: this.password
+      };
+      for (let key in formData) {
+        if (!formData[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
       }
-    },
-  },
+      console.log(formData);
+      const params = new URLSearchParams(formData).toString();
+      axios.get(`http://127.0.0.1:8000/sekyuUsers/verify/?${params}`)
+      .then(response => {
+        console.log(response);
+        if (response.data.email === this.email && response.data.password === this.password) {
+          this.$router.push('SekyuPage');
+        } else {
+          this.error = "Invalid email or password";
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        this.error = "Invalid email or password";
+      });
+    }
+  }
 };
 </script>
 
@@ -33,7 +51,7 @@ export default{
         <hr>
         <div class="form-group">
           <label for="email">Email:</label>
-          <input type="text" id="email" class="size" pattern="^[a-zA-Z0-9]+@gmail\.com$" v-model="username" required/>
+          <input type="text" id="email" class="size" pattern="^[a-zA-Z0-9]+@gmail\.com$" v-model="email" required/>
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
@@ -44,7 +62,7 @@ export default{
           <p>Forgot your password?<a href="/ForgotPasswordSecurity">Click Here</a></p>
         </div>
       </div>
-      <button id="login-button" class="raise" @click = "authenticate()">LOG IN</button>
+      <button id="login-button" class="raise" @click = "login()">LOG IN</button>
     </div>
   </div>
 </div>

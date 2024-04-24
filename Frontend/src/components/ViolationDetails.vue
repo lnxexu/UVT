@@ -11,8 +11,8 @@
           <th>Venue</th>
           <th>Status</th>
           <th>Sanctions</th>
-          <th>Violation ID</th>
-          <th>Guard ID</th>
+          <th>Violation</th>
+          <th>Guard</th>
         </tr>
       </thead>
       <tbody>
@@ -22,9 +22,9 @@
           <td>{{ selectedViolation.dateTime }}</td>
           <td>{{ selectedViolation.venue }}</td>
           <td>{{ selectedViolation.status }}</td>
-          <td>{{ selectedViolation.sanctions }}</td>
-          <td>{{ selectedViolation.violationID }}</td>
-          <td>{{ selectedViolation.guardID }}</td>
+          <td>{{ selectedViolation.sanction }}</td>
+          <td>{{ selectedViolation.violation }}</td>
+          <td>{{ selectedViolation.guard }}</td>
         </tr>
       </tbody>
     </table>

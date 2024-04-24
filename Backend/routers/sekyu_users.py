@@ -10,9 +10,12 @@ def read_users(db: Session = Depends(get_db)):
     users = db.query(SekyuAccount).all()
     return users
 
-@router.get("/sekyuUsers/{user_id}", response_model=dict)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(SekyuAccount).filter(SekyuAccount.id == user_id).first()
+# get method to verify in the log in page that the account exists using the email and password
+# email has to have "@" 
+@router.get("/sekyuUsers/verify")
+async def verify_user(email: str, password: str, db: Session = Depends(get_db)):
+    user = db.query(SekyuAccount).filter(SekyuAccount.email == email).first()
     if user:
-        return {"id": user.id, "username": user.username}
+        if user.password == password:
+            return user
     raise HTTPException(status_code=404, detail="User not found")

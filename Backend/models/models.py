@@ -52,7 +52,7 @@ class ViolationDetails(Base):
     dateTime = Column(DateTime)
     venue = Column(String)
     status = Column(Integer)
-    sanctions = Column(String)
+    sanction = Column(String)
     studentID = Column(Integer)
     violation = Column(String)
     guard = Column(String)
@@ -131,10 +131,10 @@ class ViolationDetailsInfo(BaseModel):
     dateTime: datetime 
     venue: str
     status: str
-    sanctions: str
+    sanction: str
     studentID: int
     violationID: int
-    guardID: int
+    guard: str
 
 class PendingViolationDetailsInfo(BaseModel):
     pReportID: int

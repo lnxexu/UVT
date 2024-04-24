@@ -10,7 +10,7 @@
         <input id = "search" type="text" v-model="student_id" placeholder="Search Student" />
         <!-- make a span that will show after the button is clicked if the student is existing in the database  -->
         <button id= "submit"@click="fetchData()">Submit</button>
-        <span id="studentExists"v-if="studentExists">Student does not exist in the database.</span>
+        <span id="studentExists"v-if="studentExists">Student does not have any violations or exist in the database.</span>
       </div>
       <ul>
         <li v-for="(violation, index) in violations" :key="index" @click="showViolationDetails(violation)">
@@ -21,7 +21,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import ViolationDetails from './ViolationDetails.vue';

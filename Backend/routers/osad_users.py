@@ -6,29 +6,25 @@ from typing import List
 
 router = APIRouter(tags=["OSAD"])
 
-@router.get("/OSADusers")
-def read_users(db: Session = Depends(get_db)):
+# get method to get all the accounts in the database
+@router.get("/OSADusers", response_model=List[OSADAccount])
+async def get_all_users(db: Session = Depends(get_db)):
     users = db.query(OSADAccount).all()
     return users
-
-@router.get("/OSADusers/{user_id}", response_model=dict)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(OSADAccount).filter(OSADAccount.id == user_id).first()
+    
+# get method to verify in the log in page that the account exists using the email and password
+@router.get("/OSADusers/verify" )
+async def verify_user(email: str, password: str, db: Session = Depends(get_db)):
+    user = db.query(OSADAccount).filter(OSADAccount.email == email).first()
     if user:
-        return {"id": user.id, "name":user.fullname}
+        if user.password == password:
+            return user
     raise HTTPException(status_code=404, detail="User not found")
 
-@router.post("/OSADusers/add", response_model=dict)
-async def create_user(fullName: str, email: str, password: str, age: int, suffix: str, gender: str, db: Session = Depends(get_db)):
-    # Hash the password using bcrypt
-    hashed_password = password
-
-    try:
-        new_user = OSADAccount(fullname=fullName, email=email, age=age, suffix=suffix, gender=gender, password=hashed_password)
-        db.add(new_user)
-        db.commit()
-        db.refresh(new_user)
-        return {"id": new_user.id}
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=str(e))
+# post method to create a new account consisting of full name, suffix, gender, age, email, password, and phone number
+@router.post("/OSADusersAddAccount")
+async def add_account(account: OSADAccount, db: Session = Depends(get_db)):
+    db.add(account)
+    db.commit()
+    db.refresh(account)
+    return account

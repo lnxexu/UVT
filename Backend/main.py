@@ -4,6 +4,7 @@ from models.models import Base
 from routers import admin, exception, school_rules, security_guard, student, violation, violation_details, osad_users, sekyu_users,pending
 from fastapi.middleware.cors import CORSMiddleware
 from models.models import Base
+from sqlalchemy.exc import IntegrityError   
 
 app = FastAPI()
 
