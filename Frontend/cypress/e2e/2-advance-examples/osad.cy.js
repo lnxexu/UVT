@@ -12,9 +12,30 @@ describe('OSAD Hamburger Features', () => {
     cy.visit('http://localhost:5173/OSAD')
     cy.get('button.hamburger').click()
     cy.get('div#1st').click()
+    cy.get('.main-content > ul > :nth-child(1)').click()
     cy.request('GET','http://127.0.0.1:8000/pending').then((response)=>{
         expect(response.status).to.eq(200)
         expect(response.body).to.have.length.above(0)
+      })
+  }),
+  it('Post from pending reports to violation details', () => {
+    cy.viewport(1920, 1080)
+    cy.visit('http://localhost:5173/OSAD')
+    cy.get('button.hamburger').click()
+    cy.get('div#1st').click()
+    cy.get('.main-content > ul > :nth-child(1)').click()
+    cy.get('#editButton').click()
+    cy.get(':nth-child(7) > .input').type('UIC Bangke')
+    cy.get(':nth-child(8) > .input').type('One week suspention')
+    cy.get(':nth-child(9) > .input').type('Approved')
+    cy.get(':nth-child(10) > .input').type('None')
+    cy.get('#save').click()
+    cy.get('#yes').click()
+    cy.request('GET','http://127.0.0.1:8000/pending').then((response)=>{
+        expect(response.status).to.eq(200)
+        expect(response.body).to.have.length.above(0)
+    
+
       })
   }),
   it('GET back to homepage', () => {
