@@ -4,9 +4,10 @@
     <a href="#" class="w3-bar-item w3-button w3-wide">UVT</a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
-      <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
+      <a href="#about" class="w3-bar-item w3-button"><i class="fa fa-comment"></i> ABOUT</a>
       <a href="#team" class="w3-bar-item w3-button"><i class="fa fa-user"></i> TEAM</a>
       <a href="#work" class="w3-bar-item w3-button"><i class="fa fa-th"></i> PROTOTYPE</a>
+      <a href="#signup" class="w3-bar-item w3-button"><i class="fa fa-sign-in"></i> SIGNUP</a>
       <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
     </div>
     <!-- Hide right-floated links on small screens and replace them with a menu icon -->
@@ -23,7 +24,7 @@
   <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
   <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">TEAM</a>
   <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">PROTOTYPE</a>
-  <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">PRICING</a>
+  <a href="#signup" onclick="w3_close()" class="w3-bar-item w3-button">SIGNUP</a>
   <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
 </nav>
 
@@ -140,16 +141,132 @@
   <p class="w3-center w3-large">Note: Username: "demo", Password: "password"</p>
 
   <div class="w3-row-padding" style="margin-top:64px">
-    <div style="display: flex; justifyContent: space-evenly; height: 300px">
+    <div style="display: flex; justify-content: space-evenly; height: 300px">
       <div class = "option one"><router-link to="/SekyuLogin"><button class="button-57 Sekyu" role="button" ><span class="text">Security Page</span><span>Security Page</span></button></router-link></div>
       <div class = "option two"><router-link to = "/OSADLogin"><button class="button-57 OSAD" role="button"><span class="text">OSAD</span><span>OSAD</span></button></router-link></div>
     </div>
   </div>
 </div>
 
+<!-- Signup Section -->
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="signup">
+  <h3 class="w3-center">SIGNUP</h3>
+  <p class="w3-center w3-large">Sign up to obtain an account</p>
+  <div class="w3-row-padding w3-half" style="margin-top:64px">
+    <h4><strong>For Security Guards</strong></h4>
+    <div class="w3-half">
+      <p>First Name:</p>
+      <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstNameSekyu">
+    </div>
+    <div class="w3-half">
+      <p>Last Name:</p>
+      <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameSekyu">
+    </div>
+    <div class="w3-half">
+      <p>Suffix:</p>
+      <select class="w3-select w3-border" name="option" v-model="suffixSekyu">
+        <option value="" disabled selected>Choose your option</option>
+        <option value="None" placeholder="None"></option>
+        <option value="Jr.">Jr.</option>
+        <option value="Sr.">Sr.</option>
+        <option value="III">III</option>
+        <option value="IV">IV</option>
+        <option value="V">V</option>
+      </select>
+    </div>
+    <div class="w3-half">
+      <p>Age:</p>
+      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageSekyu">
+    </div>
+    <div class="w3-third">
+      <p>Gender:</p>
+      <select class="w3-select w3-border" name="option" v-model="genderSekyu">
+        <option value="" disabled selected>Choose your option</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+    <div class="w3-third">
+      <p>Contact Number:</p>
+      <input class="w3-input w3-border" type="email" placeholder="Email" v-model="contactSekyu">
+    </div>
+    <div class="w3-third">
+      <p>Email:</p>
+      <input class="w3-input w3-border" type="email" placeholder="Email" v-model="emailSekyu">
+    </div>
+    <div class="w3-half">
+      <p>Password:</p>
+      <input class="w3-input w3-border" type="password" placeholder="Password" v-model="passwordSekyu">
+    </div>
+    <div class="w3-half">
+      <p>Confirm Password:</p>
+      <input class="w3-input w3-border" type="password" placeholder="Confirm Password" v-model="confirmPasswordSekyu">
+    </div>
+    <div class="w3-col">
+      <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataSekyu()"><i class="fa fa-paper-plane"></i> SUBMIT</button>
+    </div>
+    
+  </div>
+  <div class="vl"></div>
+  <div class=" w3-row-padding w3-half"  style="margin-top:64px">
+    <h4><strong>For OSAD Staffs</strong></h4>
+    <div class="w3-half">
+      <p>First Name:</p>
+      <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstNameOSAD">
+    </div>
+    <div class="w3-half">
+      <p>Last Name:</p>
+      <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameOSAD">
+    </div>
+    <div class="w3-half">
+      <p>Suffix:</p>
+      <select class="w3-select w3-border" name="option" v-model="suffixOSAD">
+        <option value="" disabled selected>Choose your option</option>
+        <option value="None" placeholder="None"></option>
+        <option value="Jr.">Jr.</option>
+        <option value="Sr.">Sr.</option>
+        <option value="III">III</option>
+        <option value="IV">IV</option>
+        <option value="V">V</option>
+      </select>
+    </div>
+    <div class="w3-half">
+      <p>Age:</p>
+      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageOSAD">
+    </div>
+    <div class="w3-third">
+      <p>Gender:</p>
+      <select class="w3-select w3-border" name="option" v-model="genderOSAD">
+        <option value="" disabled selected>Choose your option</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+    <div class="w3-third">
+      <p>Contact Number:</p>
+      <input class="w3-input w3-border" type="email" placeholder="Email" v-model="contactOSAD">
+    </div>
+    <div class="w3-third">
+      <p>Email:</p>
+      <input class="w3-input w3-border" type="email" placeholder="Email" v-model="emailOSAD">
+    </div>
+    <div class="w3-half">
+      <p>Password:</p>
+      <input class="w3-input w3-border" type="password" placeholder="Password" v-model="passwordOSAD">
+    </div>
+    <div class="w3-half">
+      <p>Confirm Password:</p>
+      <input class="w3-input w3-border" type="password" placeholder="Confirm Password" v-model="confirmPasswordOSAD">
+    </div>
+    <div class="w3-col">
+      <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataOSAD()"><i class="fa fa-paper-plane"></i> SUBMIT</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- Contact Section -->
-<div class="w3-container w3-light-grey" style="padding:128px 16px" id="contact">
+<div class="w3-container" style="padding:128px 16px" id="contact">
   <h3 class="w3-center">CONTACT</h3>
   <p class="w3-center w3-large">Lets get in touch. Send us a message:</p>
   <div style="margin-top:48px">
@@ -162,11 +279,7 @@
       <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
       <p><input class="w3-input w3-border" type="text" placeholder="Subject" required name="Subject"></p>
       <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p>
-        <button class="w3-button w3-black" type="submit">
-          <i class="fa fa-paper-plane"></i> SEND MESSAGE
-        </button>
-      </p>
+      <p><button class="w3-button w3-black" type="submit" @click="postSignupData"><i class="fa fa-paper-plane"></i> SEND MESSAGE</button></p>
     </form>
   </div>
 </div>
@@ -187,11 +300,31 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       buttonText: "Click me",
       buttonClass: "minimal-button",
+      firstNameSekyu: "",
+      lastNameSekyu: "",
+      suffixSekyu: "",
+      genderSekyu: "",
+      ageSekyu: "",
+      contactSekyu: "",
+      emailSekyu: "",
+      passwordSekyu: "",
+      confirmPasswordSekyu: "",
+      firstNameOSAD: "",
+      lastNameOSAD: "",
+      suffixOSAD: "",
+      genderOSAD: "",
+      ageOSAD: "",
+      contactOSAD: "",
+      emailOSAD: "",
+      passwordOSAD: "",
+      confirmPasswordOSAD: "",
     };
   },
   methods: {
@@ -200,6 +333,107 @@ export default {
       this.$refs.img01.src = element.src;
       this.$refs.modal01.style.display = "block";
       this.$refs.caption.innerHTML = element.alt;
+    },
+    validateFormOSAD(){
+      if (this.passwordOSAD !== this.confirmPasswordOSAD) {
+        alert("Passwords do not match");
+        return;
+      }
+      if (!this.emailOSAD.includes("@") || !this.emailOSAD.includes(".")) {
+        alert("Invalid email");
+        return;
+      }
+      if (isNaN(this.ageOSAD)) {
+        alert("Age must be a number");
+        return;
+      }
+      if (isNaN(this.contactOSAD) || this.contactOSAD.length !== 11 || !this.contactOSAD.startsWith("09")) {
+        alert("Invalid contact number");
+        return;
+      }
+
+    },
+    validateFormSekyu() {
+      if (this.passwordSekyu !== this.confirmPasswordSekyu) {
+        alert("Passwords do not match");
+        return;
+      }
+      if (!this.emailSekyu.includes("@") || !this.emailSekyu.includes(".")) {
+        alert("Invalid email");
+        return;
+      }
+      if (isNaN(this.ageSekyu)) {
+        alert("Age must be a number");
+        return;
+      }
+      if (isNaN(this.contactSekyu) || this.contactSekyu.length !== 11 || !this.contactSekyu.startsWith("09")) {
+        alert("Invalid contact number");
+        return;
+      }
+    },
+    getFullName(firstName, lastName) {
+      return firstName + " " + lastName;
+    },
+    
+    async postSignupDataSekyu() {
+      this.validateFormSekyu();
+      const fullNameSekyu = this.getFullName(this.firstNameSekyu, this.lastNameSekyu);
+
+      const dataSekyu = {
+        fullName: fullNameSekyu,
+        suffix: this.suffixSekyu,
+        age: this.ageSekyu,
+        gender: this.genderSekyu,
+        contact: this.contactSekyu,
+        email: this.emailSekyu,
+        password: this.passwordSekyu,
+      };
+     
+      for (let key in dataSekyu) {
+        if (!dataSekyu[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
+      }
+
+      const params = new URLSearchParams(dataSekyu).toString();
+      axios.post(`http://127.0.0.1:8000/sekyuUsersAddAccount?${params}`)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      
+    },
+
+    async postSignupDataOSAD() {
+      this.validateFormOSAD();
+      const fullNameOSAD = this.getFullName(this.firstNameOSAD, this.lastNameOSAD);
+      const dataOSAD = {
+        fullName: fullNameOSAD,
+        suffix: this.suffixOSAD,
+        age: this.ageOSAD,
+        gender: this.genderOSAD,
+        contact: this.contactOSAD,
+        email: this.emailOSAD,
+        password: this.passwordOSAD,
+      };
+      for (let key in dataOSAD) {
+        if (!dataOSAD[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
+      }
+      // Convert formData to query parameters
+      const params = new URLSearchParams(dataOSAD).toString();
+      axios.post(`http://127.0.0.1:8000/OSADusersAddAccount?${params}`)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     closeModal() {
       this.$refs.modal01.style.display = "none";
@@ -220,6 +454,7 @@ export default {
 @import url('https://www.w3schools.com/w3css/4/w3.css');
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
 
 
 body,h1,h2,h3,h4,h5,h6,span {font-family:"Raleway", sans-serif}
@@ -307,47 +542,44 @@ body, html {
   transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
 }
 .team-member {
-    width: 350px;
-    height: 400px; 
-    overflow: hidden;
-     transition: transform 0.3s ease;
-  }
-
-  .team-member img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .team-member:hover {
-    transform: scale(1.05); 
-  }
-  .option{
-    width: 40%;
-    height: 100%;
-    border: #18181a 1px solid;
-    border-radius: 20px;
-  }
-  .option .Sekyu{
-    position: relative;
-    top: 44%;
-    left: 40%;
-  }
-  .option .OSAD{
-    position: relative;
-    top: 44%;
-    left: 46%;
-  }
-  .one{
-    background-image: url('../assets/Sekyu.PNG');
-    background-size: cover;
-  }
-  .two{
-    background-image: url('../assets/OSAD.PNG');
-    background-size: cover;
-  }
-
-  .one,
-.two {
+  width: 350px;
+  height: 400px; 
+  overflow: hidden;
+  transition: transform 0.3s eas
+}
+.team-member img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.team-member:hover {
+  transform: scale(1.05); 
+}
+.option{
+  width: 40%;
+  height: 100%;
+  border: #18181a 1px solid;
+  border-radius: 20px;
+}
+.option .Sekyu{
+  position: relative;
+  top: 44%;
+   left: 40%;
+}
+.option .OSAD{
+  position: relative;
+  top: 44%;
+  left: 46%;
+}
+.one{
+  background-image: url('../assets/Sekyu.PNG');
+  background-size: cover;
+}
+.two{
+  background-image: url('../assets/OSAD.PNG');
+  background-size: cover;
+}
+.one,.two {
   position: relative;
   background-size: cover;
   transition: filter 0.5s ease, transform 0.5s ease; /* Adding transition for filter and transform */
@@ -377,9 +609,13 @@ body, html {
   background: rgba(0, 0, 0, 0.5); /* Transition to semi-transparent black on hover */
 }
 
-/* Other styles for .one and .two can go here */
-
-/* Other styles for .one and .two can go here */
+.vl {
+  border-left: 6px solid rgb(0, 0, 0);
+  height: 500px;
+  position: absolute;
+  left: 50%;
+  margin-left: -3px;
+}
 
 
 </style>

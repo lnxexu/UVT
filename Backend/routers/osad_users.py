@@ -7,7 +7,7 @@ from typing import List
 router = APIRouter(tags=["OSAD"])
 
 # get method to get all the accounts in the database
-@router.get("/OSADusers", response_model=List[OSADAccount])
+@router.get("/OSADusers", response_model=List[OSADAccInfo])
 async def get_all_users(db: Session = Depends(get_db)):
     users = db.query(OSADAccount).all()
     return users
@@ -23,8 +23,12 @@ async def verify_user(email: str, password: str, db: Session = Depends(get_db)):
 
 # post method to create a new account consisting of full name, suffix, gender, age, email, password, and phone number
 @router.post("/OSADusersAddAccount")
-async def add_account(account: OSADAccount, db: Session = Depends(get_db)):
-    db.add(account)
+async def add_account(fullName: str, email: str, gender: str, age:int, suffix: str, password: str, db: Session = Depends(get_db)):
+    user = OSADAccount(fullName = fullName,email=email, password = password, gender = gender, age = age, suffix = suffix)
+    db.add(user)
     db.commit()
-    db.refresh(account)
-    return account
+    db.refresh(user)
+    return user
+
+                       
+

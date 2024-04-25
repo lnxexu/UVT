@@ -75,7 +75,7 @@ class OSADAccount(Base):
     __tablename__ = "osadacc"
     id = Column(Integer, primary_key=True, index=True)
     password = Column(String)
-    fullname = Column(String)   
+    fullName = Column(String)   
     email = Column(String)
     age = Column(Integer)
     suffix = Column(String)
@@ -86,7 +86,7 @@ class SekyuAccount(Base):
     id = Column(Integer, primary_key=True, index=True)
     password = Column(String)
     email = Column(String)
-    fullname = Column(String)
+    fullName = Column(String)
     gender = Column(String)
     age = Column(Integer)
     suffix = Column(String)
