@@ -22,7 +22,6 @@ export default {
           return;
         }
       }
-      console.log(formData);
       const params = new URLSearchParams(formData).toString();
       axios.get(`http://127.0.0.1:8000/sekyuUsers/verify/?${params}`)
       .then(response => {
@@ -58,7 +57,7 @@ export default {
           <input type="password" id="password" class="size" v-model="password" required/>
         </div>
         <div id="signup">
-          <p>Don't have an account?<a href="/SignUpSecurity">Sign Up</a></p>
+          <p>Don't have an account?<a href="/#signup">Sign Up</a></p>
           <p>Forgot your password?<a href="/ForgotPasswordSecurity">Click Here</a></p>
         </div>
       </div>
@@ -89,10 +88,11 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center; 
-  background-image: url("../assets/UVTBanner.png");
+  background-image: url("../assets/LogInPage.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position-y: 45%;
+  height: 100vh;
 }
 #signup, p, label,h1{
   position: relative;
@@ -160,8 +160,8 @@ button {
   padding: 1em 2em;
   border-radius: 10px;
   position: fixed;
-  left: 76%;
-  top: 62%;
+  left: 47%;
+  top: 80%;
 }
 
 
@@ -172,13 +172,14 @@ button:focus {
 }
 .shadow-box {
   position: relative;
-  top: 25%;
-  left: 30%;
-  width: 25%;
-  height: 50%;
+  top: 45%;
+  left: 0%;
+  width: 37%;
+  height: 47%;
   background-color: #ffffff;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7); 
-
+  border-radius: 10px;
+  
 }
 
 .size {

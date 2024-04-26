@@ -5,9 +5,9 @@
 <div class = "OSAD-container">
   <div id="OSADcontainer">
     <div id="logoStack">
-      <img src="../assets/logoUVT1.png" alt="logo" />
-      <img src="../assets/logoUVT1.png" alt="logo" />
-      <img src="../assets/logoUVT1.png" alt="logo" />
+      <img id="firstpic" src="../assets/UVT.png" alt="logo" />
+      <img id="secondpic" src="../assets/UVT.png" alt="logo" />
+ 
     </div>
     <div class = "dashboard">
       <div class="dashboard-container">
@@ -236,7 +236,7 @@ export default {
 }
 #OSADcontainer {
   width: 100%; 
-  height: 73%; 
+  height: 70%; 
   background-color:black;
   position: absolute;
   top: 55.5%; 
@@ -252,7 +252,7 @@ export default {
   width: 100%; 
   margin: 2% 0;
   position: relative;
-  left: 0%;
+  right: 0;
   top: 0;
   opacity: 50%;
   border: #CE2774 5px solid;
@@ -535,6 +535,16 @@ hr{
   opacity: 0;
 }     
 
+#firstpic{
+  position: fixed;
+  left: 0.2%;
+  height: 87.5%;
+}
+#secondpic{
+  position: fixed;
+  right: 0.2%;
+  height: 87.5%;
+}
 
 </style>
 

@@ -61,6 +61,7 @@
         </div>
       </div>
       <p v-if="reportDeleted">Report has been deleted.</p>
+      
     </div>
   </div>
 </div>
@@ -227,6 +228,8 @@ export default {
   left: 0;
   top: 0;
 }
+
+
 
 ul {
   list-style-type: none;

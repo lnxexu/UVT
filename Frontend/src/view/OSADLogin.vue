@@ -51,6 +51,7 @@ export default {
     <div id="forms" >
       <hr>
     <div class="form-group">
+
       <label for="email">Email: </label>
       <input type="text" id="email" class="size" pattern="^[a-zA-Z0-9]+@gmail\.com$" v-model="email" autocomplete="off" required/>
     </div>
@@ -59,7 +60,8 @@ export default {
       <input type="password" id="password" class="size" v-model="password" required />
     </div>
     <div id="signup">
-      <p>Don't have an account? <a href="/SignUpOSAD">Sign Up</a></p>
+      <p>Don't have an account? <a href="/#signup">Sign Up</a></p>
+      <p>Forgot your password?<a href="/ForgotPasswordSecurity">Click Here</a></p>
     </div>
   </div>
   <button id="login-button" class="raise" type = "submit" @click="login()">LOG IN</button>
@@ -88,9 +90,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center; 
-  background-image: url("../assets/UVTBanner.png");
+  background-image: url("../assets/LogInPage.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  height: 100vh;
   background-position-y: 45%;
 }
 #signup, p, label,h1{
@@ -159,8 +162,8 @@ button {
   padding: 1em 2em;
   border-radius: 10px;
   position: fixed;
-  left: 76%;
-  top: 62%;
+  left: 47%;
+  top: 80%;
 }
 
 
@@ -171,12 +174,13 @@ button:focus {
 }
 .shadow-box {
   position: relative;
-  top: 25%;
-  left: 30%;
-  width: 25%;
-  height: 50%;
+  top: 45%;
+  left: 0%;
+  width: 37%;
+  height: 47%;
   background-color: #ffffff;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7); 
+  border-radius: 10px;
 
 }
 

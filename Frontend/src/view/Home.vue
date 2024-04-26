@@ -188,7 +188,7 @@
     </div>
     <div class="w3-third">
       <p>Contact Number:</p>
-      <input class="w3-input w3-border" type="email" placeholder="Email" v-model="contactSekyu">
+      <input class="w3-input w3-border" type="email" placeholder="Contact Number" v-model="contactSekyu">
     </div>
     <div class="w3-third">
       <p>Email:</p>
@@ -203,9 +203,17 @@
       <input class="w3-input w3-border" type="password" placeholder="Confirm Password" v-model="confirmPasswordSekyu">
     </div>
     <div class="w3-col">
-      <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataSekyu()"><i class="fa fa-paper-plane"></i> SUBMIT</button>
+      <button class="w3-button w3-black w3-section" type="submit" @click="modalOpen"><i class="fa fa-paper-plane"></i> SUBMIT</button>
     </div>
-    
+
+      <!-- create a popup that will confirm the input of the user -->
+      <div id="myModal" class="modal" v-if="modal">
+        <div class="modal-content">
+          <span class="close" @click="closeModal()">&times;</span>
+          <p>Are you sure you want to submit?</p>
+          <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataSekyu()"><i class="fa fa-paper-plane"></i> SUBMIT</button>
+        </div>
+    </div>
   </div>
   <div class="vl"></div>
   <div class=" w3-row-padding w3-half"  style="margin-top:64px">
@@ -244,7 +252,7 @@
     </div>
     <div class="w3-third">
       <p>Contact Number:</p>
-      <input class="w3-input w3-border" type="email" placeholder="Email" v-model="contactOSAD">
+      <input class="w3-input w3-border" type="email" placeholder="Contact Number" v-model="contactOSAD">
     </div>
     <div class="w3-third">
       <p>Email:</p>
@@ -262,6 +270,7 @@
       <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataOSAD()"><i class="fa fa-paper-plane"></i> SUBMIT</button>
     </div>
   </div>
+
 </div>
 
 
@@ -325,15 +334,15 @@ export default {
       emailOSAD: "",
       passwordOSAD: "",
       confirmPasswordOSAD: "",
+      modal: false,
     };
   },
   methods: {
-    onClick(event) {
-      const element = event.target;
-      this.$refs.img01.src = element.src;
-      this.$refs.modal01.style.display = "block";
-      this.$refs.caption.innerHTML = element.alt;
+    modalOpen() {
+      this.modal = true;
+      console.log("nigga");
     },
+    
     validateFormOSAD(){
       if (this.passwordOSAD !== this.confirmPasswordOSAD) {
         alert("Passwords do not match");
@@ -376,6 +385,7 @@ export default {
     },
     
     async postSignupDataSekyu() {
+      console.log("nigga");
       this.validateFormSekyu();
       const fullNameSekyu = this.getFullName(this.firstNameSekyu, this.lastNameSekyu);
 
@@ -572,11 +582,11 @@ body, html {
   left: 46%;
 }
 .one{
-  background-image: url('../assets/Sekyu.PNG');
+  background-image: url('../assets/n1.PNG');
   background-size: cover;
 }
 .two{
-  background-image: url('../assets/OSAD.PNG');
+  background-image: url('../assets/n2.PNG');
   background-size: cover;
 }
 .one,.two {
@@ -617,5 +627,19 @@ body, html {
   margin-left: -3px;
 }
 
+
+/* Sidebar on small screens */
+@media screen and (max-width: 600px) {
+  .w3-sidebar {
+    height: 100%;
+    width: 100%;
+    background-color: #0D0D0D;
+    position: fixed;
+    z-index: 1;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+  }
+}
 
 </style>
