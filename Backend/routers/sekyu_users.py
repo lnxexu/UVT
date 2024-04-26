@@ -28,3 +28,9 @@ async def add_account(fullName: str, email: str, gender: str, age:int, suffix: s
     db.commit()
     db.refresh(user)
     return user
+
+
+
+
+
+

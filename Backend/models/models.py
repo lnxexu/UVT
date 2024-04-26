@@ -91,6 +91,13 @@ class SekyuAccount(Base):
     age = Column(Integer)
     suffix = Column(String)
 
+class TimeStamp(Base):
+    __tablename__ = "timestamplogin"
+    loginID = Column(Integer, primary_key=True, index=True)
+    dateAndTime = Column(DateTime)
+    username = Column(String)
+    email = Column(String)
+
 class AdministratorInfo(BaseModel):
     adminID: int 
     name: str
@@ -166,3 +173,10 @@ class SekyuAccInfo(BaseModel):
     age: int
     suffix: str
     gender: str
+
+class TimeStampInfo(BaseModel):
+    loginID: int
+    dateAndTime: datetime
+    username: str
+    email: str
+

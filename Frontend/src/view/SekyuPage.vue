@@ -26,7 +26,8 @@ export default {
       error4: false,
       error5: false,
       invalid: false,
-      responseData: null
+      responseData: null,
+      username: '',
     };
   },
   mounted() {
@@ -43,6 +44,8 @@ export default {
 
   },
   methods: {
+    // Get username form database
+   
     submitForm() {
       const formData = {
         name: this.name,
@@ -173,7 +176,7 @@ export default {
     </button>
     <div id="user">
       <img src="../assets/user.png" id="userIcon">
-      <span>USERNAME</span>
+      <span>{{ }}</span>
     </div>
     <nav>
       <ul>
@@ -249,8 +252,6 @@ export default {
     </div>
   </div>
 </div>
-
-
 
 <PopSekyu v-if="isPopupOpen1">
     <div class="popup-content">

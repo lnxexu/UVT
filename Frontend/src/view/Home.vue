@@ -203,17 +203,11 @@
       <input class="w3-input w3-border" type="password" placeholder="Confirm Password" v-model="confirmPasswordSekyu">
     </div>
     <div class="w3-col">
-      <button class="w3-button w3-black w3-section" type="submit" @click="modalOpen"><i class="fa fa-paper-plane"></i> SUBMIT</button>
+      <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataSekyu()"><i class="fa fa-paper-plane"></i> CREATE AN ACCOUNT</button>
     </div>
 
-      <!-- create a popup that will confirm the input of the user -->
-      <div id="myModal" class="modal" v-if="modal">
-        <div class="modal-content">
-          <span class="close" @click="closeModal()">&times;</span>
-          <p>Are you sure you want to submit?</p>
-          <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataSekyu()"><i class="fa fa-paper-plane"></i> SUBMIT</button>
-        </div>
-    </div>
+  
+    
   </div>
   <div class="vl"></div>
   <div class=" w3-row-padding w3-half"  style="margin-top:64px">
@@ -267,11 +261,11 @@
       <input class="w3-input w3-border" type="password" placeholder="Confirm Password" v-model="confirmPasswordOSAD">
     </div>
     <div class="w3-col">
-      <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataOSAD()"><i class="fa fa-paper-plane"></i> SUBMIT</button>
+      <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataOSAD()"><i class="fa fa-paper-plane"></i> CREATE AN ACCOUNT</button>
     </div>
   </div>
-
 </div>
+
 
 
 <!-- Contact Section -->
@@ -338,9 +332,9 @@ export default {
     };
   },
   methods: {
-    modalOpen() {
-      this.modal = true;
-      console.log("nigga");
+
+    closeModal() {
+      this.modal = false;
     },
     
     validateFormOSAD(){
@@ -379,14 +373,15 @@ export default {
         alert("Invalid contact number");
         return;
       }
+      alert("Are you sure do you want to create this account");
     },
     getFullName(firstName, lastName) {
       return firstName + " " + lastName;
     },
     
     async postSignupDataSekyu() {
-      console.log("nigga");
       this.validateFormSekyu();
+
       const fullNameSekyu = this.getFullName(this.firstNameSekyu, this.lastNameSekyu);
 
       const dataSekyu = {
@@ -642,4 +637,17 @@ body, html {
   }
 }
 
+#myModal{
+ 
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
 </style>
