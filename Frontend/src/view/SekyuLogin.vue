@@ -6,11 +6,31 @@ export default {
     return {
       email: '',
       password: '',
-      error: null
+      error: null,
+      username: '',
+      fullName: '',
+      timestampLogin: ''
     };
   },
   components: { bg },
+  mounted() {
+    this.timestamp();
+  },
   methods: {
+    //method for timestampLogin
+    timestamp() {
+      var dateTime = new Date();
+      var year = dateTime.getFullYear();
+      var month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
+      var day = ('0' + dateTime.getDate()).slice(-2);
+      var hours = dateTime.getHours();
+      var minutes = dateTime.getMinutes();
+      var seconds = dateTime.getSeconds();
+      hours = (hours < 10 ? "0" : "") + hours;
+      minutes = (minutes < 10 ? "0" : "") + minutes;
+      seconds = (seconds < 10 ? "0" : "") + seconds;
+      this.timestampLogin = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
     login() {
       const formData = {
         email: this.email,
@@ -19,6 +39,7 @@ export default {
       for (let key in formData) {
         if (!formData[key]) {
           console.error(`Missing value for ${key}`);
+          alert(`Missing value for ${key}`);
           return;
         }
       }
@@ -30,13 +51,44 @@ export default {
           this.$router.push('SekyuPage');
         } else {
           this.error = "Invalid email or password";
+          alert("Invalid email or password");
         }
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
         this.error = "Invalid email or password";
+        alert("Invalid email or password");
       });
-    }
+    },
+
+    postLogin() {
+      axios.get(`http://127.0.0.1:8000/sekyuUsers/searchUser/${this.email}`)
+      .then(response => {
+        this.username = response.data.fullName;
+        const formData1 = {
+          email: this.email,
+          fullName: this.username,
+          timestampLogin: this.timestampLogin
+        };
+        for (let key in formData1) {
+          if (!formData1[key]) {
+            console.error(`Missing value for ${key}`);
+            return;
+          }
+        }
+        const params1 = new URLSearchParams(formData1).toString();
+        axios.post(`http://127.0.0.1:8000/loginSekyu?${params1}`) 
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    },
   }
 };
 </script>
@@ -61,7 +113,7 @@ export default {
           <p>Forgot your password?<a href="/ForgotPasswordSecurity">Click Here</a></p>
         </div>
       </div>
-      <button id="login-button" class="raise" @click = "login()">LOG IN</button>
+      <button id="login-button" class="raise" @click = "login(), postLogin()">LOG IN</button>
     </div>
   </div>
 </div>
@@ -73,27 +125,25 @@ export default {
   height: 100vh;
   width: 100%;
 }
-
 .Sekyu-login-container {
   width: 100%; 
-  height: 700px; 
+  height: 100vh; 
   background-color: #0D0D0D;
   color: white;
   position: absolute;
   top: 50%; 
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px;
-  border-radius: 10px;
+  padding: 2%;
+  border-radius: 1%;
   display: flex;
   flex-direction: column;
   align-items: center; 
   background-image: url("../assets/LogInPage.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position-y: 45%;
-  height: 100vh;
 }
+
 #signup, p, label,h1{
   position: relative;
   text-align: center;
@@ -132,6 +182,8 @@ h1{
   display: flex;
   flex-direction: column;
   color: #0D0D0D;
+  left: 20%;
+  width: 80%;
 }
 
 #login {
@@ -179,12 +231,58 @@ button:focus {
   background-color: #ffffff;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7); 
   border-radius: 10px;
-  
+
 }
 
 .size {
-  width: 25em;
+  width: 100%;
   height: 2.7em;
   border-radius: 7em;
 }
+
+
+
+/* For mobile phones */
+@media (max-width: 768px) {
+  .Sekyu-login-container {
+    padding: 1rem;
+    /* make the picture go center */
+    background-image: url("../assets/LogInPage.jpg");
+    background-repeat: no-repeat;
+    background-position-x: 47% ;
+
+  }
+
+  .shadow-box {
+    width: 95%;
+    height: 70%;
+  }
+
+  .size {
+    width: 95%;
+    height: 2.5em;
+  }
+
+  button {
+    left: 50%;
+    top: 90%;
+    transform: translateX(-50%);
+  }
+
+  h1 {
+    font-size: 1.2em;
+  }
+
+  .form-group {
+    font-size: 0.8em;
+    left: 10%;
+    width:90%;
+  }
+
+  .size {
+    width: 100%;
+    height: 2.5em;
+  }
+}
 </style>
+

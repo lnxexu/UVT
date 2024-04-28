@@ -28,9 +28,11 @@ export default {
       invalid: false,
       responseData: null,
       username: '',
+      imageUrl: null
     };
   },
   mounted() {
+    this.getUsername();
     this.updateDateTime();
     const visibilityDuration = 1000;
     setInterval(this.updateDateTime, 1000);
@@ -44,7 +46,26 @@ export default {
 
   },
   methods: {
-    // Get username form database
+    onFileChange(e) {
+      const file = e.target.files[0];
+      this.imageUrl = URL.createObjectURL(file);
+    },
+    getUsername() {
+      axios.get(`http://127.0.0.1:8000/loginSekyu`)
+        .then((response) => {
+          this.username = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    handlePopupClose(value) {
+      this.Popup = value;
+    },
+    showPopup(){
+      this.Popup = !this.Popup;
+    },
    
     submitForm() {
       const formData = {
@@ -176,7 +197,7 @@ export default {
     </button>
     <div id="user">
       <img src="../assets/user.png" id="userIcon">
-      <span>{{ }}</span>
+      <h2>sa</h2>
     </div>
     <nav>
       <ul>
@@ -185,7 +206,7 @@ export default {
             <a>Reports</a>
           </li>
         </div>
-        <div @click="">
+        <div @click="showPopup()">
           <li><img src="../assets/logout.png" class="icon5">
             <a>Log Out</a>
           </li>
@@ -199,7 +220,10 @@ export default {
   </div>
   <div id="container1">
     <div id="id">
-      <div id="image"></div>
+      <div class="image">
+        <input type="file" @change="onFileChange" accept="image/*" id="file" style="display: block;  position: fixed; top: 66%; left: 12.5%;">
+        <img class="image" v-if="imageUrl" :src="imageUrl">
+      </div>
       <div id="name">
         <h2 class="info">
           <input class = "stuInfo" v-model = 'name' readonly="readonly" />
@@ -281,8 +305,9 @@ export default {
     </div>
   </div>
 </PopSekyu>
+
 <div v-if="Popup" @close="closeContentPage">
-  <popup />
+  <Popup @handlePopupClose="handlePopupClose"/>
 </div>
 
 </template>
@@ -387,7 +412,7 @@ export default {
   width: 70%;
   border-radius: 5px;
 }
-#image{
+.image{
   background: rgb(255, 255, 255);
   border-radius: 50%;
   width: 22%;
@@ -397,6 +422,9 @@ export default {
   left: 7%;
   min-width: 400px;
   box-sizing: border-box;
+
+  object-fit: cover;
+
 }
 .form-control{
   position: fixed;

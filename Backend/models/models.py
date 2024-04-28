@@ -91,12 +91,18 @@ class SekyuAccount(Base):
     age = Column(Integer)
     suffix = Column(String)
 
-class TimeStamp(Base):
-    __tablename__ = "timestamplogin"
-    loginID = Column(Integer, primary_key=True, index=True)
-    dateAndTime = Column(DateTime)
-    username = Column(String)
+class LoginOSAD(Base):
+    __tablename__ = "loginOSAD"
+    timestampLogin = Column(Integer, primary_key=True, index=True)
     email = Column(String)
+    fullName = Column(String)
+
+class LoginSekyu(Base):
+    __tablename__ = "loginSekyu"
+    timestampLogin = Column(Integer, primary_key=True, index=True)
+    email = Column(String)
+    fullName = Column(String)
+
 
 class AdministratorInfo(BaseModel):
     adminID: int 
@@ -174,9 +180,14 @@ class SekyuAccInfo(BaseModel):
     suffix: str
     gender: str
 
-class TimeStampInfo(BaseModel):
-    loginID: int
-    dateAndTime: datetime
-    username: str
+class LoginInfoOSAD(BaseModel):
+    timestampLogin: int
     email: str
+    fullName: str
+
+class LoginInfoSekyu(BaseModel):
+    timestampLogin: int
+    email: str
+    fullName: str
+
 

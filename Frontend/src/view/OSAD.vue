@@ -47,7 +47,8 @@
     </button>
     <div id = "user">
       <img src="../assets/user.png" id = "userIcon">
-      <span>{{  }}</span>
+      <span id = "userSpan">{{ username }}</span>
+
     </div>
     <nav>
       <ul>
@@ -107,9 +108,20 @@ export default {
       currentTime: this.getCurrentTime(),
       violationReportsTotal:'',
       isLoaded: false,
+      username: '',
     }
   },
   methods: {
+    getUsername() {
+      axios.get(`http://127.0.0.1:8000/loginOSAD`)
+        .then((response) => {
+          this.username = response.data.fullName;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     handleReportClose(value) {
       this.Reports = value;
     },
@@ -188,6 +200,7 @@ export default {
     
   },
   mounted() {
+    this.getUsername();
     this.fetchTotalViolation();
     this.fetchPendingViolationReports();
     this.updateClock()
@@ -199,13 +212,14 @@ export default {
         container.classList.add("loaded");
       }
     }, visibilityDuration);
+    
   },
   
 };
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Integral+CF:wght@300;400;700&display=swap");
+
 .OSAD-container{
   overflow: hidden;
   padding: 0;
@@ -316,22 +330,32 @@ nav ul li a:hover::after {
 
 #user {
   position: relative;
-  top: 17%;
+  top: 13%;
+  left: 0%;
+  display: block;
+  height: 15%;
 }
 
 #userIcon {
-  position: relative;
-  left: 12%;
+  position:relative;
+  top: 17%;
+  left: 10%;
+  display: block;
+
 }
 
-span {
+#userSpan {
   position: relative;
-  left: 17%;
-  color: #FFF;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 30px;
-  font-style: normal;
+  top: 7%;
+  left: 13%;
+  display: flex;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
 }
+
+
+  
 
 .navigation ul li {
   color: white;

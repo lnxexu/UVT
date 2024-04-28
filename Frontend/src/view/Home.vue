@@ -133,12 +133,11 @@
 </div>
 
 
-
 <!-- Work Section -->
 <div class="w3-container" style="padding:128px 16px" id="work">
   <h3 class="w3-center">UVT PROTOTYPE</h3>
   <p class="w3-center w3-large">Choose if whether you are Security Guard or a OSAD staff</p>
-  <p class="w3-center w3-large">Note: Username: "demo", Password: "password"</p>
+  <p class="w3-center w3-large">Note: Username: "demo@gmail.com", Password: "password"</p>
 
   <div class="w3-row-padding" style="margin-top:64px">
     <div style="display: flex; justify-content: space-evenly; height: 300px">
@@ -156,17 +155,17 @@
     <h4><strong>For Security Guards</strong></h4>
     <div class="w3-half">
       <p>First Name:</p>
-      <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstNameSekyu">
+      <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstNameSekyu" required>
     </div>
     <div class="w3-half">
       <p>Last Name:</p>
-      <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameSekyu">
+      <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameSekyu" required>
     </div>
     <div class="w3-half">
       <p>Suffix:</p>
-      <select class="w3-select w3-border" name="option" v-model="suffixSekyu">
+      <select class="w3-select w3-border" name="option" v-model="suffixSekyu" required>
         <option value="" disabled selected>Choose your option</option>
-        <option value="None" placeholder="None"></option>
+        <option value="NULL">None</option>
         <option value="Jr.">Jr.</option>
         <option value="Sr.">Sr.</option>
         <option value="III">III</option>
@@ -176,11 +175,11 @@
     </div>
     <div class="w3-half">
       <p>Age:</p>
-      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageSekyu">
+      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageSekyu" required>
     </div>
     <div class="w3-third">
       <p>Gender:</p>
-      <select class="w3-select w3-border" name="option" v-model="genderSekyu">
+      <select class="w3-select w3-border" name="option" v-model="genderSekyu" required>
         <option value="" disabled selected>Choose your option</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
@@ -188,7 +187,7 @@
     </div>
     <div class="w3-third">
       <p>Contact Number:</p>
-      <input class="w3-input w3-border" type="email" placeholder="Contact Number" v-model="contactSekyu">
+      <input class="w3-input w3-border" type="tel" name="phone" pattern="^(09|\+639)\d{9}$" placeholder="Contact Number" v-model="contactSekyu" required>
     </div>
     <div class="w3-third">
       <p>Email:</p>
@@ -205,26 +204,23 @@
     <div class="w3-col">
       <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataSekyu()"><i class="fa fa-paper-plane"></i> CREATE AN ACCOUNT</button>
     </div>
-
-  
-    
   </div>
   <div class="vl"></div>
   <div class=" w3-row-padding w3-half"  style="margin-top:64px">
     <h4><strong>For OSAD Staffs</strong></h4>
     <div class="w3-half">
       <p>First Name:</p>
-      <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstNameOSAD">
+      <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstNameOSAD" required>
     </div>
     <div class="w3-half">
       <p>Last Name:</p>
-      <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameOSAD">
+      <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameOSAD" required >
     </div>
     <div class="w3-half">
       <p>Suffix:</p>
-      <select class="w3-select w3-border" name="option" v-model="suffixOSAD">
+      <select class="w3-select w3-border" name="option" v-model="suffixOSAD" required>
         <option value="" disabled selected>Choose your option</option>
-        <option value="None" placeholder="None"></option>
+        <option value="NULL">None</option>
         <option value="Jr.">Jr.</option>
         <option value="Sr.">Sr.</option>
         <option value="III">III</option>
@@ -234,11 +230,11 @@
     </div>
     <div class="w3-half">
       <p>Age:</p>
-      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageOSAD">
+      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageOSAD" required>
     </div>
     <div class="w3-third">
       <p>Gender:</p>
-      <select class="w3-select w3-border" name="option" v-model="genderOSAD">
+      <select class="w3-select w3-border" name="option" v-model="genderOSAD" required>
         <option value="" disabled selected>Choose your option</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
@@ -246,7 +242,7 @@
     </div>
     <div class="w3-third">
       <p>Contact Number:</p>
-      <input class="w3-input w3-border" type="email" placeholder="Contact Number" v-model="contactOSAD">
+      <input class="w3-input w3-border" type="tel" name="phone" pattern="^(09|\+639)\d{9}$" placeholder="Contact Number" v-model="contactOSAD" required>
     </div>
     <div class="w3-third">
       <p>Email:</p>
@@ -328,62 +324,73 @@ export default {
       emailOSAD: "",
       passwordOSAD: "",
       confirmPasswordOSAD: "",
-      modal: false,
+      showModal: false,
     };
   },
   methods: {
-
-    closeModal() {
-      this.modal = false;
-    },
-    
     validateFormOSAD(){
       if (this.passwordOSAD !== this.confirmPasswordOSAD) {
         alert("Passwords do not match");
-        return;
+        return "Passwords do not match";
       }
       if (!this.emailOSAD.includes("@") || !this.emailOSAD.includes(".")) {
         alert("Invalid email");
-        return;
+        return "Invalid email";
       }
       if (isNaN(this.ageOSAD)) {
         alert("Age must be a number");
-        return;
+        return "Age must be a number";
       }
       if (isNaN(this.contactOSAD) || this.contactOSAD.length !== 11 || !this.contactOSAD.startsWith("09")) {
         alert("Invalid contact number");
-        return;
+        return "Invalid contact number";
       }
-
     },
     validateFormSekyu() {
       if (this.passwordSekyu !== this.confirmPasswordSekyu) {
         alert("Passwords do not match");
-        return;
+        return "Passwords do not match";
       }
       if (!this.emailSekyu.includes("@") || !this.emailSekyu.includes(".")) {
         alert("Invalid email");
-        return;
+        return "Invalid email";
       }
       if (isNaN(this.ageSekyu)) {
         alert("Age must be a number");
-        return;
+        return "Age must be a number";
       }
       if (isNaN(this.contactSekyu) || this.contactSekyu.length !== 11 || !this.contactSekyu.startsWith("09")) {
         alert("Invalid contact number");
-        return;
+        return "Invalid contact number";
       }
-      alert("Are you sure do you want to create this account");
+    },
+    clearDataSekyu() {
+      this.firstNameSekyu = "";
+      this.lastNameSekyu = "";
+      this.suffixSekyu = "";
+      this.genderSekyu = "";
+      this.ageSekyu = "";
+      this.contactSekyu = "";
+      this.emailSekyu = "";
+      this.passwordSekyu = "";
+      this.confirmPasswordSekyu = "";
+    },
+    clearDataOSAD() {
+      this.firstNameOSAD = "";
+      this.lastNameOSAD = "";
+      this.suffixOSAD = "";
+      this.genderOSAD = "";
+      this.ageOSAD = "";
+      this.contactOSAD = "";
+      this.emailOSAD = "";
+      this.passwordOSAD = "";
+      this.confirmPasswordOSAD = "";
     },
     getFullName(firstName, lastName) {
       return firstName + " " + lastName;
     },
-    
     async postSignupDataSekyu() {
-      this.validateFormSekyu();
-
       const fullNameSekyu = this.getFullName(this.firstNameSekyu, this.lastNameSekyu);
-
       const dataSekyu = {
         fullName: fullNameSekyu,
         suffix: this.suffixSekyu,
@@ -393,27 +400,38 @@ export default {
         email: this.emailSekyu,
         password: this.passwordSekyu,
       };
-     
-      for (let key in dataSekyu) {
-        if (!dataSekyu[key]) {
-          console.error(`Missing value for ${key}`);
-          return;
+      if(this.validateFormSekyu() === undefined){
+        if (window.confirm(`Are you sure you want to submit the form?
+        Full Name: ${fullNameSekyu}
+        Suffix: ${this.suffixSekyu}
+        Age: ${this.ageSekyu}
+        Gender: ${this.genderSekyu}
+        Contact: ${this.contactSekyu}
+        Email: ${this.emailSekyu}`)) {
+          for (let key in dataSekyu) {
+            if (!dataSekyu[key]) {
+              console.error(`Missing value for ${key}`);
+              return;
+            }
+          }
+          const params = new URLSearchParams(dataSekyu).toString();
+          axios.post(`http://127.0.0.1:8000/sekyuUsersAddAccount?${params}`)
+          .then((response) => {
+            console.log(response);
+            alert("Account created successfully");
+            this.clearDataSekyu();
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("Account creation failed");
+          });
+        }
+        else {
+          console.log('Form not submitted');
         }
       }
-
-      const params = new URLSearchParams(dataSekyu).toString();
-      axios.post(`http://127.0.0.1:8000/sekyuUsersAddAccount?${params}`)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      
     },
-
     async postSignupDataOSAD() {
-      this.validateFormOSAD();
       const fullNameOSAD = this.getFullName(this.firstNameOSAD, this.lastNameOSAD);
       const dataOSAD = {
         fullName: fullNameOSAD,
@@ -424,24 +442,36 @@ export default {
         email: this.emailOSAD,
         password: this.passwordOSAD,
       };
-      for (let key in dataOSAD) {
-        if (!dataOSAD[key]) {
-          console.error(`Missing value for ${key}`);
-          return;
+      if(this.validateFormOSAD() === undefined){
+        if (window.confirm(`Are you sure you want to submit the form?
+        Full Name: ${fullNameOSAD}
+        Suffix: ${this.suffixOSAD}
+        Age: ${this.ageOSAD}
+        Gender: ${this.genderOSAD}
+        Contact: ${this.contactOSAD}
+        Email: ${this.emailOSAD}`)) {
+          for (let key in dataOSAD) {
+            if (!dataOSAD[key]) {
+              console.error(`Missing value for ${key}`);
+              return;
+            }
+          }
+          const params = new URLSearchParams(dataOSAD).toString();
+          axios.post(`http://127.0.0.1:8000/OSADusersAddAccount?${params}`)
+          .then((response) => {
+            console.log(response);
+            alert("Account created successfully");
+            this.clearDataOSAD();
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("Account creation failed");
+          });
+        }
+        else {
+            console.log('Form not submitted');
         }
       }
-      // Convert formData to query parameters
-      const params = new URLSearchParams(dataOSAD).toString();
-      axios.post(`http://127.0.0.1:8000/OSADusersAddAccount?${params}`)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    closeModal() {
-      this.$refs.modal01.style.display = "none";
     },
     toggleSidebar() {
       const mySidebar = this.$refs.mySidebar;
@@ -449,18 +479,16 @@ export default {
     },
     composeEmail(email, subject, body) {
       window.location.href = "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-    }
+    } 
   }
-  
 };
 </script>
+
 
 <style scoped>
 @import url('https://www.w3schools.com/w3css/4/w3.css');
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
-
-
 
 body,h1,h2,h3,h4,h5,h6,span {font-family:"Raleway", sans-serif}
 
@@ -471,7 +499,7 @@ body, html {
 
 
 
-/* Full height image header */
+
 .w3-bar .w3-button {
   padding: 16px;
 }
@@ -559,7 +587,14 @@ body, html {
 }
 .team-member:hover {
   transform: scale(1.05); 
+  transition: 0.3s ease;
 }
+.team-member .w3-container {
+  padding: 20px;
+  background: #fff;
+  text-align: center;
+}
+
 .option{
   width: 40%;
   height: 100%;
@@ -649,5 +684,40 @@ body, html {
   overflow: auto;
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.4);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
