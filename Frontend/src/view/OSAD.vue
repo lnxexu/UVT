@@ -61,8 +61,11 @@
         <div id="3rd" @click = "showSecurityAccounts()">
           <li><img src="../assets/securityAccount.png" class = "icon2"><a>Security Accounts</a></li>
         </div>
-        <div id="4th"@click="showViolations()">
+        <div id="4th" @click="showViolations()">
           <li><img src="../assets/clock.png" class = "icon3"><a>Violation Tracker</a></li>
+        </div>
+        <div  @click="showPendingAccounts()">
+          <li><img src="../assets/clock.png" class = "icon3"><a>Pending Accounts</a></li>
         </div>
         <div id="5th" @click="showPopup()">
           <li><img src="../assets/logout.png" class = "icon5"><a>Log Out</a></li>
@@ -83,6 +86,10 @@
 <div v-if="Popup" @close="closeContentPage">
   <Popup @handlePopupClose="handlePopupClose"/>
 </div>
+<div v-if="PendingAccounts" @close="closeContentPage">
+  <PendingAccounts @handlePendingAccountsClose="handlePendingAccountsClose"/>
+</div>
+
 <bg/>
 </template>
 
@@ -92,17 +99,19 @@ import Popup from '../components/LogOutOSAD.vue';
 import Violations from '../components/Violations.vue';
 import SecurityAccounts from "../components/SecurityAccounts.vue";
 import Reports from "../components/Reports.vue";
+import PendingAccounts from "../components/PendingAccounts.vue";
 import { ref } from 'vue';
 
 export default {
   name: 'OSAD',
-  components: { bg, Popup, Violations, SecurityAccounts, Reports },
+  components: { bg, Popup, Violations, SecurityAccounts, Reports,PendingAccounts },
   data() {
     return{
       violationsPage: false,
       SecurityAccounts: false,
       Reports: false,
       Popup: false,
+      PendingAccounts: false,
       pendingViolationReports: '',
       violationReportsToday: 0,
       currentTime: this.getCurrentTime(),
@@ -134,6 +143,9 @@ export default {
     handlePopupClose(value) {
       this.Popup = value;
     },
+    handlePendingAccountsClose(value) {
+      this.PendingAccounts = value;
+    },
     show() {
       document.querySelector('.hamburger').classList.toggle('open')
       document.querySelector('.navigation').classList.toggle('active')
@@ -146,16 +158,25 @@ export default {
       this.violationsPage = !this.violationsPage;
       this.SecurityAccounts = false;
       this.Reports = false;
+      this.PendingAccounts = false;
     },
     showSecurityAccounts(){
       this.violationsPage = false;
       this.SecurityAccounts = !this.SecurityAccounts;
       this.Reports = false;
+      this.PendingAccounts = false;
     },
     showReports(){
       this.violationsPage = false;
       this.SecurityAccounts = false;
       this.Reports = !this.Reports;
+      this.PendingAccounts = false;
+    },
+    showPendingAccounts(){
+      this.violationsPage = false;
+      this.SecurityAccounts = false;
+      this.Reports = false;
+      this.PendingAccounts = !this.PendingAccounts;
     },
     showPopup(){
       this.Popup = !this.Popup;

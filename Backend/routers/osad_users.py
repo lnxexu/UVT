@@ -19,13 +19,6 @@ async def verify_user(email: str, password: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.post("/OSADusersAddAccount")
-async def add_account(fullName: str, email: str, gender: str, age:int, suffix: str, password: str, db: Session = Depends(get_db)):
-    user = OSADAccount(fullName = fullName,email=email, password = password, gender = gender, age = age, suffix = suffix)
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    return user
 
 @router.get("/OSADusers/searchUser/{email}")
 async def search_user(email: str, db: Session = Depends(get_db)):

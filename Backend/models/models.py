@@ -58,7 +58,7 @@ class ViolationDetails(Base):
     guard = Column(String)
 
 class PendingViolationDetails(Base):
-    __tablename__ = "pending"
+    __tablename__ = "pendingViolations"
     pReportID = Column(Integer, primary_key=True, index=True)
     studentID = Column(Integer)
     name = Column(String)
@@ -80,6 +80,8 @@ class OSADAccount(Base):
     age = Column(Integer)
     suffix = Column(String)
     gender = Column(String)
+    contactInformation = Column(String)
+    address = Column(String)
 
 class SekyuAccount(Base):
     __tablename__ = "sekyuacc"
@@ -90,6 +92,20 @@ class SekyuAccount(Base):
     gender = Column(String)
     age = Column(Integer)
     suffix = Column(String)
+    contactInformation = Column(String)
+    address = Column(String)
+
+class PendingAccountDetails(Base):
+    __tablename__ = "pendingAccounts"
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String)
+    password = Column(String)
+    fullName = Column(String)
+    suffix = Column(String)
+    age = Column(Integer)
+    gender = Column(String)
+    address = Column(String)
+    contactInformation = Column(String)
 
 class LoginOSAD(Base):
     __tablename__ = "loginOSAD"
@@ -170,6 +186,8 @@ class OSADAccInfo(BaseModel):
     age: int
     suffix: str
     gender: str
+    contactInformation: str
+    address: str
 
 class SekyuAccInfo(BaseModel):
     id: int
@@ -179,6 +197,8 @@ class SekyuAccInfo(BaseModel):
     age: int
     suffix: str
     gender: str
+    contactInformation: str
+    address: str
 
 class LoginInfoOSAD(BaseModel):
     timestampLogin: int
@@ -189,5 +209,16 @@ class LoginInfoSekyu(BaseModel):
     timestampLogin: int
     email: str
     fullName: str
+
+class PendingAccountDetailsInfo(BaseModel):
+    id: int
+    email: str
+    password: str
+    fullName: str
+    suffix: str
+    age: int
+    gender: str
+    address: str
+    contactInformation: str
 
 

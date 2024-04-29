@@ -61,7 +61,6 @@
         </div>
       </div>
       <p v-if="reportDeleted">Report has been deleted.</p>
-      
     </div>
   </div>
 </div>

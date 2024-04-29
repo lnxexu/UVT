@@ -161,7 +161,7 @@
       <p>Last Name:</p>
       <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameSekyu" required>
     </div>
-    <div class="w3-half">
+    <div class="w3-third">
       <p>Suffix:</p>
       <select class="w3-select w3-border" name="option" v-model="suffixSekyu" required>
         <option value="" disabled selected>Choose your option</option>
@@ -173,9 +173,13 @@
         <option value="V">V</option>
       </select>
     </div>
-    <div class="w3-half">
+    <div class="w3-third">
       <p>Age:</p>
       <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageSekyu" required>
+    </div>
+    <div class="w3-third">
+      <p>Complete Address:</p>
+      <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="addressSekyu" required>
     </div>
     <div class="w3-third">
       <p>Gender:</p>
@@ -216,7 +220,7 @@
       <p>Last Name:</p>
       <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameOSAD" required >
     </div>
-    <div class="w3-half">
+    <div class="w3-third">
       <p>Suffix:</p>
       <select class="w3-select w3-border" name="option" v-model="suffixOSAD" required>
         <option value="" disabled selected>Choose your option</option>
@@ -228,9 +232,13 @@
         <option value="V">V</option>
       </select>
     </div>
-    <div class="w3-half">
+    <div class="w3-third">
       <p>Age:</p>
       <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageOSAD" required>
+    </div>
+    <div class="w3-third">
+      <p>Complete Address:</p>
+      <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="addressOSAD" required>
     </div>
     <div class="w3-third">
       <p>Gender:</p>
@@ -312,6 +320,7 @@ export default {
       genderSekyu: "",
       ageSekyu: "",
       contactSekyu: "",
+      addressSekyu: "",
       emailSekyu: "",
       passwordSekyu: "",
       confirmPasswordSekyu: "",
@@ -321,6 +330,7 @@ export default {
       genderOSAD: "",
       ageOSAD: "",
       contactOSAD: "",
+      addressOSAD: "",
       emailOSAD: "",
       passwordOSAD: "",
       confirmPasswordOSAD: "",
@@ -337,14 +347,21 @@ export default {
         alert("Invalid email");
         return "Invalid email";
       }
-      if (isNaN(this.ageOSAD)) {
-        alert("Age must be a number");
-        return "Age must be a number";
-      }
       if (isNaN(this.contactOSAD) || this.contactOSAD.length !== 11 || !this.contactOSAD.startsWith("09")) {
         alert("Invalid contact number");
         return "Invalid contact number";
       }
+      if (isNaN(this.ageOSAD)) {
+        alert("Age must be a number");
+        return "Age must be a number";
+      }
+      else{
+        if(this.ageOSAD < 18){
+          alert("Age must be 18 and above");
+          return "Age must be 18 and above";
+        }
+      }
+
     },
     validateFormSekyu() {
       if (this.passwordSekyu !== this.confirmPasswordSekyu) {
@@ -355,13 +372,19 @@ export default {
         alert("Invalid email");
         return "Invalid email";
       }
+      if (isNaN(this.contactSekyu) || this.contactSekyu.length !== 11 || !this.contactSekyu.startsWith("09")) {
+        alert("Invalid contact number");
+        return "Invalid contact number";
+      }
       if (isNaN(this.ageSekyu)) {
         alert("Age must be a number");
         return "Age must be a number";
       }
-      if (isNaN(this.contactSekyu) || this.contactSekyu.length !== 11 || !this.contactSekyu.startsWith("09")) {
-        alert("Invalid contact number");
-        return "Invalid contact number";
+      else{
+        if(this.ageSekyu < 18){
+          alert("Age must be 18 and above");
+          return "Age must be 18 and above";
+        }
       }
     },
     clearDataSekyu() {
@@ -374,6 +397,7 @@ export default {
       this.emailSekyu = "";
       this.passwordSekyu = "";
       this.confirmPasswordSekyu = "";
+      this.addressSekyu = "";
     },
     clearDataOSAD() {
       this.firstNameOSAD = "";
@@ -385,6 +409,7 @@ export default {
       this.emailOSAD = "";
       this.passwordOSAD = "";
       this.confirmPasswordOSAD = "";
+      this.addressOSAD = "";
     },
     getFullName(firstName, lastName) {
       return firstName + " " + lastName;
@@ -399,6 +424,7 @@ export default {
         contact: this.contactSekyu,
         email: this.emailSekyu,
         password: this.passwordSekyu,
+        address: this.addressSekyu
       };
       if(this.validateFormSekyu() === undefined){
         if (window.confirm(`Are you sure you want to submit the form?
@@ -407,6 +433,7 @@ export default {
         Age: ${this.ageSekyu}
         Gender: ${this.genderSekyu}
         Contact: ${this.contactSekyu}
+        Address: ${this.addressSekyu}
         Email: ${this.emailSekyu}`)) {
           for (let key in dataSekyu) {
             if (!dataSekyu[key]) {
@@ -415,7 +442,7 @@ export default {
             }
           }
           const params = new URLSearchParams(dataSekyu).toString();
-          axios.post(`http://127.0.0.1:8000/sekyuUsersAddAccount?${params}`)
+          axios.post(`http://127.0.0.1:8000/AddAccount?${params}`)
           .then((response) => {
             console.log(response);
             alert("Account created successfully");
@@ -441,6 +468,7 @@ export default {
         contact: this.contactOSAD,
         email: this.emailOSAD,
         password: this.passwordOSAD,
+        address: this.addressOSAD
       };
       if(this.validateFormOSAD() === undefined){
         if (window.confirm(`Are you sure you want to submit the form?
@@ -449,6 +477,7 @@ export default {
         Age: ${this.ageOSAD}
         Gender: ${this.genderOSAD}
         Contact: ${this.contactOSAD}
+        Address: ${this.addressOSAD}
         Email: ${this.emailOSAD}`)) {
           for (let key in dataOSAD) {
             if (!dataOSAD[key]) {
@@ -457,7 +486,7 @@ export default {
             }
           }
           const params = new URLSearchParams(dataOSAD).toString();
-          axios.post(`http://127.0.0.1:8000/OSADusersAddAccount?${params}`)
+          axios.post(`http://127.0.0.1:8000/AddAccount?${params}`)
           .then((response) => {
             console.log(response);
             alert("Account created successfully");
@@ -496,9 +525,6 @@ body, html {
   height: 100%;
   line-height: 1.8;
 }
-
-
-
 
 .w3-bar .w3-button {
   padding: 16px;
