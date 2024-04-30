@@ -151,13 +151,13 @@
 <div class="w3-container w3-light-grey" style="padding:128px 16px" id="signup">
   <h3 class="w3-center">SIGNUP</h3>
   <p class="w3-center w3-large">Sign up to obtain an account</p>
-  <div class="w3-row-padding w3-half" style="margin-top:64px">
+  <div class="w3-row-padding " style="margin-top:64px">
     <h4><strong>For Security Guards</strong></h4>
-    <div class="w3-half">
+    <div class="w3-third">
       <p>First Name:</p>
       <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstNameSekyu" required>
     </div>
-    <div class="w3-half">
+    <div class="w3-third">
       <p>Last Name:</p>
       <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameSekyu" required>
     </div>
@@ -173,14 +173,9 @@
         <option value="V">V</option>
       </select>
     </div>
-    <div class="w3-third">
-      <p>Age:</p>
-      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageSekyu" required>
-    </div>
-    <div class="w3-third">
-      <p>Complete Address:</p>
-      <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="addressSekyu" required>
-    </div>
+    
+    <div class="w3-col">&nbsp;</div>
+
     <div class="w3-third">
       <p>Gender:</p>
       <select class="w3-select w3-border" name="option" v-model="genderSekyu" required>
@@ -190,6 +185,21 @@
       </select>
     </div>
     <div class="w3-third">
+      <p>Age:</p>
+      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageSekyu" required>
+    </div>
+    <div class="w3-third">
+      <p>Birthdate:</p>
+      <input class="w3-input w3-border" type="date" placeholder="Date of Birth" v-model="birthdateSekyu" required>
+    </div>
+
+    <div class="w3-col">&nbsp;</div>
+
+    <div class="w3-third">
+      <p>Complete Address:</p>
+      <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="addressSekyu" required>
+    </div>
+    <div class="w3-third">
       <p>Contact Number:</p>
       <input class="w3-input w3-border" type="tel" name="phone" pattern="^(09|\+639)\d{9}$" placeholder="Contact Number" v-model="contactSekyu" required>
     </div>
@@ -197,6 +207,9 @@
       <p>Email:</p>
       <input class="w3-input w3-border" type="email" placeholder="Email" v-model="emailSekyu">
     </div>
+
+    <div class="w3-col">&nbsp;</div>
+
     <div class="w3-half">
       <p>Password:</p>
       <input class="w3-input w3-border" type="password" placeholder="Password" v-model="passwordSekyu">
@@ -205,18 +218,31 @@
       <p>Confirm Password:</p>
       <input class="w3-input w3-border" type="password" placeholder="Confirm Password" v-model="confirmPasswordSekyu">
     </div>
-    <div class="w3-col">
-      <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataSekyu()"><i class="fa fa-paper-plane"></i> CREATE AN ACCOUNT</button>
+
+    <div class="w3-col">&nbsp;</div>
+
+    <div class="w3-center">
+      <button class="button-57" type="submit" @click="postSignupDataSekyu()"><i class="fa fa-paper-plane"></i> <span>CREATE ACCOUNT</span> <span><i class="fa fa-paper-plane-o"></i> CREATE ACCOUNT</span></button>
     </div>
   </div>
+
+  <div class="w3-row">&nbsp;</div>
+
+  <div class="w3-row">&nbsp;</div>
+
   <div class="vl"></div>
-  <div class=" w3-row-padding w3-half"  style="margin-top:64px">
+
+  <div class="w3-row">&nbsp;</div>
+
+  <div class="w3-row">&nbsp;</div>
+
+  <div class=" w3-row-padding" >
     <h4><strong>For OSAD Staffs</strong></h4>
-    <div class="w3-half">
+    <div class="w3-third">
       <p>First Name:</p>
       <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstNameOSAD" required>
     </div>
-    <div class="w3-half">
+    <div class="w3-third">
       <p>Last Name:</p>
       <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastNameOSAD" required >
     </div>
@@ -232,14 +258,9 @@
         <option value="V">V</option>
       </select>
     </div>
-    <div class="w3-third">
-      <p>Age:</p>
-      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageOSAD" required>
-    </div>
-    <div class="w3-third">
-      <p>Complete Address:</p>
-      <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="addressOSAD" required>
-    </div>
+
+    <div class="w3-col">&nbsp;</div>
+
     <div class="w3-third">
       <p>Gender:</p>
       <select class="w3-select w3-border" name="option" v-model="genderOSAD" required>
@@ -249,13 +270,32 @@
       </select>
     </div>
     <div class="w3-third">
+      <p>Age:</p>
+      <input class="w3-input w3-border" type="number" placeholder="Age" v-model="ageOSAD" required>
+    </div>
+    <div class="w3-third">
+      <p>Birthdate:</p>
+      <input class="w3-input w3-border" type="date" placeholder="Date of Birth" v-model="birthdateOSAD" required >
+    </div>
+
+    <div class="w3-col">&nbsp;</div>
+
+    
+    <div class="w3-third">
+      <p>Complete Address:</p>
+      <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="addressOSAD" required>
+    </div>
+    <div class="w3-third">
       <p>Contact Number:</p>
-      <input class="w3-input w3-border" type="tel" name="phone" pattern="^(09|\+639)\d{9}$" placeholder="Contact Number" v-model="contactOSAD" required>
+      <input class="w3-input w3-border" type="text" name="phone" pattern="^(09|\+639)\d{9}$" placeholder="Contact Number" v-model="contactOSAD" required>
     </div>
     <div class="w3-third">
       <p>Email:</p>
       <input class="w3-input w3-border" type="email" placeholder="Email" v-model="emailOSAD">
     </div>
+
+    <div class="w3-col">&nbsp;</div>
+    
     <div class="w3-half">
       <p>Password:</p>
       <input class="w3-input w3-border" type="password" placeholder="Password" v-model="passwordOSAD">
@@ -264,8 +304,11 @@
       <p>Confirm Password:</p>
       <input class="w3-input w3-border" type="password" placeholder="Confirm Password" v-model="confirmPasswordOSAD">
     </div>
-    <div class="w3-col">
-      <button class="w3-button w3-black w3-section" type="submit" @click="postSignupDataOSAD()"><i class="fa fa-paper-plane"></i> CREATE AN ACCOUNT</button>
+
+    <div class="w3-col">&nbsp;</div>
+
+    <div class="w3-center">
+      <button class="button-57" type="submit" @click="postSignupDataOSAD()"><i class="fa fa-paper-plane"></i> <span class="text"> CREATE ACCOUNT </span><span><i class="fa fa-paper-plane-o"></i> CREATE ACCOUNT</span></button>
     </div>
   </div>
 </div>
@@ -320,6 +363,7 @@ export default {
       genderSekyu: "",
       ageSekyu: "",
       contactSekyu: "",
+      birthdateSekyu: "",
       addressSekyu: "",
       emailSekyu: "",
       passwordSekyu: "",
@@ -330,6 +374,7 @@ export default {
       genderOSAD: "",
       ageOSAD: "",
       contactOSAD: "",
+      birthdateOSAD: "",
       addressOSAD: "",
       emailOSAD: "",
       passwordOSAD: "",
@@ -361,6 +406,11 @@ export default {
           return "Age must be 18 and above";
         }
       }
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(this.passwordOSAD)) {
+        alert("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character");
+        return "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character";
+  }
 
     },
     validateFormSekyu() {
@@ -386,6 +436,12 @@ export default {
           return "Age must be 18 and above";
         }
       }
+
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(this.passwordSekyu)) {
+        alert("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character");
+        return "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character";
+      }
     },
     clearDataSekyu() {
       this.firstNameSekyu = "";
@@ -398,6 +454,7 @@ export default {
       this.passwordSekyu = "";
       this.confirmPasswordSekyu = "";
       this.addressSekyu = "";
+      this.birthdateSekyu = "";
     },
     clearDataOSAD() {
       this.firstNameOSAD = "";
@@ -410,21 +467,23 @@ export default {
       this.passwordOSAD = "";
       this.confirmPasswordOSAD = "";
       this.addressOSAD = "";
+      this.birthdateOSAD = "";
     },
     getFullName(firstName, lastName) {
       return firstName + " " + lastName;
     },
     async postSignupDataSekyu() {
-      const fullNameSekyu = this.getFullName(this.firstNameSekyu, this.lastNameSekyu);
+      const fullNameSekyu = this.getFullName(this.firstNameSekyu.trim(), this.lastNameSekyu.trim());
       const dataSekyu = {
         fullName: fullNameSekyu,
         suffix: this.suffixSekyu,
         age: this.ageSekyu,
-        gender: this.genderSekyu,
-        contact: this.contactSekyu,
-        email: this.emailSekyu,
-        password: this.passwordSekyu,
-        address: this.addressSekyu
+        gender: this.genderSekyu.trim(),
+        contactInformation: this.contactSekyu,
+        email: this.emailSekyu.trim(),
+        password: this.passwordSekyu.trim(),
+        address: this.addressSekyu.trim(),
+        birthDate: this.birthdateSekyu
       };
       if(this.validateFormSekyu() === undefined){
         if (window.confirm(`Are you sure you want to submit the form?
@@ -432,7 +491,8 @@ export default {
         Suffix: ${this.suffixSekyu}
         Age: ${this.ageSekyu}
         Gender: ${this.genderSekyu}
-        Contact: ${this.contactSekyu}
+        Birthdate: ${this.birthdateSekyu}
+        Contact Number: ${this.contactSekyu}
         Address: ${this.addressSekyu}
         Email: ${this.emailSekyu}`)) {
           for (let key in dataSekyu) {
@@ -442,10 +502,10 @@ export default {
             }
           }
           const params = new URLSearchParams(dataSekyu).toString();
-          axios.post(`http://127.0.0.1:8000/AddAccount?${params}`)
+          axios.post(`http://127.0.0.1:8000/AddAccountSekyu?${params}`)
           .then((response) => {
             console.log(response);
-            alert("Account created successfully");
+            alert("Your account will be reviewed by the admin. Please wait for the confirmation.");
             this.clearDataSekyu();
           })
           .catch((error) => {
@@ -459,16 +519,17 @@ export default {
       }
     },
     async postSignupDataOSAD() {
-      const fullNameOSAD = this.getFullName(this.firstNameOSAD, this.lastNameOSAD);
+      const fullNameOSAD = this.getFullName(this.firstNameOSAD.trim(), this.lastNameOSAD.trim());
       const dataOSAD = {
         fullName: fullNameOSAD,
         suffix: this.suffixOSAD,
         age: this.ageOSAD,
         gender: this.genderOSAD,
-        contact: this.contactOSAD,
-        email: this.emailOSAD,
-        password: this.passwordOSAD,
-        address: this.addressOSAD
+        contactInformation: this.contactOSAD.trim(),
+        email: this.emailOSAD.trim(),
+        password: this.passwordOSAD.trim(),
+        address: this.addressOSAD,
+        birthDate: this.birthdateOSAD
       };
       if(this.validateFormOSAD() === undefined){
         if (window.confirm(`Are you sure you want to submit the form?
@@ -477,6 +538,7 @@ export default {
         Age: ${this.ageOSAD}
         Gender: ${this.genderOSAD}
         Contact: ${this.contactOSAD}
+        Birthdate: ${this.birthdateOSAD}
         Address: ${this.addressOSAD}
         Email: ${this.emailOSAD}`)) {
           for (let key in dataOSAD) {
@@ -486,10 +548,10 @@ export default {
             }
           }
           const params = new URLSearchParams(dataOSAD).toString();
-          axios.post(`http://127.0.0.1:8000/AddAccount?${params}`)
+          axios.post(`http://127.0.0.1:8000/AddAccountOSAD?${params}`)
           .then((response) => {
             console.log(response);
-            alert("Account created successfully");
+            alert("Your account will be reviewed by the admin. Please wait for the confirmation.");
             this.clearDataOSAD();
           })
           .catch((error) => {
@@ -574,6 +636,7 @@ body, html {
   transform: translateY(225%) translateX(-50%);
   height: 14px;
   line-height: 13px;
+  width: 100%;
 }
 
 .button-57:after {
@@ -588,17 +651,22 @@ body, html {
   transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
   transform: skewY(9.3deg) scaleY(0);
   z-index: 50;
+  width: 100%;
 }
 
 .button-57:hover:after {
   transform-origin: bottom center;
   transform: skewY(9.3deg) scaleY(2);
+  width: 100%;
 }
 
 .button-57:hover span:last-child {
-  transform: translateX(-50%) translateY(-100%);
+  transform: translateX(-50%) translateY(-65%);
   opacity: 1;
   transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
+  width: 100%;
+
+  
 }
 .team-member {
   width: 350px;
@@ -676,11 +744,10 @@ body, html {
 }
 
 .vl {
-  border-left: 6px solid rgb(0, 0, 0);
-  height: 500px;
-  position: absolute;
-  left: 50%;
-  margin-left: -3px;
+  border: 1px solid rgb(0, 0, 0);
+  width: 100%;
+  position: relative;
+  left: 0%;
 }
 
 

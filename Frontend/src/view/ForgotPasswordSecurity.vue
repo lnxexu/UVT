@@ -38,7 +38,7 @@
           email: '',
           newPassword: '',
           confirmPassword: '',
-          resetPassword: false, // Add this to control which form is shown
+          resetPassword: false, 
         };
       },
       methods: {
@@ -244,5 +244,6 @@ button:focus {
     height: 2.5em;
   }
 }
+* {font-family:"Raleway", sans-serif}
   
 </style>

@@ -82,6 +82,7 @@ class OSADAccount(Base):
     gender = Column(String)
     contactInformation = Column(String)
     address = Column(String)
+    birthDate = Column(Date)
 
 class SekyuAccount(Base):
     __tablename__ = "sekyuacc"
@@ -94,14 +95,29 @@ class SekyuAccount(Base):
     suffix = Column(String)
     contactInformation = Column(String)
     address = Column(String)
+    birthDate = Column(Date)
 
-class PendingAccountDetails(Base):
-    __tablename__ = "pendingAccounts"
+class PendingAccountDetailsSekyu(Base):
+    __tablename__ = "pendingAccountsSekyu"
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String)
     password = Column(String)
     fullName = Column(String)
     suffix = Column(String)
+    birthDate = Column(Date)
+    age = Column(Integer)
+    gender = Column(String)
+    address = Column(String)
+    contactInformation = Column(String)
+
+class PendingAccountDetailsOSAD(Base):
+    __tablename__ = "pendingAccountsOSAD"
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String)
+    password = Column(String)
+    fullName = Column(String)
+    suffix = Column(String)
+    birthDate = Column(Date)
     age = Column(Integer)
     gender = Column(String)
     address = Column(String)
@@ -188,6 +204,7 @@ class OSADAccInfo(BaseModel):
     gender: str
     contactInformation: str
     address: str
+    birthDate: str
 
 class SekyuAccInfo(BaseModel):
     id: int
@@ -199,6 +216,7 @@ class SekyuAccInfo(BaseModel):
     gender: str
     contactInformation: str
     address: str
+    birthDate: str
 
 class LoginInfoOSAD(BaseModel):
     timestampLogin: int
@@ -210,7 +228,7 @@ class LoginInfoSekyu(BaseModel):
     email: str
     fullName: str
 
-class PendingAccountDetailsInfo(BaseModel):
+class PendingAccountDetailsOSADInfo(BaseModel):
     id: int
     email: str
     password: str
@@ -220,5 +238,18 @@ class PendingAccountDetailsInfo(BaseModel):
     gender: str
     address: str
     contactInformation: str
+    birthDate: str
+
+class PendingAccountDetailsSekyuInfo(BaseModel):
+    id: int
+    email: str
+    password: str
+    fullName: str
+    suffix: str
+    age: int
+    gender: str
+    address: str
+    contactInformation: str
+    birthDate: str
 
 

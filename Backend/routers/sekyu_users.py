@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from models.database import SessionLocal, get_db
 from models.models import SekyuAccount
 from sqlalchemy.orm import Session
+from datetime import date
 
 router = APIRouter(tags=["Security Guard"])  
 
@@ -18,13 +19,6 @@ async def verify_user(email: str, password: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.post("/sekyuUsersAddAccount")
-async def add_account(fullName: str, email: str, gender: str, age:int, suffix: str, password: str, db: Session = Depends(get_db)):
-    user = SekyuAccount (fullName = fullName,email=email, password = password, gender = gender, age = age, suffix = suffix)
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    return user
 
 @router.get("/sekyuUsers/searchUser/{email}")
 async def search_user(email: str, db: Session = Depends(get_db)):
@@ -35,7 +29,6 @@ async def search_user(email: str, db: Session = Depends(get_db)):
         return HTTPException(status_code=404, detail="User not found")
     
 
-
 @router.put("/sekyuUsers/changePassword/{email}")
 async def change_password(email: str, password: str, db: Session = Depends(get_db)):
     user = db.query(SekyuAccount).filter(SekyuAccount.email == email).first()
@@ -45,7 +38,16 @@ async def change_password(email: str, password: str, db: Session = Depends(get_d
         return {"message": "Password changed successfully"}
     else:
         return HTTPException(status_code=404, detail="User not found")
-    
+
+@router.post("/sekyuUsers/addUser")
+async def add_account(fullName: str, email: str, gender: str, age:int, suffix: str, address: str, contactInformation: str, birthDate: date, password: str, db: Session = Depends(get_db)):
+    user = SekyuAccount(fullName = fullName,email=email, password = password, gender = gender, age = age, suffix = suffix, address = address, contactInformation = contactInformation, birthDate = birthDate)
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
 
 
 

@@ -240,6 +240,7 @@ export default {
 </script>
 
 <style scoped>
+* {font-family:"Raleway", sans-serif}
 
 .OSAD-container{
   overflow: hidden;
@@ -280,6 +281,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;  
+  left: 49.999991%;
 }
 #logoStack{
   display: flex;
@@ -375,9 +377,6 @@ nav ul li a:hover::after {
   color: white;
 }
 
-
-  
-
 .navigation ul li {
   color: white;
   text-transform: uppercase;
@@ -443,10 +442,6 @@ nav ul li a:hover::after {
   padding: 20px;
 }
 
-.integral-font {
-  font-family: 'Integral CF', sans-serif;
-  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
 
 .hover-effect:hover {
   transform: scale(1.05);

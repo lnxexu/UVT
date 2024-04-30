@@ -32,6 +32,7 @@ export default{
 </script>
 
 <style scoped>
+* {font-family:"Raleway", sans-serif}
 .popup-container{
     position: fixed;
     top: 0;
