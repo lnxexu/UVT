@@ -47,6 +47,16 @@ async def add_account(fullName: str, email: str, gender: str, age:int, suffix: s
     db.refresh(user)
     return user
 
+@router.delete("/sekyuUsers/deleteUser/{email}")
+async def delete_user(email: str, db: Session = Depends(get_db)):
+    user = db.query(SekyuAccount).filter(SekyuAccount.email == email).first()
+    if user:
+        db.delete(user)
+        db.commit()
+        return {"message": "User deleted successfully"}
+    else:
+        return HTTPException(status_code=404, detail="User not found")
+
 
 
 

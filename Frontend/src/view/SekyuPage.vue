@@ -53,7 +53,7 @@ export default {
     getUsername() {
       axios.get(`http://127.0.0.1:8000/loginSekyu`)
         .then((response) => {
-          this.username = response.data;
+          this.username = response.data.fullName;
           console.log(response.data);
         })
         .catch((error) => {
@@ -179,9 +179,6 @@ export default {
   }  
 };
 </script>
-
-
-
 <template>
 <div class="loader-container" id="loader">
   <div class="loader"></div>
@@ -197,7 +194,7 @@ export default {
     </button>
     <div id="user">
       <img src="../assets/user.png" id="userIcon">
-      <h2>sa</h2>
+      <span id = "userSpan">{{ username }}</span>
     </div>
     <nav>
       <ul>
@@ -312,6 +309,7 @@ export default {
 
 </template>
 <style scoped>
+
 .Sekyu-page-container{
   overflow: hidden;
   padding: 0;
@@ -709,5 +707,14 @@ a {
   width: 100%;
 } 
 * {font-family:"Raleway", sans-serif}
+#userSpan {
+  position: relative;
+  top: 7%;
+  left: 13%;
+  display: flex;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
 
 </style>
