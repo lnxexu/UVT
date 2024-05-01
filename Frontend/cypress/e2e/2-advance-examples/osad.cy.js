@@ -33,6 +33,7 @@ describe('OSAD Hamburger Features', () => {
     cy.get('#yes').click()
     cy.request('GET','http://127.0.0.1:8000/pending').then((response)=>{
         expect(response.status).to.eq(200)
+        cy.get('#approveButton').click()
         expect(response.body).to.have.length.above(0)
     
 
@@ -43,6 +44,7 @@ describe('OSAD Hamburger Features', () => {
     cy.visit('http://localhost:5173/OSAD')
     cy.get('button.hamburger').click()
     cy.get('div#2nd').click()
+    
   }),
   it('GET OSAD staff accounts', () => {
     cy.viewport(1920, 1080)
@@ -54,6 +56,18 @@ describe('OSAD Hamburger Features', () => {
         expect(response.body).to.have.length.above(0)
       })
   }),
+    it('Check Security accounts', () => {
+      cy.viewport(1920, 1080)
+      cy.visit('http://localhost:5173/OSAD')
+      cy.get('button.hamburger').click()
+      cy.get('div#3rd').click()
+      cy.get('.main-content > ul > :nth-child(1)').click()
+      cy.get('.main-content > ul > :nth-child(2').click()
+      cy.request('GET','http://127.0.0.1:8000/securityGuard').then((response)=>{
+          expect(response.status).to.eq(200)
+          expect(response.body).to.have.length.above(0)
+        })
+  }),
   it('GET all verified violations', () => {
     cy.viewport(1920, 1080)
     cy.visit('http://localhost:5173/OSAD')
@@ -63,6 +77,20 @@ describe('OSAD Hamburger Features', () => {
         expect(response.status).to.eq(200)
         expect(response.body).to.have.length.above(0)
       })
+
+  }),
+    it('Check Earl Ang Violations', () => {
+      cy.viewport(1920, 1080)
+      cy.visit('http://localhost:5173/OSAD')
+      cy.get('button.hamburger').click()
+      cy.get('div#4th').click()
+      cy.get('#search').type('220000001005')
+      cy.get('#submit').click()
+      cy.get('.main-content > ul > :nth-child(1)').click()
+      cy.request('GET','http://127.0.0.1:8000/violationDetails').then((response)=>{
+          expect(response.status).to.eq(200)
+          expect(response.body).to.have.length.above(0)
+        })
   }),
   it('Exit', () => {
     cy.viewport(1920, 1080)

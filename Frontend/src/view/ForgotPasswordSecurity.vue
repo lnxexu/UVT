@@ -15,7 +15,7 @@
   <script>
 
   export default {
-    components: {bg,},
+
     data() {
       return {
         email: '',

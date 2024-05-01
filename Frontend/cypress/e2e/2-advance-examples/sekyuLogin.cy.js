@@ -4,9 +4,9 @@ describe('User Routes Test', () => {
         // Visit the login page
         cy.visit('http://localhost:5173/SekyuLogin')
   
-        cy.get('#email').type('demo')
+        cy.get('#email').type('demo@gmail.com')
   
-        cy.get('#password').type('password')
+        cy.get('#password').type('12121')
   
         cy.get('#login-button').click()
   

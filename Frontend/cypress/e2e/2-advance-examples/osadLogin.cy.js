@@ -5,7 +5,7 @@ describe('User Routes Test', () => {
         // Visit the login page
         cy.visit('http://localhost:5173/OSADLogin')
   
-        cy.get('#email').type('demo')
+        cy.get('#email').type('demo@gmail.com')
   
         cy.get('#password').type('password')
   
