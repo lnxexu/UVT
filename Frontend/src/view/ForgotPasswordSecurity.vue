@@ -33,20 +33,40 @@
   <script>
   import axios from 'axios';
   export default {
-    components: {bg,},
+
     data() {
-      return {
-        email: '',
-      };
-    },
+        return {
+          email: '',
+          newPassword: '',
+          confirmPassword: '',
+          resetPassword: false, 
+        }
+      },
+
     methods: {
       submitForm() {
         // Handle form submission here
         // You might want to send a request to your server to initiate the password reset process
         console.log(`Initiating password reset for ${this.email}`);
+          if (!this.resetPassword) {
+            console.log(`Initiating password reset for ${this.email}`);
+            this.resetPassword = true; 
+  
+          } else {
+            
+            axios.put(`http://127.0.0.1:8000//OSADusers/changePassword/${this.email}`)
+              .then((response) => {
+                console.log(response);
+                console.log(`Resetting password for ${this.newPassword}`);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        }
       },
-    },
   };
+  
   </script>
   
 <style scoped>
