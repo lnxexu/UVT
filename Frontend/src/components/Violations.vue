@@ -79,6 +79,7 @@ export default {
 </script>
 
 <style scoped>
+* {font-family:"Raleway", sans-serif}
 .exit-button {
   cursor: pointer;
   display: inline-block;

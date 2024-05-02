@@ -61,7 +61,6 @@
         </div>
       </div>
       <p v-if="reportDeleted">Report has been deleted.</p>
-      
     </div>
   </div>
 </div>
@@ -213,6 +212,7 @@ export default {
 </script>
 
 <style scoped>
+* {font-family:"Raleway", sans-serif}
 .reports-list-container {
   position: absolute;
   z-index: 5;

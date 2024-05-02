@@ -73,5 +73,6 @@ export default{
     top: 51.5%;
     align-items: center;
 }
+* {font-family:"Raleway", sans-serif}
 
 </style>

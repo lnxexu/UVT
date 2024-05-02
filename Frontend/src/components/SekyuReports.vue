@@ -13,5 +13,5 @@ export default {
 </script>
 
 <style scoped>
-/* Add your component styles here */
+* {font-family:"Raleway", sans-serif}
 </style>

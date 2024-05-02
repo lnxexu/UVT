@@ -47,12 +47,9 @@
         this.selectedGuard = guard;
       },
       fetchData() {
-      // Fetch data from the API
-      // Replace the URL with the actual API endpoint
       axios.get("http://127.0.0.1:8000/securityGuard")
         .then((response) => {
           this.securityGuards = response.data;
-          console.log(this.securityGuards.length)
         })
         .catch((error) => {
           console.error(error);
@@ -64,6 +61,7 @@
   </script>
   
   <style scoped>
+  * {font-family:"Raleway", sans-serif}
   .secAcc-list-container {
     position: absolute;
     z-index: 5;

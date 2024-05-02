@@ -39,6 +39,7 @@ export default {
 </script>
 
 <style scoped>
+* {font-family:"Raleway", sans-serif}
 .blackBG {
   position: relative;
   background-color: black;

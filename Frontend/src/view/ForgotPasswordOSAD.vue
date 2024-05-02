@@ -54,5 +54,6 @@ export default {
 </script>
 
 <style scoped>
+* {font-family:"Raleway", sans-serif}
 
 </style>

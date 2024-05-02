@@ -351,7 +351,7 @@ export default {
   color: white;
   position: absolute;
   top: 55.5%; 
-  left: 50%;
+  left: 49.999991%;
   transform: translate(-50%, -50%);
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -708,5 +708,6 @@ a {
   height: 1.7em;
   width: 100%;
 } 
+* {font-family:"Raleway", sans-serif}
 
 </style>
