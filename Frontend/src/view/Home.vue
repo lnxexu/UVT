@@ -665,14 +665,12 @@ body, html {
   opacity: 1;
   transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
   width: 100%;
-
-  
 }
 .team-member {
   width: 350px;
   height: 400px; 
   overflow: hidden;
-  transition: transform 0.3s eas
+  transition: transform 0.3s ease-in-out;
 }
 .team-member img {
   width: 100%;

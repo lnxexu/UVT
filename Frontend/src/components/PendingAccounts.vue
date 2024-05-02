@@ -27,8 +27,8 @@
         <p><strong>Password:</strong> {{ selectedSekyu.password }}</p>
         <div class="w3-row">&nbsp;</div>
         <div class="buttons">
-          <button id="approveButton"  @click="approve">Approve</button>
-          <button id="rejectButton"  @click="reject">Reject</button>
+          <button id="approveButton"  @click="approveSekyu">Approve</button>
+          <button id="rejectButton"  @click="rejectSekyu">Reject</button>
         </div>
       </div>
     </div>
@@ -54,8 +54,8 @@
         <p><strong>Password:</strong> {{ selectedOSAD.password }}</p>
         <div class="w3-row">&nbsp;</div>
         <div class="buttons">
-          <button id="approveButton"  @click="showConfirmPopup = true">Approve</button>
-          <button id="rejectButton"  @click="reject">Reject</button>
+          <button id="approveButton"  @click="approveOSAD(),showConfirmPopup = true">Approve</button>
+          <button id="rejectButton"  @click="rejectOSAD()">Reject</button>
         </div>
       </div>
     </div>
@@ -71,13 +71,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
-  
   <div v-if="popupApprove">
     <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width: 600px">
       <div class="w3-container w3-padding-16 w3-light-grey">
@@ -118,6 +111,7 @@ export default {
   mounted() {
     this.fetchData();
   },
+  emits: ['handlePendingAccountsClose'],
   methods: {
     close() {
       this.$emit('handlePendingAccountsClose', false);
@@ -200,7 +194,6 @@ export default {
         console.log(response);
         this.popupApprove = true;
         this.rejectOSAD();
-
       })
       .catch((error) => {
         console.error(error);
@@ -208,7 +201,7 @@ export default {
       });
     },
     rejectSekyu() {
-      axios.delete(`http://127.0.0.1:8000/sekyuUsers/deleteUser?${this.selectedSekyu.email}`)
+      axios.delete(`http://127.0.0.1:8000/RejectAccountSekyu/${this.selectedSekyu.email}`)
       .then((response) => {
         console.log(response);
       })
@@ -217,27 +210,13 @@ export default {
       });
     },
     rejectOSAD() {
-      axios.delete(`http://127.0.0.1:8000/osadUsers/deleteUser?${this.selectedOSAD.email}`)
+      axios.delete(`http://127.0.0.1:8000/RejectAccountOSAD/${this.selectedOSAD.email}`)
       .then((response) => {
         console.log(response);
       })
       .catch((error) => {
         console.error(error);
       });
-    },
-    approve() {
-      if (this.selectedSekyu) {
-        this.approveSekyu();
-      } else if (this.selectedOSAD) {
-        this.approveOSAD();
-      }
-    },
-    reject() {
-      if (this.selectedSekyu) {
-        this.rejectSekyu();
-      } else if (this.selectedOSAD) {
-        this.rejectOSAD();
-      }
     },
   }
 };
@@ -351,6 +330,24 @@ li:hover {
 }
 
 * {font-family:"Raleway", sans-serif}
+
+/* Modal Content/Box */
+.w3-modal-content {
+  margin: 5% auto;
+  background-color: #fff;
+  position: relative;
+  top: 10%;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  height: 50%;
+}
+
+/* The Close Button */
+.w3-container {
+  padding: 16px;
+}
+
 
 </style>
   

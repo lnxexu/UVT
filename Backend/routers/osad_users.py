@@ -3,9 +3,18 @@ from models.database import get_db
 from models.models import OSADAccount, OSADAccInfo
 from sqlalchemy.orm import Session
 from typing import List
+from datetime import date
 
 router = APIRouter(tags=["OSAD"])
 
+
+@router.post("/osadUsers/addUser")
+async def add_account(fullName: str, email: str, gender: str, age:int, suffix: str, address: str, contactInformation: str, birthDate: date, password: str, db: Session = Depends(get_db)):
+    user = OSADAccount(fullName = fullName,email=email, password = password, gender = gender, age = age, suffix = suffix, address = address, contactInformation = contactInformation, birthDate = birthDate)
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
 
 @router.get("/OSADusers", response_model=List[OSADAccInfo])
 async def get_all_users(db: Session = Depends(get_db)):
@@ -39,6 +48,7 @@ async def change_password(email: str, password: str, db: Session = Depends(get_d
     else:
         return HTTPException(status_code=404, detail="User not found")
     
+
 
                        
 

@@ -48,7 +48,6 @@
     <div id = "user">
       <img src="../assets/user.png" id = "userIcon">
       <span id = "userSpan">{{ username }}</span>
-
     </div>
     <nav>
       <ul>
@@ -64,7 +63,7 @@
         <div id="4th" @click="showViolations()">
           <li><img src="../assets/clock.png" class = "icon3"><a>Violation Tracker</a></li>
         </div>
-        <div  @click="showPendingAccounts()">
+        <div @click="showPendingAccounts()">
           <li><img src="../assets/clock.png" class = "icon3"><a>Pending Accounts</a></li>
         </div>
         <div id="5th" @click="showPopup()">
@@ -120,6 +119,7 @@ export default {
       username: '',
     }
   },
+  emits: ['handlePendingAccountsClose'],
   methods: {
     getUsername() {
       axios.get(`http://127.0.0.1:8000/loginOSAD`)
@@ -177,6 +177,7 @@ export default {
       this.SecurityAccounts = false;
       this.Reports = false;
       this.PendingAccounts = !this.PendingAccounts;
+      this.$emit('handlePendingAccountsClose');
     },
     showPopup(){
       this.Popup = !this.Popup;
