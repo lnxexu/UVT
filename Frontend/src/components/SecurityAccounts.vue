@@ -1,5 +1,8 @@
 <template>
     <div class="secAcc-list-container" v-if="closeSekyu">
+      <div class="w3-row">&nbsp;</div>
+      <div class="w3-row">&nbsp;</div>
+      <div class="w3-row">&nbsp;</div>
       <div class="exit-button" @click="close()">
         <div class="bar2"></div>
         <div class="bar2"></div>
@@ -39,6 +42,7 @@
     },
     methods: {
       close() {
+        this.$emit("goHome");
         this.$emit('handleSecurityAccountsClose', false);
         this.closeSekyu = false;
         this.$emit("close");
@@ -63,13 +67,13 @@
   <style scoped>
   * {font-family:"Raleway", sans-serif}
   .secAcc-list-container {
-    position: absolute;
-    z-index: 5;
-    left: 20%;
-    width: 80%;
+    position: fixed;
+    display: block;
+    left: 0%;
+    width: 100%;
     height: 100%;
     background-color: #f1f1f1;
-    overflow: hidden; /* Hide overflowing content */
+    z-index: 2;
   }
   
   .main-content {

@@ -211,10 +211,11 @@ export default {
       </ul>
     </nav>
   </div>
-  <div id="transparent"></div>
-  <div id="sekyu">
+  <div id="transparent">
     <h1>SECURITY</h1>
   </div>
+
+    
   <div id="container1">
     <div id="id">
       <div class="image">
@@ -321,25 +322,24 @@ export default {
 #transparent {
   width: 100%; 
   height: 10%; 
-  background-color: #0D0D0D;
+  /* transparent */
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 9.3%; 
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  opacity: 40%;
+  align-items: center;  
+  z-index: 1;
 }
-
-#sekyu{
-  color: #FFF;
-  font-size: 100em;
-  font-style: normal;
-  font-weight: 300;
-  position: absolute;
-  top: 6.5%;
-  left: 5.5%;
+#transparent h1{
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  position: fixed;
+  top: 16%;
+  left: 6%;
 }
 
 #container1 {

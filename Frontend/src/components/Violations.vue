@@ -1,5 +1,8 @@
 <template>
   <div class="violation-list-container" v-if="closeViolation">
+    <div class="w3-row">&nbsp;</div>
+    <div class="w3-row">&nbsp;</div>
+    <div class="w3-row">&nbsp;</div>
     <div class="exit-button" @click="close()">
       <div class="bar2"></div>
       <div class="bar2"></div>
@@ -68,11 +71,12 @@ export default {
     },
     showViolationDetails(violation) {
       this.selectedViolation = violation;
-      this.$emit("close");
+      
     },
     close() { 
+      this.$emit("goHome1");
       this.$emit('handleViolationsPageClose', false);
-      this.closeViolation = !this.closeViolation;
+      this.$emit("close");
     },
   } 
 };
@@ -100,12 +104,13 @@ export default {
   margin: 5px 0;
 }
 .violation-list-container {
-  position: absolute;
-  z-index: 5;
-  left: 20%;
-  width: 80%;
+  position: fixed;
+  display: block;
+  left: 0%;
+  width: 100%;
   height: 100%;
   background-color: #f1f1f1;
+  z-index: 2;
 }
   
 .violation-list-container.expanded {

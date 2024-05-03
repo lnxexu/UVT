@@ -1,6 +1,8 @@
-<!-- ReceiverComponent.vue -->
 <template>
-  <div class="reports-list-container" v-if = "closeReport">
+  <div class="reports-list-container" v-if = "closeReport" >
+    <div class="w3-row">&nbsp;</div>
+    <div class="w3-row">&nbsp;</div>
+    <div class="w3-row">&nbsp;</div>
     <div class="exit-button" @click="close()" >
       <div class="bar2"></div>
       <div class="bar2"></div>
@@ -138,9 +140,11 @@ export default {
       this.editedReport = null;
     },
     close() {
+      this.$emit("goHome");
       this.$emit('handleReportClose', false); // Emitting the event
       this.closeReport = false;
       this.$emit("close");
+      
     },
     fetchData() {
       axios.get("http://127.0.0.1:8000/pending")
@@ -214,22 +218,14 @@ export default {
 <style scoped>
 * {font-family:"Raleway", sans-serif}
 .reports-list-container {
-  position: absolute;
-  z-index: 5;
-  left: 20%;
-  width: 80%;
-  height: 100%;
-  background-color: #f1f1f1;
-}
-.reports-list-container.expanded {
+  position: fixed;
+  display: block;
+  left: 0%;
   width: 100%;
   height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
+  background-color: #f1f1f1;
+  z-index: 2;
 }
-
-
 
 ul {
   list-style-type: none;

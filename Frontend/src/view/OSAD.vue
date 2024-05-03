@@ -2,12 +2,11 @@
 <div class="loader-container" id="loader">
   <div class="loader"></div>
 </div>
-<div class = "OSAD-container">
+<div v-if="home" class = "OSAD-container">
   <div id="OSADcontainer">
     <div id="logoStack">
       <img id="firstpic" src="../assets/UVT.png" alt="logo" />
       <img id="secondpic" src="../assets/UVT.png" alt="logo" />
- 
     </div>
     <div class = "dashboard">
       <div class="dashboard-container">
@@ -34,61 +33,58 @@
       </div>
     </div>
   </div>
-  <div id="transparent"></div>
-  <div id="OSAD">
-    <h1>OSAD</h1>
-  </div>
-  <div class="navigation">
-    <div class="overlay"></div>
-    <button class = "hamburger" @click="show()">
-      <div id="bar1" class="bar"></div>
-      <div id="bar2" class="bar"></div>
-      <div id="bar3" class="bar"></div>
-    </button>
-    <div id = "user">
-      <img src="../assets/user.png" id = "userIcon">
-      <span id = "userSpan">{{ username }}</span>
-    </div>
-    <nav>
-      <ul>
-        <div id="1st" @click = "showReports()">
-          <li><img src="../assets/bell.png" class = "icon4"><a>Reports</a></li>
-        </div>
-        <div id="2nd" @click = "showHome()">
-          <li><img src="../assets/homepage.png" class = "icon1"><a>Home Page</a></li>
-        </div>
-        <div id="3rd" @click = "showSecurityAccounts()">
-          <li><img src="../assets/securityAccount.png" class = "icon2"><a>Security Accounts</a></li>
-        </div>
-        <div id="4th" @click="showViolations()">
-          <li><img src="../assets/clock.png" class = "icon3"><a>Violation Tracker</a></li>
-        </div>
-        <div @click="showPendingAccounts()">
-          <li><img src="../assets/clock.png" class = "icon3"><a>Pending Accounts</a></li>
-        </div>
-        <div id="5th" @click="showPopup()">
-          <li><img src="../assets/logout.png" class = "icon5"><a>Log Out</a></li>
-        </div>
-      </ul>
-    </nav>
-  </div>
 </div>
-<div v-if="violationsPage" @close="closeContentPage">
-  <Violations @handleViolationsPageClose="handleViolationsPageClose" />
+<div v-else-if="violationsPage" @close="closeContentPage">
+  <Violations @handleViolationsPageClose="handleViolationsPageClose" @goHome1="this.home = true" />
 </div>
-<div v-if="SecurityAccounts" @close="closeContentPage">
-  <SecurityAccounts @handleSecurityAccountsClose="handleSecurityAccountsClose" />
+<div v-else-if="SecurityAccounts" @close="closeContentPage">
+  <SecurityAccounts @handleSecurityAccountsClose="handleSecurityAccountsClose" @goHome="home = true" />
 </div>
-<div v-if="Reports" @close="closeContentPage">
-  <Reports @handleReportClose="handleReportClose" />
+<div v-else-if="Reports" @close="closeContentPage" >
+  <Reports @handleReportClose="handleReportClose" @goHome="home = true" />
 </div>
-<div v-if="Popup" @close="closeContentPage">
+<div v-else-if=" PendingAccounts" @close="closeContentPage" >
+  <PendingAccounts @handlePendingAccountsClose="handlePendingAccountsClose" @goHome2="home = true"/>
+</div>
+<div v-if=" Popup" @close="closeContentPage">
   <Popup @handlePopupClose="handlePopupClose"/>
 </div>
-<div v-if="PendingAccounts" @close="closeContentPage">
-  <PendingAccounts @handlePendingAccountsClose="handlePendingAccountsClose"/>
+<div id="transparent">
+    <h1>OSAD</h1>
 </div>
-
+<button class = "hamburger" @click="show()" >
+    <div id="bar1" class="bar"></div>
+    <div id="bar2" class="bar"></div>
+    <div id="bar3" class="bar"></div>
+</button>
+<div class="navigation">
+  <div id = "user">
+    <img src="../assets/user.png" id = "userIcon">
+    <span id = "userSpan">{{ username }}</span>
+  </div>
+  <nav>
+    <ul>
+      <div id="1st" @click = "showReports()">
+        <li><img src="../assets/bell.png" class = "icon4"><a>Reports</a></li>
+      </div>
+      <div id="2nd" @click = "showHome()">
+        <li><img src="../assets/homepage.png" class = "icon1"><a>Home Page</a></li>
+      </div>
+      <div id="3rd" @click = "showSecurityAccounts()">
+        <li><img src="../assets/securityAccount.png" class = "icon2"><a>Security Accounts</a></li>
+      </div>
+      <div id="4th" @click="showViolations()">
+        <li><img src="../assets/clock.png" class = "icon3"><a>Violation Tracker</a></li>
+      </div>
+      <div @click="showPendingAccounts()">
+        <li><img src="../assets/clock.png" class = "icon3"><a>Pending Accounts</a></li>
+      </div>
+      <div id="5th" @click="showPopup()">
+        <li><img src="../assets/logout.png" class = "icon5"><a>Log Out</a></li>
+      </div>
+    </ul>
+  </nav>
+</div>
 <bg/>
 </template>
 
@@ -99,6 +95,7 @@ import Violations from '../components/Violations.vue';
 import SecurityAccounts from "../components/SecurityAccounts.vue";
 import Reports from "../components/Reports.vue";
 import PendingAccounts from "../components/PendingAccounts.vue";
+import axios from 'axios';
 import { ref } from 'vue';
 
 export default {
@@ -117,10 +114,15 @@ export default {
       violationReportsTotal:'',
       isLoaded: false,
       username: '',
+      home: true,
+      isNavigationOpen: false,
     }
   },
-  emits: ['handlePendingAccountsClose'],
+  emits: ['handlePendingAccountsClose', 'handleSecurityAccountsClose', 'handleReportClose', 'goHome', 'goHome1', 'goHome2'],
   methods: {
+    handleNavigationClose() {
+      this.isNavigationOpen = false;
+    },
     getUsername() {
       axios.get(`http://127.0.0.1:8000/loginOSAD`)
         .then((response) => {
@@ -151,6 +153,14 @@ export default {
       document.querySelector('.navigation').classList.toggle('active')
     },
     showHome(){
+      this.home = true;
+      this.violationsPage = false;
+      this.SecurityAccounts = false;
+      this.Reports = false;
+      this.PendingAccounts = false;
+      this.toggle();
+    },
+    toggle(){
       document.querySelector('.hamburger').classList.remove('open')
       document.querySelector('.navigation').classList.remove('active')
     },
@@ -159,35 +169,40 @@ export default {
       this.SecurityAccounts = false;
       this.Reports = false;
       this.PendingAccounts = false;
+      this.home = false;
+      this.toggle();
     },
     showSecurityAccounts(){
       this.violationsPage = false;
       this.SecurityAccounts = !this.SecurityAccounts;
       this.Reports = false;
       this.PendingAccounts = false;
+      this.home = false;
+      this.toggle();
     },
     showReports(){
       this.violationsPage = false;
       this.SecurityAccounts = false;
       this.Reports = !this.Reports;
       this.PendingAccounts = false;
+      this.home = false;
+      this.toggle();
     },
     showPendingAccounts(){
       this.violationsPage = false;
       this.SecurityAccounts = false;
+      this.home = false;
       this.Reports = false;
       this.PendingAccounts = !this.PendingAccounts;
+      this.$emit('goHome2');
       this.$emit('handlePendingAccountsClose');
+      this.toggle();
     },
     showPopup(){
       this.Popup = !this.Popup;
     },
     closeContentPage(){
       this.contentPageVisible = false;
-    },
-    showHome(){
-      document.querySelector('.hamburger').classList.remove('open')
-      document.querySelector('.navigation').classList.remove('active')
     },
     getCurrentTime() {
       const now = new Date();
@@ -206,12 +221,13 @@ export default {
         });
     },
     fetchTotalViolation() {
-      axios.get("http://127.0.0.1:8000/violationCount")
+      axios.get("http://127.0.0.1:8000/violationDetails/count")
         .then((response) => {
           this.violationReportsTotal = response.data;
         })
         .catch((error) => {
           console.error(error);
+          console.log(response.data);
         });
     },
     updateClock() {
@@ -249,27 +265,28 @@ export default {
   margin: 0;
   box-sizing: border-box;
 }
-#OSAD{
-  color: #FFF;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 100em; 
-  font-weight: 300;
-  position: absolute;
-  top: 6.5%;
-  left: 5%;
-}
+
 #transparent {
   width: 100%; 
   height: 10%; 
-  background-color: #0D0D0D;
+  /* transparent */
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 9.3%; 
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  opacity: 40%;
+  align-items: center;  
+  z-index: 1;
+}
+#transparent h1{
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  position: fixed;
+  top: 16%;
+  left: 6%;
 }
 #OSADcontainer {
   width: 100%; 
@@ -349,8 +366,10 @@ nav ul li a:hover::after {
   width: 20%;
   height: 100%;
   background-color: black;
-  transition: 0.5s;
+  transition: 0.5s ease-in-out;
+  z-index: 3;
 }
+
 
 #user {
   position: relative;
@@ -389,6 +408,8 @@ nav ul li a:hover::after {
 .hamburger,
 .bar {
   position: fixed;
+  z-index: 10;
+  display: block;
 }
 
 .hamburger {
@@ -399,8 +420,10 @@ nav ul li a:hover::after {
   height: 4%;
   transform: translateY(50%);
   border: 0;
-  background: 0 0;
+  position: fixed;
+  background: transparent;
 }
+
 
 .bar {
   top: 3px;
@@ -421,7 +444,11 @@ nav ul li a:hover::after {
 
 .navigation.active {
   left: 0;
+  position: fixed;
+  z-index: 4;
+  transition: 0.5s ease-in-out;
 }
+
 
 .hamburger.open #bar1 {
   background-color: white;
@@ -468,6 +495,7 @@ nav ul li a:hover::after {
   width: 27%;
   height: 40%;
 }
+
 
 .reports-count {
   font-size: 2em;

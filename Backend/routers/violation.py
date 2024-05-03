@@ -10,10 +10,7 @@ def get_violation(db: Session = Depends(get_db)):
     violations = db.query(Violation).all()
     return violations
 
-@router.get("/violationCount")
-def violation_count(db: Session = Depends(get_db)):
-    count = db.query(Violation).count()
-    return count
+
 
 @router.post("/violationAdd/")
 async def add_violation(

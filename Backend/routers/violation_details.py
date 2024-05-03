@@ -16,7 +16,7 @@ def get_violation_details(db: Session = Depends(get_db)):
 def get_specifyViolation(report_id: int, db: Session = Depends(get_db)):
     get_specify = db.query(ViolationDetails).filter(ViolationDetails.reportID == report_id).first()
     if get_specify:
-        return {"id": get_specify.reportID, "Violation ID": get_specify.violationID, "date": get_specify.dateTime, "status": get_specify.status, "venue":get_specify.venue}
+        return {"id": get_specify.reportID, "date": get_specify.dateTime, "status": get_specify.status, "venue":get_specify.venue}
     raise HTTPException(status_code=404, detail="Violation not found")
 
 @router.get("/violationDetails/student/{studentID}")
@@ -61,5 +61,9 @@ async def create_violation_details(
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
 
-
+# get the number of violations listed
+@router.get("/violationDetails/count", response_model=dict)
+def get_violation_count(db: Session = Depends(get_db)):
+    violation_count = db.query(ViolationDetails).count()
+    return  violation_count
 
