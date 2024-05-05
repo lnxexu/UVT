@@ -5,19 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-class Administrator(Base):
-    __tablename__ = "administrator"
-    adminID = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    position = Column(String)
-    contactInformation = Column(String)
-
-class Exception(Base):
-    __tablename__ = "exception"
-    exceptionID = Column(Integer, primary_key=True, index=True)
-    dateStart = Column(Date)
-    dateEnd = Column(Date)
-    studentID = Column(Integer)
 
 class SchoolRules(Base):
     __tablename__ = "schoolRules"
@@ -25,12 +12,6 @@ class SchoolRules(Base):
     description = Column(String)
     category = Column(String)
 
-class SecurityGuard(Base):
-    __tablename__ = "securityGuard"
-    guardID = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    contactNumber = Column(Integer)
-    age = Column(Integer)
 
 class Student(Base):
     __tablename__ = "student"
@@ -38,13 +19,6 @@ class Student(Base):
     name = Column(String)
     section = Column(String)
     contactInformation = Column(String)
-
-class Violation(Base):
-    __tablename__ = "violation"
-    violationID = Column(Integer, primary_key=True, index=True)
-    description = Column(String)
-    ruleID = Column(Integer)
-    adminID = Column(Integer)
 
 class ViolationDetails(Base):
     __tablename__ = "violationdetails"

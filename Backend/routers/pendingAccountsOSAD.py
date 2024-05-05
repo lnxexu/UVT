@@ -28,4 +28,8 @@ async def delete_user(email: str, db: Session = Depends(get_db)):
     else:
         return HTTPException(status_code=404, detail="User not found")
     
+@router.get("/CountAccountsOSAD")
+async def count_accounts(db: Session = Depends(get_db)):
+    return db.query(PendingAccountDetailsOSAD).count()
+    
     

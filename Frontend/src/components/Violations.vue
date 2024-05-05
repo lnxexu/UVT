@@ -54,7 +54,12 @@ export default {
     async fetchData() {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/violationDetails/student/${this.student_id}`);
-        this.violations = response.data;
+        this.violations = response.data.map(report => {
+          let dateTime = new Date(report.dateTime);
+          let formattedDateTime = dateTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+
+          return { ...report, dateTime: formattedDateTime};
+        });
         if (this.violations.length === 0) {
           this.studentExists = true;
         } else {

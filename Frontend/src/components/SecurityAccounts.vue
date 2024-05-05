@@ -11,17 +11,17 @@
       <div class="main-content">
         <h1>Security Guards List</h1>
         <ul :class="{ 'scrollable-list': securityGuards.length >= 5 }">
-          <li v-for="guard in securityGuards" :key="guard.guardID" @click="showGuardDetails(guard)">
-            {{ guard.name }} - Badge Number: {{ guard.guardID }}
-          </li>
+          <li v-for="guard in securityGuards" @click="showGuardDetails(guard)">{{ guard.fullname }}</li>
         </ul>
   
         <!-- Detailed view for the selected guard -->
         <div v-if="selectedGuard">
-          <h2>{{ selectedGuard.name }}</h2>
-          <p><strong>Badge Number:</strong> {{ selectedGuard.guardID }}</p>
+          <h2>{{ selectedGuard.fullname }}</h2>
+          <p><strong>Suffix:</strong> {{ selectedGuard.suffix }}</p>
+          <p><strong>Birth Date:</strong> {{ selectedGuard.birthDate }}</p>
           <p><strong>Age:</strong> {{ selectedGuard.age }}</p>
-          <p><strong>Contact Number:</strong> {{ selectedGuard.contactNumber }}</p>
+          <p><strong>Address:</strong> {{ selectedGuard.address }}</p>
+          <p><strong>Contact Number:</strong> {{ selectedGuard.contactInformation }}</p>
           <!-- Add more personal information as needed -->
         </div>
       </div>
@@ -51,9 +51,13 @@
         this.selectedGuard = guard;
       },
       fetchData() {
-      axios.get("http://127.0.0.1:8000/securityGuard")
+        axios.get("http://127.0.0.1:8000/sekyuUsers")
         .then((response) => {
-          this.securityGuards = response.data;
+          this.securityGuards = response.data.map(guard => {
+            let birthDate = new Date(guard.birthDate);
+            let formattedDate = birthDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            return { ...guard, birthDate: formattedDate };
+          });
         })
         .catch((error) => {
           console.error(error);

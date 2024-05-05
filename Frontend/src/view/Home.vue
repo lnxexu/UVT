@@ -137,7 +137,7 @@
 <div class="w3-container" style="padding:128px 16px" id="work">
   <h3 class="w3-center">UVT PROTOTYPE</h3>
   <p class="w3-center w3-large">Choose if whether you are Security Guard or a OSAD staff</p>
-  <p class="w3-center w3-large">Note: Username: "demo@gmail.com", Password: "password"</p>
+  <p class="w3-center w3-large">Note: Username: "demo@gmail.com", Password: "Password123@@"</p>
 
   <div class="w3-row-padding" style="margin-top:64px">
     <div style="display: flex; justify-content: space-evenly; height: 300px">

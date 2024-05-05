@@ -18,8 +18,8 @@
           </div>
         </div>
         <div class="dashboard-item reports-item hover-effect">
-          <h2 class="integral-font ">Violation Reports Today</h2>
-          <div class="reports-count"><h1>{{ violationReportsToday }}</h1></div>
+          <h2 class="integral-font ">Pending Accounts</h2>
+          <div class="reports-count"><h1>{{ accountCreationPending }}</h1></div>
         </div>
         <h1 class = "name-dashboard integral-font"> dashboard</h1>
         <div class="dashboard-item guard-item hover-effect">
@@ -109,7 +109,7 @@ export default {
       Popup: false,
       PendingAccounts: false,
       pendingViolationReports: '',
-      violationReportsToday: 0,
+      accountCreationPending: '',
       currentTime: this.getCurrentTime(),
       violationReportsTotal:'',
       isLoaded: false,
@@ -221,14 +221,29 @@ export default {
         });
     },
     fetchTotalViolation() {
-      axios.get("http://127.0.0.1:8000/violationDetails/count")
+      axios.get("http://127.0.0.1:8000/violationDetails")
         .then((response) => {
           this.violationReportsTotal = response.data;
         })
         .catch((error) => {
           console.error(error);
-          console.log(response.data);
         });
+    },
+    fetchAccountCreationPending() {
+      axios.get("http://127.0.0.1:8000/CountAccountsSekyu")
+      .then((response1) => {
+        let firstResponseData = response1.data;
+        axios.get("http://127.0.0.1:8000/CountAccountsOSAD")
+        .then((response2) => {
+          this.accountCreationPending = firstResponseData + response2.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     },
     updateClock() {
       setInterval(() => {
@@ -239,6 +254,7 @@ export default {
   },
   mounted() {
     this.getUsername();
+    this.fetchAccountCreationPending();
     this.fetchTotalViolation();
     this.fetchPendingViolationReports();
     this.updateClock()

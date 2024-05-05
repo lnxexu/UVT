@@ -1,16 +1,13 @@
 from fastapi import APIRouter,Depends, HTTPException
-from models.database import SessionLocal, get_db
-from models.models import ViolationDetails, ViolationDetailsInfo, PendingViolationDetailsInfo, Student
+from models.database import get_db
+from models.models import ViolationDetails, Student
 from sqlalchemy.orm import Session
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql import select
 
 router = APIRouter(tags=["Violation Details"])
 
-@router.get("/violationDetails")
-def get_violation_details(db: Session = Depends(get_db)):
-    violation_details = db.query(ViolationDetails).all()
-    return violation_details
 
 @router.get("/violationDetails/{reportID}", response_model=dict)
 def get_specifyViolation(report_id: int, db: Session = Depends(get_db)):
@@ -19,12 +16,13 @@ def get_specifyViolation(report_id: int, db: Session = Depends(get_db)):
         return {"id": get_specify.reportID, "date": get_specify.dateTime, "status": get_specify.status, "venue":get_specify.venue}
     raise HTTPException(status_code=404, detail="Violation not found")
 
+
+
+
 @router.get("/violationDetails/student/{studentID}")
-def get_violation_by_student(studentID: int, db: Session = Depends(get_db)):
-    violation = db.query(ViolationDetails).filter(ViolationDetails.studentID == studentID).all()
-    if violation is None:
-        raise HTTPException(status_code=404, detail="Violation not found")
-    return violation
+def get_violation_details(studentID: int, db: Session = Depends(get_db)):
+    violation_details = db.query(ViolationDetails).filter(ViolationDetails.studentID == studentID).all()
+    return violation_details
 
 @router.post("/violationDetailsPost/")
 async def create_violation_details(
@@ -41,7 +39,6 @@ async def create_violation_details(
         student = db.query(Student).filter(Student.studentID == studentID).first()
         if not student:
             raise HTTPException(status_code=400, detail="Student not found")
-
         violation = ViolationDetails(
             studentID=studentID,
             violation=violation,
@@ -61,9 +58,10 @@ async def create_violation_details(
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
 
-# get the number of violations listed
-@router.get("/violationDetails/count", response_model=dict)
+
+@router.get("/violationDetails")
 def get_violation_count(db: Session = Depends(get_db)):
-    violation_count = db.query(ViolationDetails).count()
-    return  violation_count
+    violation_count = db.query(ViolationDetails.reportID).count()
+    return violation_count
+
 

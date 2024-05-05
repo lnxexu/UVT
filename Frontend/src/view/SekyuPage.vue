@@ -9,9 +9,9 @@ export default {
   components: { bg, Popup, PopSekyu, axios }, 
   data() {
     return {
-      name: 'Jazmine Rose Quitoras',
-      section: 'BSIT-2B',
-      studentID: '220000000357',
+      name: '',
+      section: '',
+      studentID: '',
       violation: '',
       dateTime: '',
       description: '',
@@ -28,7 +28,8 @@ export default {
       invalid: false,
       responseData: null,
       username: '',
-      imageUrl: null
+      imageUrl: null,
+      notFound: false,
     };
   },
   mounted() {
@@ -58,6 +59,30 @@ export default {
         })
         .catch((error) => {
           console.error(error);
+        });
+    },
+    getStudentInfo() {
+      const stud = this.studentID.trim();
+      if (!stud) {
+        this.error1 = true;
+        return;
+      }
+      if (!/^22000000\d{4}$/.test(stud)) {
+        this.invalid = true;
+        return;
+      }
+      const params = parseInt(stud);
+      axios.get(`http://127.0.0.1:8000/student/${params}`)
+        .then((response) => {
+          this.name = response.data.name;
+          this.section = response.data.section;
+          this.error4 = false;
+          this.error5 = false;
+          this.notFound = false;
+        })
+        .catch((error) => {
+          console.error(error);
+          this.notFound = true;
         });
     },
     handlePopupClose(value) {
@@ -198,11 +223,6 @@ export default {
     </div>
     <nav>
       <ul>
-        <div @click="">
-          <li><img src="../assets/bell.png" class="icon4">
-            <a>Reports</a>
-          </li>
-        </div>
         <div @click="showPopup()">
           <li><img src="../assets/logout.png" class="icon5">
             <a>Log Out</a>
@@ -214,8 +234,6 @@ export default {
   <div id="transparent">
     <h1>SECURITY</h1>
   </div>
-
-    
   <div id="container1">
     <div id="id">
       <div class="image">
@@ -236,10 +254,12 @@ export default {
       </div>
     </div>
     <div id="container-content">
-      <form class="needs-validation" @submit.prevent="submitForm" ref="form" novalidate>
+      <form class="needs-validation" @submit.prevent="submitForm()" ref="form" >
         <div id="header">
           <h2 id="first">Student ID</h2>
-          <input v-model="studentID" type="text" class="form-control" id="stud" required pattern="22000000\d{4}" @input="validateInputs" readonly="readonly"/>
+          <input v-model="studentID" type="text" class="form-control" id="stud" @input="validateInputs" />
+          <button id="search" @click="getStudentInfo()"><i class="fa fa-search"></i></button>
+          <span v-if="notFound" class="error" id = "notFound">Student not found.</span>
           <span v-if="error1" class="error" id="error1">This field is required.</span>
           <span v-if="invalid" class="error" id="invalid">Invalid input</span>
 
@@ -667,35 +687,49 @@ a {
   color: #ff2121;
   font-size: small;
 }
-#error1{
+#container-content #notFound{
   position: fixed;
   top: 37.5%;
   left: 40.5%;
 }
-#error3{
+
+#container-content #error1{
+  position: fixed;
+  top: 37.5%;
+  left: 40.5%;
+}
+#container-content #error3{
   position: fixed;
   top: 59.3%;
   left: 40.5%;
 }
-#error2{
+#container-content #error2{
   position: fixed;
   top: 37.5%;
   left: 70.52%;
 }
-#error4{
+#container-content #error4{
   display: flex;
   align-items: center;
   justify-content: center;
 }
-#error5{
+#container-content #error5{
   display: flex;
   align-items: center;
   justify-content: center;
 }
-#invalid{
+#container-content #invalid{
   position: fixed;
   top: 37.5%;
   left: 40.5%;
+}
+#container-content #search{
+  position: fixed;
+  top: 31.3%;
+  left: 64%;
+  height: 6%;
+  width: 2%;
+  border-radius: 5px;
 }
 .stuInfo{
   border: none;
@@ -704,7 +738,7 @@ a {
   color: #f3f3f3;
   text-align: center;
   height: 1.7em;
-  width: 100%;
+  width: auto;
 } 
 * {font-family:"Raleway", sans-serif}
 #userSpan {
