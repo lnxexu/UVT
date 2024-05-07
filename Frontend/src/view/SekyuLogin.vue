@@ -61,7 +61,7 @@ export default {
       });
     },
     postLogin() {
-      if(this.username === "demo@gmail.com" && this.password === "Password123@@"){
+      if(this.email === "demo@gmail.com" && this.password === "Password123@@"){
         this.$router.push('SekyuPage');
       }
       else{
