@@ -12,7 +12,7 @@
       <div id="searchbar">
         <input id = "search" type="text" v-model="student_id" placeholder="Search Student" />
         <!-- make a span that will show after the button is clicked if the student is existing in the database  -->
-        <button id= "submit"@click="fetchData()">Submit</button>
+        <button id= "submit"@click="fetchData(), selectedViolation = null">Submit</button>
         <span id="studentExists"v-if="studentExists">Student does not have any violations or exist in the database.</span>
       </div>
       <ul>
@@ -20,7 +20,7 @@
           {{ violation.reportID }} ({{ violation.dateTime }}) 
         </li>
       </ul>
-      <ViolationDetails v-if="selectedViolation" :selectedViolation="selectedViolation" @close="closeViolation = false" />
+      <ViolationDetails id="details" v-if="selectedViolation" :selectedViolation="selectedViolation" @close="closeViolation = false" />
     </div>
   </div>
 </template>
@@ -130,8 +130,21 @@ ul {
   list-style-type: none;
   padding: 0;
   cursor: pointer;
+  width: 45%;
 }
 
+.main-content #details {
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 50%;
+  position: fixed;
+  left: 47.8%;
+  top: 31%;
+}
 li {
   margin-bottom: 10px;
   padding: 10px;

@@ -1,209 +1,3 @@
-<script>
-import bg from "../components/Background2.vue";
-import PopSekyu from '../components/PopupSekyu.vue';
-import Popup from '../components/LogOutSekyu.vue';
-import axios from "axios";
-
-export default {
-  name: 'SekyuPage',
-  components: { bg, Popup, PopSekyu, axios }, 
-  data() {
-    return {
-      name: '',
-      section: '',
-      studentID: '',
-      violation: '',
-      dateTime: '',
-      description: '',
-      tableData: [],
-      isPopupOpen1: false,
-      isPopupOpen2: false,
-      isLoaded: false,
-      Popup: false,
-      error1: false,
-      error2: false,
-      error3: false,
-      error4: false,
-      error5: false,
-      invalid: false,
-      responseData: null,
-      username: '',
-      imageUrl: null,
-      notFound: false,
-    };
-  },
-  mounted() {
-    this.getUsername();
-    this.updateDateTime();
-    const visibilityDuration = 1000;
-    setInterval(this.updateDateTime, 1000);
-    setTimeout(() => {
-      this.isLoaded = true;
-      const loaderContainers = document.getElementsByClassName('loader-container');
-      for (const container of loaderContainers) {
-        container.classList.add('loaded');
-      }
-    }, visibilityDuration);
-
-  },
-  methods: {
-    onFileChange(e) {
-      const file = e.target.files[0];
-      this.imageUrl = URL.createObjectURL(file);
-    },
-    getUsername() {
-      axios.get(`http://127.0.0.1:8000/loginSekyu`)
-        .then((response) => {
-          this.username = response.data.fullName;
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    getStudentInfo() {
-      const stud = this.studentID.trim();
-      if (!stud) {
-        this.error1 = true;
-        return;
-      }
-      if (!/^22000000\d{4}$/.test(stud)) {
-        this.invalid = true;
-        return;
-      }
-      const params = parseInt(stud);
-      axios.get(`http://127.0.0.1:8000/student/${params}`)
-        .then((response) => {
-          this.name = response.data.name;
-          this.section = response.data.section;
-          this.error4 = false;
-          this.error5 = false;
-          this.notFound = false;
-        })
-        .catch((error) => {
-          console.error(error);
-          this.notFound = true;
-        });
-    },
-    handlePopupClose(value) {
-      this.Popup = value;
-    },
-    showPopup(){
-      this.Popup = !this.Popup;
-    },
-   
-    submitForm() {
-      const formData = {
-        name: this.name,
-        section: this.section,
-        studentID: this.studentID,
-        violation: this.violation,
-        description: this.description,
-        dateTime: this.dateTime
-      };
-
-      // Basic input validation
-      for (let key in formData) {
-        if (!formData[key]) {
-          console.error(`Missing value for ${key}`);
-          return;
-        }
-      }
-
-      // Convert formData to query parameters
-      const params = new URLSearchParams(formData).toString();
-
-      axios.post(`http://127.0.0.1:8000/pendingAdd?${params}`)
-        .then((response) => {
-          this.tableData = response.data;
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      },
-    updateDateTime() {
-      var dateTime = new Date();
-      var year = dateTime.getFullYear();
-      var month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
-      var day = ('0' + dateTime.getDate()).slice(-2);
-      var hours = dateTime.getHours();
-      var minutes = dateTime.getMinutes();
-      var seconds = dateTime.getSeconds();
-      hours = (hours < 10 ? "0" : "") + hours;
-      minutes = (minutes < 10 ? "0" : "") + minutes;
-      seconds = (seconds < 10 ? "0" : "") + seconds;
-      this.dateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    },
-    show() {
-      document.querySelector('.hamburger').classList.toggle('open');
-      document.querySelector('.navigation').classList.toggle('active');
-    },
-    clearInputs() {
-      this.name = '';
-      this.section = '';
-      this.studentID = '';
-      this.violation = '';
-      this.description = '';
-      this.error1 = false;
-      this.error2 = false;
-      this.error3 = false;
-      this.error4 = false;
-      this.error5 = false;
-      this.invalid = false;
-    },
-    togglePopup1() {
-      if (this.validateInputs()) {
-        this.isPopupOpen1 = true;
-      }
-    },
-    togglePopup2() {
-      this.isPopupOpen2 = true;
-      this.clearInputs();
-    },
-    closePopup() {
-      this.isPopupOpen1 = false;
-      this.isPopupOpen2 = false;
-      this.$emit('close');
-    },
-    showPopup(){
-      this.Popup = !this.Popup;
-    },
-    closeContentPage(){
-      this.Popup = false;
-    },
-    validateInputs() {
-      this.error1 = false;
-      this.error2 = false;
-      this.error3 = false;
-      this.error4 = false;
-      this.error5 = false;
-      this.invalid = false;
-      const trimmedName = this.name.trim();
-      const trimmedSection = this.section.trim();
-      const trimmedStudentID = this.studentID.trim();
-      if(trimmedName === ''){
-        this.error4 = true;
-      }
-      if(trimmedSection === ''){
-        this.error5 = true;
-      }
-      if (trimmedStudentID === '') {
-        this.error1 = true;
-      } else if (!/^22000000\d{4}$/.test(trimmedStudentID)) {
-        this.invalid = true;
-      }
-      if (!this.violation) {
-        this.error2 = true;
-      }
-      if (!this.description) {
-        this.error3 = true;
-      }
-      return !(this.error1 || this.error2 || this.error3 || this.invalid || this.error4 || this.error5);
-    },
-  }  
-};
-</script>
 <template>
 <div class="loader-container" id="loader">
   <div class="loader"></div>
@@ -329,6 +123,210 @@ export default {
 </div>
 
 </template>
+
+<script>
+import bg from "../components/Background2.vue";
+import PopSekyu from '../components/PopupSekyu.vue';
+import Popup from '../components/LogOutSekyu.vue';
+import axios from "axios";
+
+export default {
+  name: 'SekyuPage',
+  components: { bg, Popup, PopSekyu, axios }, 
+  data() {
+    return {
+      name: '',
+      section: '',
+      studentID: '',
+      violation: '',
+      dateTime: '',
+      description: '',
+      tableData: [],
+      isPopupOpen1: false,
+      isPopupOpen2: false,
+      isLoaded: false,
+      Popup: false,
+      error1: false,
+      error2: false,
+      error3: false,
+      error4: false,
+      error5: false,
+      invalid: false,
+      responseData: null,
+      username: '',
+      imageUrl: null,
+      notFound: false,
+      guard: "",
+    };
+  },
+  mounted() {
+    this.getUsername();
+    this.updateDateTime();
+    const visibilityDuration = 1000;
+    setInterval(this.updateDateTime, 1000);
+    setTimeout(() => {
+      this.isLoaded = true;
+      const loaderContainers = document.getElementsByClassName('loader-container');
+      for (const container of loaderContainers) {
+        container.classList.add('loaded');
+      }
+    }, visibilityDuration);
+
+  },
+  methods: {
+    onFileChange(e) {
+      const file = e.target.files[0];
+      this.imageUrl = URL.createObjectURL(file);
+    },
+    getUsername() {
+      axios.get(`http://127.0.0.1:8000/loginSekyu`)
+        .then((response) => {
+          this.username = response.data.fullName;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getStudentInfo() {
+      const stud = this.studentID.trim();
+      if (!stud) {
+        this.error1 = true;
+        return;
+      }
+      if (!/^22000000\d{4}$/.test(stud)) {
+        this.invalid = true;
+        return;
+      }
+      const params = parseInt(stud);
+      axios.get(`http://127.0.0.1:8000/student/${params}`)
+        .then((response) => {
+          this.name = response.data.name;
+          this.section = response.data.section;
+          this.error4 = false;
+          this.error5 = false;
+          this.notFound = false;
+        })
+        .catch((error) => {
+          console.error(error);
+          this.notFound = true;
+        });
+    },
+    handlePopupClose(value) {
+      this.Popup = value;
+    },
+    showPopup(){
+      this.Popup = !this.Popup;
+    },
+    submitForm() {
+      const formData = {
+        name: this.name,
+        section: this.section,
+        studentID: this.studentID,
+        violation: this.violation,
+        description: this.description,
+        dateTime: this.dateTime,
+        guard: this.username,
+      };
+      for (let key in formData) {
+        if (!formData[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
+      }
+      const params = new URLSearchParams(formData).toString();
+      axios.post(`http://127.0.0.1:8000/pendingAdd?${params}`)
+        .then((response) => {
+          this.tableData = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      },
+    updateDateTime() {
+      var dateTime = new Date();
+      var year = dateTime.getFullYear();
+      var month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
+      var day = ('0' + dateTime.getDate()).slice(-2);
+      var hours = dateTime.getHours();
+      var minutes = dateTime.getMinutes();
+      var seconds = dateTime.getSeconds();
+      hours = (hours < 10 ? "0" : "") + hours;
+      minutes = (minutes < 10 ? "0" : "") + minutes;
+      seconds = (seconds < 10 ? "0" : "") + seconds;
+      this.dateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
+    show() {
+      document.querySelector('.hamburger').classList.toggle('open');
+      document.querySelector('.navigation').classList.toggle('active');
+    },
+    clearInputs() {
+      this.name = '';
+      this.section = '';
+      this.studentID = '';
+      this.violation = '';
+      this.description = '';
+      this.error1 = false;
+      this.error2 = false;
+      this.error3 = false;
+      this.error4 = false;
+      this.error5 = false;
+      this.invalid = false;
+    },
+    togglePopup1() {
+      if (this.validateInputs()) {
+        this.isPopupOpen1 = true;
+      }
+    },
+    togglePopup2() {
+      this.isPopupOpen2 = true;
+      this.clearInputs();
+    },
+    closePopup() {
+      this.isPopupOpen1 = false;
+      this.isPopupOpen2 = false;
+      this.$emit('close');
+    },
+    showPopup(){
+      this.Popup = !this.Popup;
+    },
+    closeContentPage(){
+      this.Popup = false;
+    },
+    validateInputs() {
+      this.error1 = false;
+      this.error2 = false;
+      this.error3 = false;
+      this.error4 = false;
+      this.error5 = false;
+      this.invalid = false;
+      const trimmedName = this.name.trim();
+      const trimmedSection = this.section.trim();
+      const trimmedStudentID = this.studentID.trim();
+      if(trimmedName === ''){
+        this.error4 = true;
+      }
+      if(trimmedSection === ''){
+        this.error5 = true;
+      }
+      if (trimmedStudentID === '') {
+        this.error1 = true;
+      } else if (!/^22000000\d{4}$/.test(trimmedStudentID)) {
+        this.invalid = true;
+      }
+      if (!this.violation) {
+        this.error2 = true;
+      }
+      if (!this.description) {
+        this.error3 = true;
+      }
+      return !(this.error1 || this.error2 || this.error3 || this.invalid || this.error4 || this.error5);
+    },
+
+  }  
+};
+</script>
 <style scoped>
 
 .Sekyu-page-container{

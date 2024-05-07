@@ -8,60 +8,97 @@
       <div class="bar2"></div>
     </div>
     <div class="main-content">
-      <h1>Received Reports</h1>
-    <ul v-if="this.receivedReports.length > 0">
-      <li v-for="(report, index) in receivedReports" :key="index" @click="messageClicked(report)">
-        {{ report.pReportID }} , {{ report.studentID }}
-      </li>
-    </ul>
-    <p v-else>No reports received yet.</p>
-    <hr>
-    <div v-if="selectedReport">
-      <h2><strong>Report ID: {{ selectedReport.pReportID }}</strong></h2>
-      <hr>
-      <p><strong>Student ID:</strong> {{ selectedReport.studentID }}</p>
-      <p><strong>Date and Time:</strong> {{ selectedReport.dateTime }}</p>
-      <p><strong>Violation:</strong> {{ selectedReport.violation }}</p>
-      <p><strong>Venue: </strong> {{ selectedReport.venue }}</p>
-      <p><strong>Sanction: </strong> {{ selectedReport.sanction }}</p>
-      <p><strong>Status: </strong> {{ selectedReport.status }}</p>
-      <p><strong>Guard: </strong> {{ selectedReport.guard }}</p>
-      <button id="editButton" @click="edit">Edit</button>
-      <button id="deleteReportButton" @click="deleteReport">Delete</button>
-      <button id="approveButton" @click="approve">Approve</button>
-      <div id="edit-modal" v-if="editedReport">
-        <div id="edit">
-          <div class="exit-button"  @click="closePop()" >
-            <div class="bar2"></div>
-            <div class="bar2"></div>
+      <h1><strong>Received Reports</strong></h1>
+      <div class="w3-row">&nbsp;</div>
+      <div class="w3-row">&nbsp;</div>
+      <ul v-if="this.receivedReports.length > 0">
+        <li v-for="(report, index) in receivedReports" :key="index" @click="messageClicked(report)">
+          {{ report.pReportID }} , {{ report.studentID }}
+        </li>
+      </ul>
+      <p v-else>No reports received yet.</p>
+      <div id= "details" v-if="selectedReport">
+        <h2><strong>Report ID: {{ selectedReport.pReportID }}</strong></h2>
+        <hr>
+        <p><strong>Student ID:</strong> {{ selectedReport.studentID }}</p>
+        <p><strong>Date and Time:</strong> {{ selectedReport.dateTime }}</p>
+        <p><strong>Violation:</strong> {{ selectedReport.violation }}</p>
+        <p><strong>Venue: </strong> {{ selectedReport.venue }}</p>
+        <p><strong>Sanction: </strong> {{ selectedReport.sanction }}</p>
+        <p><strong>Status: </strong> {{ selectedReport.status }}</p>
+        <p><strong>Guard: </strong> {{ selectedReport.guard }}</p>
+        <button id="editButton" @click="edit">Edit</button>
+        <button id="deleteReportButton" @click="deleteReport">Delete</button>
+        <button id="approveButton" @click="approve">Approve</button>
+        <button id="exceptionButton" @click="showConfirmPopupExe = true">Exception</button>
+        <div class = "modalPopup" v-if="editedReport">
+          <div id="edit">
+            <div class="exit-button"  @click="closePop()" >
+              <div class="bar2"></div>
+              <div class="bar2"></div>
+            </div>
+            <h2>Edit Report</h2>
+            <p><strong>Report ID:</strong> {{ editedReport.pReportID }}</p>
+            <p><strong>Date and Time:</strong> {{ editedReport.dateTime }}</p>
+            <p><strong>Guard: </strong> {{ editedReport.guard }}</p>
+            <p><strong>Violation:</strong> {{ editedReport.violation }}
+              <select class="input" v-model="editedReport.violation">
+                <option v-for="option in violationOptions" :key="option.value" :value="option.value">
+                  {{ option }}
+                </option>
+              </select>
+            </p>
+            <p><strong>Venue: </strong> 
+              <select class="input" v-model="editedReport.venue">
+                <option v-for="option in venueOptions" :key="option.value" :value="option.value">
+                  {{ option }}
+                </option>
+              </select>
+            </p>
+            <p><strong>Sanction: </strong> <input class="input" type="text" v-model="editedReport.sanction"></p>
+            <p><strong>Status: </strong> 
+              <select class="input" v-model="editedReport.status">
+                <option v-for="option in statusOptions" :key="option.value" :value="option.value">
+                  {{ option }}
+                </option>
+              </select> 
+            </p>
+            
+            <button id="save" @click="save">Save</button>
           </div>
-          <h2>Edit Report</h2>
-          <p><strong>Report ID:</strong> {{ editedReport.pReportID }}</p>
-          <p><strong>Date and Time:</strong> {{ editedReport.dateTime }}</p>
-          <p><strong>Violation:</strong> {{ editedReport.violation }}</p>
-          <input class="input" type="text" v-model="editedReport.violation">
-          <p><strong>Venue: </strong> <input class="input" type="text" v-model="editedReport.venue"></p>
-          <p><strong>Sanction: </strong> <input class="input" type="text" v-model="editedReport.sanction"></p>
-          <p><strong>Status: </strong> <input class="input" type="text" v-model="editedReport.status"></p>
-          <p><strong>Guard: </strong> <input class="input" type="text" v-model="editedReport.guard"></p>
-          <button id="save" @click="save">Save</button>
-        </div>
-        <div id="confirm-popup" v-if="showConfirmPopup">
-          <p>Are you sure you want to save these changes?</p>
-          <p><strong>Report ID: </strong>{{ editedReport.pReportID }}</p>
-          <p><strong>Student ID: </strong>{{ editedReport.studentID }}</p>
-          <p><strong>Date and Time: </strong>{{ editedReport.dateTime }}</p> 
-          <p><strong>Violation: </strong>{{ editedReport.violation }}</p>
-          <p><strong>Venue: </strong>{{ editedReport.venue }}</p>
-          <p><strong>Sanction: </strong>{{ editedReport.sanction }}</p>
-          <p><strong>Status: </strong>{{ editedReport.status }}</p>
-          <p><strong>Guard: </strong>{{ editedReport.guard }}</p>
-          <div class="buttons">
-            <button id = "yes" @click="yes">Yes</button>
-            <button id = "no" @click="showConfirmPopup = false">No</button>
+          <div class="confirm-popup" v-if="showConfirmPopup">
+            <p>Are you sure you want to save these changes?</p>
+            <p><strong>Report ID: </strong>{{ editedReport.pReportID }}</p>
+            <p><strong>Student ID: </strong>{{ editedReport.studentID }}</p>
+            <p><strong>Date and Time: </strong>{{ editedReport.dateTime }}</p> 
+            <p><strong>Violation: </strong>{{ editedReport.violation }}</p>
+            <p><strong>Venue: </strong>{{ editedReport.venue }}</p>
+            <p><strong>Sanction: </strong>{{ editedReport.sanction }}</p>
+            <p><strong>Status: </strong>{{ editedReport.status }}</p>
+            <p><strong>Guard: </strong>{{ editedReport.guard }}</p>
+            <div class="buttons">
+              <button class = "yes" @click="yes">Yes</button>
+              <button class = "no" @click="showConfirmPopup = false">No</button>
+            </div>
           </div>
         </div>
-      </div>
+        <div class="modalPopup" v-if="showConfirmPopupExe">
+          <div class="confirm-popup">
+            <p>Are you sure you want to make this report an exception?</p>
+            <p><strong>Report ID: </strong>{{ selectedReport.pReportID }}</p>
+            <p><strong>Student ID: </strong>{{ selectedReport.studentID }}</p>
+            <p><strong>Date and Time: </strong>{{ selectedReport.dateTime }}</p> 
+            <p><strong>Violation: </strong>{{ selectedReport.violation }}</p>
+            <p><strong>Venue: </strong>{{ selectedReport.venue }}</p>
+            <p><strong>Sanction: </strong>{{ selectedReport.sanction }}</p>
+            <p><strong>Status: </strong>{{ selectedReport.status }}</p>
+            <p><strong>Guard: </strong>{{ selectedReport.guard }}</p>
+            <div class="buttons">
+              <button class = "yes" @click="yesExe">Yes</button>
+              <button class = "no" @click="showConfirmPopupExe = false">No</button>
+            </div>
+          </div>
+        </div>
       <p v-if="reportDeleted">Report has been deleted.</p>
     </div>
   </div>
@@ -75,6 +112,7 @@ export default {
       receivedReports: [],
       selectedReport: null,
       showConfirmPopup: false,
+      showConfirmPopupExe: false,
       closeReport: true,
       closeViolation: true,
       reportDeleted: false,
@@ -83,6 +121,10 @@ export default {
       sanction: "",
       status: "",
       guard: "",
+      guardOptions:[],
+      venueOptions: [ "UIC Bonifacio", "UIC Bangkerohan", "UIC Bajada", "Outside the campus"],
+      statusOptions: [ "Pending","Approved", "Disapproved"],
+      violationOptions: [ "Incomplete uniform","No ID", "Improper undershirt","Improper hair color","Bullying", "Littering", "Loitering", "Smoking"],
     };
   },
   computed: {
@@ -97,8 +139,9 @@ export default {
     this.fetchData();
   },
   methods: {
-    toggleExpansion() {
-      document.querySelector('.violation-list-container').classList.toggle('expanded')
+    
+    exception() {
+
     },
     edit() {
       this.editedReport = Object.assign({}, this.selectedReport);
@@ -143,12 +186,15 @@ export default {
       this.$emit("goHome");
       this.$emit('handleReportClose', false); // Emitting the event
       this.closeReport = false;
-      this.$emit("close");
-      
+      this.$emit("close"); 
     },
     fetchData() {
       axios.get("http://127.0.0.1:8000/pending")
       .then((response) => {
+        response.data.forEach((report) => {
+          const dateTime = new Date(report.dateTime);
+          report.dateTime = dateTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+        });
         this.receivedReports = response.data;
       })
       .catch((error) => {
@@ -193,7 +239,6 @@ export default {
           return;
         }
       }
-      console.log(formData);
       const params = new URLSearchParams(formData).toString();
       axios.post(`http://127.0.0.1:8000/violationDetailsPost?${params}`)
         .then((response) => {
@@ -208,9 +253,20 @@ export default {
     closePop() {
       this.editedReport = null;
     },
+    getGuards() {
+      axios.get(`http://127.0.0.1:8000/sekyuUsers/guards`)
+      .then((response) => {
+        this.guardOptions = response.data;
+        console.log(this.guardOptions);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
   },
   mounted() {
     this.fetchData();
+    this.getGuards();
   },
 };
 </script>
@@ -227,11 +283,6 @@ export default {
   z-index: 2;
 }
 
-ul {
-  list-style-type: none;
-  cursor: pointer;
-  padding: 0;
-}
 
 li {
   margin-bottom: 10px;
@@ -274,7 +325,7 @@ h2, p {
   flex: 1;
   padding: 20px;
 }
-#edit-modal {
+.modalPopup {
   position: fixed;
   z-index: 9999;
   left: 0;
@@ -285,7 +336,7 @@ h2, p {
   background-color: rgba(0,0,0,0.4);
   transition: 0.3s;
 }
-#edit-modal .exit-button{
+.modalPopup .exit-button{
   position: absolute;
   top: 1%;
   left: 94%;
@@ -301,21 +352,43 @@ h2, p {
   border-radius: 5px;
   width: 70%;
 }
-#editButton:hover {
-  background-color: #ccc;
+
+#editButton {
+  background-color: #f0a500;
+}
+#deleteReportButton {
+  background-color: #f44336;
+}
+#approveButton{
+  background-color: #4CAF50;
+}
+#exceptionButton {
+  background-color: #008CBA;
 }
 
-#deleteReportButton:hover {
-  background-color: #ccc;
+#editButton:hover {
+  background-color: #e69500;
 }
-button {
+#deleteReportButton:hover {
+  background-color: #ff2819;
+}
+#approveButton:hover {
+  background-color: #45a049;
+}
+#exceptionButton:hover {
+  background-color: #0073a6;
+}
+
+#details button {
   padding: 10px;
-  margin: 5px;
-  background-color: #cccccc;
+  margin: 2%;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   text-transform: uppercase;
+  color: white ;
+  display: inline;
+  width: 15%;
 }
 .input{
   padding: 10px;
@@ -329,16 +402,36 @@ button {
   background-color: #4CAF50;
   color: white;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0%;
   width: 30%;
-
+  position: relative;
+  left: 34.5%;
 }
 #save:hover {
   background-color: #45a049;
 }
 
-#confirm-popup {
+ul {
+  list-style-type: none;
+  padding: 0;
+  cursor: pointer;
+  width: 45%;
+}
+
+.main-content #details {
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 50%;
+  position: fixed;
+  left: 47.8%;
+  top: 23%;
+}
+
+.confirm-popup {
   position: relative;
   top: 50%;
   left: 50%;
@@ -369,38 +462,51 @@ button {
   margin-right: auto;
   width: 30%;
 }
-#confirm-popup button#yes {
+.modalPopup button.yes {
   background-color: #4CAF50;
   color: white;
 }
-#confirm-popup button#yes:hover {
+.modalPopup button.yes:hover {
   background-color: #45a049;
 }
-#confirm-popup button#no {
+.modalPopup button.no {
   background-color: #f44336;
   color: white;
 }
-#confirm-popup button#no:hover {
+.modalPopup  button.no:hover {
   background-color: #ff2819;
 }
 
-#confirm-popup p {
+.modalPopup button {
+  margin: 10%;
+  background-color: #cccccc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  display: inline;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+}
+
+.modalPopup  p {
   margin: 0;
   padding: 5px;
 }
-#confirm-popup h2 {
+.modalPopup h2 {
   margin: 0;
   padding: 5px;
 }
-#confirm-popup strong {
+.modalPopup strong {
   margin: 0;
   padding: 5px;
 }
-#confirm-popup button ::hover {
+.modalPopup button ::hover {
   background-color: #ccc;
 
 }
-#confirm-popup .buttons {
+.modalPopup.buttons {
   display: flex;
   flex-direction: row;
   justify-content: center;

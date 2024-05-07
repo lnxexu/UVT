@@ -20,11 +20,7 @@ export default {
     },
     methods: {
         sendResetEmail() {
-            // Generate reset code and send it with the email
-            this.generateCode((code) => {
-                // Send authentication to the email that has been used along with the reset code
-                // You can use an API call or any other method to send the email
-                // Implement your logic here
+            this.generateCode((code) => { 
                 axios.get('http://localhost:3000/forgot-password', {
                     params: {
                         email: this.email,

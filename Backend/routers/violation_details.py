@@ -9,15 +9,18 @@ from sqlalchemy.sql import select
 router = APIRouter(tags=["Violation Details"])
 
 
+
+@router.get("/violationDetails")
+def get_violation_count(db: Session = Depends(get_db)):
+    violation_count = db.query(ViolationDetails.reportID).count()
+    return violation_count
+
 @router.get("/violationDetails/{reportID}", response_model=dict)
 def get_specifyViolation(report_id: int, db: Session = Depends(get_db)):
     get_specify = db.query(ViolationDetails).filter(ViolationDetails.reportID == report_id).first()
     if get_specify:
         return {"id": get_specify.reportID, "date": get_specify.dateTime, "status": get_specify.status, "venue":get_specify.venue}
     raise HTTPException(status_code=404, detail="Violation not found")
-
-
-
 
 @router.get("/violationDetails/student/{studentID}")
 def get_violation_details(studentID: int, db: Session = Depends(get_db)):
@@ -59,9 +62,5 @@ async def create_violation_details(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/violationDetails")
-def get_violation_count(db: Session = Depends(get_db)):
-    violation_count = db.query(ViolationDetails.reportID).count()
-    return violation_count
 
 

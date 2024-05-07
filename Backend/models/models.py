@@ -12,7 +12,6 @@ class SchoolRules(Base):
     description = Column(String)
     category = Column(String)
 
-
 class Student(Base):
     __tablename__ = "student"
     studentID = Column(Integer, primary_key=True, index=True)
@@ -108,6 +107,17 @@ class LoginSekyu(Base):
     timestampLogin = Column(Integer, primary_key=True, index=True)
     email = Column(String)
     fullName = Column(String)
+
+class Exception(Base):
+    __tablename__ = "exception"
+    exceptionID = Column(Integer, primary_key=True, index=True)
+    dateTime = Column(DateTime)
+    venue = Column(String)
+    status = Column(Integer)
+    sanction = Column(String)
+    studentID = Column(Integer)
+    violation = Column(String)
+    guard = Column(String)
 
 
 class AdministratorInfo(BaseModel):

@@ -3,14 +3,17 @@ from models.database import get_db
 from models.models import LoginSekyu, SekyuAccount
 from sqlalchemy.orm import Session
 from datetime import datetime
+from sqlalchemy import text
 
 router = APIRouter(tags=["LoginSekyu"])
 
 
 @router.get("/loginSekyu")
 async def get_latest_login(db: Session = Depends(get_db)):
-    user = db.query(LoginSekyu).order_by(LoginSekyu.timestampLogin.desc()).first()
-    return user
+    stmt = text("SELECT * FROM LoginSekyu ORDER BY timestampLogin DESC LIMIT 1")
+    result = db.execute(stmt)
+    user = result.fetchone()
+    return dict(user._mapping) if user else None
 
 # get method for getting username by searching email from other data
 

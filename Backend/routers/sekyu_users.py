@@ -13,21 +13,31 @@ def read_users(db: Session = Depends(get_db)):
     users = [{column: value for column, value in zip(result.keys(), row)} for row in result.fetchall()]
     return users
 
+# Get guards names form dropdown
+@router.get("/sekyuUsers/guards")
+def get_guards(db: Session = Depends(get_db)):
+    result = db.execute(text("SELECT fullName FROM sekyuacc"))
+    guards = [row[0] for row in result.fetchall()]
+    return guards
+
 @router.get("/sekyuUsers/verify")
-async def verify_user(email: str, password: str, db: Session = Depends(get_db)):
-    user = db.query(SekyuAccount).filter(SekyuAccount.email == email, SekyuAccount.password == password).first()
+def verify_user(email: str, password: str, db: Session = Depends(get_db)):
+    stmt = text("SELECT * FROM sekyuacc WHERE email = :email AND password = :password")
+    result = db.execute(stmt, {"email": email, "password": password})
+    user = result.fetchone()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return user
-
+    return dict(user._mapping)
 
 @router.get("/sekyuUsers/searchUser/{email}")
-async def search_user(email: str, db: Session = Depends(get_db)):
-    user = db.query(SekyuAccount).filter(SekyuAccount.email == email).first()
+def search_user(email: str, db: Session = Depends(get_db)):
+    stmt = text("SELECT * FROM sekyuacc WHERE email = :email")
+    result = db.execute(stmt, {"email": email})
+    user = result.fetchone()
     if user:
-        return {"fullName": user.fullName}
+        return {"fullName": user._mapping['fullName']}
     else:
-        return HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="User not found")
     
 
 @router.put("/sekyuUsers/changePassword/{email}")

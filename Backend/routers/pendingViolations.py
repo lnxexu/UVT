@@ -3,14 +3,24 @@ from fastapi import APIRouter, Depends, HTTPException
 from models.database import SessionLocal, get_db
 from models.models import PendingViolationDetails, PendingViolationDetailsInfo
 from sqlalchemy.orm import Session
+from sqlalchemy import text
+
 
 router = APIRouter(tags=["Pending"])
 
-
 @router.get("/pending")
 def pending(db: Session = Depends(get_db)):
-    school_rules = db.query(PendingViolationDetails).all()
-    return school_rules
+    stmt = text("SELECT * FROM pendingv")
+    result = db.execute(stmt)
+    pending = [row._asdict() for row in result]
+    return pending
+
+@router.get("/pendingCount")
+def pending_count(db: Session = Depends(get_db)):
+    stmt = text("SELECT COUNT(*) FROM pendingv")
+    result = db.execute(stmt).scalar()
+    return result
+
 
 @router.post("/pendingAdd/")
 async def send_report(
@@ -20,6 +30,7 @@ async def send_report(
     violation: str ,
     dateTime: datetime, 
     description: str, 
+    guard: str,
     db: Session = Depends(get_db)):
     try:
         send_report = PendingViolationDetails(
@@ -29,6 +40,7 @@ async def send_report(
             violation=violation, 
             dateTime=dateTime,
             description=description,
+            guard=guard
             )
         db.add(send_report)
         db.commit()
@@ -39,10 +51,6 @@ async def send_report(
         raise HTTPException(status_code=500, detail=str(e))
     
 
-@router.get("/pendingCount")
-def pending_count(db: Session = Depends(get_db)):
-    count = db.query(PendingViolationDetails).count()
-    return count
 
 
 @router.delete("/pendingDelete/{pReportID}")
