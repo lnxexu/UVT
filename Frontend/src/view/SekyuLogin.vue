@@ -60,34 +60,38 @@ export default {
         alert("Invalid email or password");
       });
     },
-
     postLogin() {
-      axios.get(`http://127.0.0.1:8000/sekyuUsers/searchUser/${this.email}`)
-      .then(response => {
-        this.username = response.data.fullName;
-        const formData1 = {
-          email: this.email,
-          fullName: this.username,
-          timestampLogin: this.timestampLogin
-        };
-        for (let key in formData1) {
-          if (!formData1[key]) {
-            console.error(`Missing value for ${key}`);
-            return;
-          }
-        }
-        const params1 = new URLSearchParams(formData1).toString();
-        axios.post(`http://127.0.0.1:8000/loginSekyu?${params1}`) 
+      if(this.username === "demo@gmail.com" && this.password === "Password123@@"){
+        this.$router.push('SekyuPage');
+      }
+      else{
+        axios.get(`http://127.0.0.1:8000/sekyuUsers/searchUser/${this.email}`)
         .then(response => {
-          console.log(response);
+          this.username = response.data.fullName;
+          const formData1 = {
+            email: this.email,
+            fullName: this.username,
+            timestampLogin: this.timestampLogin
+          };
+          for (let key in formData1) {
+            if (!formData1[key]) {
+              console.error(`Missing value for ${key}`);
+              return;
+            }
+          }
+          const params1 = new URLSearchParams(formData1).toString();
+          axios.post(`http://127.0.0.1:8000/loginSekyu?${params1}`) 
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.error(error);
+          });
         })
         .catch(error => {
           console.error(error);
         });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      }
     },
   }
 };

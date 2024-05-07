@@ -104,8 +104,6 @@
       </div>
     </div>
   </div>
-
-  
   <transition name="scale">
     <div v-if="popupApprove">
       <div class="w3-modal-content w3-card-4 w3-animate-zoom model " style="max-width: 600px;">
