@@ -18,13 +18,17 @@ class Student(Base):
     name = Column(String)
     section = Column(String)
     contactInformation = Column(String)
+    suffix = Column(String)
+    gender = Column(String)
+    age = Column(Integer)
+    address = Column(String)
+    birthDate = Column(Date)
 
 class ViolationDetails(Base):
     __tablename__ = "violationdetails"
     reportID = Column(Integer, primary_key=True, index=True)
     dateTime = Column(DateTime)
     venue = Column(String)
-    status = Column(Integer)
     sanction = Column(String)
     studentID = Column(Integer)
     violation = Column(String)
@@ -40,7 +44,6 @@ class PendingViolationDetails(Base):
     dateTime = Column(DateTime)
     description = Column(String)
     venue = Column(String)
-    status = Column(String)
     sanction = Column(String)
     guard = Column(String)
 
@@ -69,6 +72,7 @@ class SekyuAccount(Base):
     contactInformation = Column(String)
     address = Column(String)
     birthDate = Column(Date)
+    assignedLoc = Column(String)
 
 class PendingAccountDetailsSekyu(Base):
     __tablename__ = "pendingAccountsSekyu"
@@ -113,12 +117,10 @@ class Exception(Base):
     exceptionID = Column(Integer, primary_key=True, index=True)
     dateTime = Column(DateTime)
     venue = Column(String)
-    status = Column(Integer)
     sanction = Column(String)
     studentID = Column(Integer)
     violation = Column(String)
     guard = Column(String)
-
 
 class AdministratorInfo(BaseModel):
     adminID: int 
@@ -148,6 +150,11 @@ class StudentInfo(BaseModel):
     name: str
     section: str
     contactInformation: int
+    suffix: str
+    gender: str
+    age: int
+    address: str
+    birthDate: str
 
 class ViolationInfo(BaseModel):
     violationID: int
@@ -159,7 +166,6 @@ class ViolationDetailsInfo(BaseModel):
     reportID: int
     dateTime: datetime 
     venue: str
-    status: str
     sanction: str
     studentID: int
     violationID: int
@@ -174,7 +180,6 @@ class PendingViolationDetailsInfo(BaseModel):
     dateTime: datetime 
     description :str
     venue :str
-    status :str
     sanction :str
     guard :str
 

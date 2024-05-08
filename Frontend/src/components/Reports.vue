@@ -25,46 +25,35 @@
         <p><strong>Violation:</strong> {{ selectedReport.violation }}</p>
         <p><strong>Venue: </strong> {{ selectedReport.venue }}</p>
         <p><strong>Sanction: </strong> {{ selectedReport.sanction }}</p>
-        <p><strong>Status: </strong> {{ selectedReport.status }}</p>
         <p><strong>Guard: </strong> {{ selectedReport.guard }}</p>
-        <button id="editButton" @click="edit">Edit</button>
-        <button id="deleteReportButton" @click="deleteReport">Delete</button>
-        <button id="approveButton" @click="approve">Approve</button>
-        <button id="exceptionButton" @click="showConfirmPopupExe = true">Exception</button>
+        <div class="confirmButtons">
+          <button id="editButton" @click="edit">Edit</button>
+          <button id="deleteReportButton" @click="deleteReport">Delete</button>
+        </div>
         <div class = "modalPopup" v-if="editedReport">
           <div id="edit">
             <div class="exit-button"  @click="closePop()" >
               <div class="bar2"></div>
               <div class="bar2"></div>
             </div>
-            <h2>Edit Report</h2>
+            <h2><strong>Edit Report</strong></h2>
+            <hr>
             <p><strong>Report ID:</strong> {{ editedReport.pReportID }}</p>
             <p><strong>Date and Time:</strong> {{ editedReport.dateTime }}</p>
             <p><strong>Guard: </strong> {{ editedReport.guard }}</p>
+            <p><strong>Venue: </strong>{{ editedReport.venue }}</p>
             <p><strong>Violation:</strong> {{ editedReport.violation }}
               <select class="input" v-model="editedReport.violation">
-                <option v-for="option in violationOptions" :key="option.value" :value="option.value">
+                <option v-for="option in violationOptions" :key="option.value" :value="option">
                   {{ option }}
                 </option>
               </select>
             </p>
-            <p><strong>Venue: </strong> 
-              <select class="input" v-model="editedReport.venue">
-                <option v-for="option in venueOptions" :key="option.value" :value="option.value">
-                  {{ option }}
-                </option>
-              </select>
-            </p>
-            <p><strong>Sanction: </strong> <input class="input" type="text" v-model="editedReport.sanction"></p>
-            <p><strong>Status: </strong> 
-              <select class="input" v-model="editedReport.status">
-                <option v-for="option in statusOptions" :key="option.value" :value="option.value">
-                  {{ option }}
-                </option>
-              </select> 
-            </p>
-            
-            <button id="save" @click="save">Save</button>
+            <p><strong>Sanction: </strong><input class="input" type="text" v-model="editedReport.sanction"></p>
+            <div class="confirmButtons">
+              <button id="approveButton" @click="approve()">Approve</button>
+              <button id="exceptionButton" @click="showConfirmPopupExe = true">Exception</button>
+            </div>
           </div>
           <div class="confirm-popup" v-if="showConfirmPopup">
             <p>Are you sure you want to save these changes?</p>
@@ -74,10 +63,9 @@
             <p><strong>Violation: </strong>{{ editedReport.violation }}</p>
             <p><strong>Venue: </strong>{{ editedReport.venue }}</p>
             <p><strong>Sanction: </strong>{{ editedReport.sanction }}</p>
-            <p><strong>Status: </strong>{{ editedReport.status }}</p>
             <p><strong>Guard: </strong>{{ editedReport.guard }}</p>
             <div class="buttons">
-              <button class = "yes" @click="yes">Yes</button>
+              <button class = "yes" @click="yes()">Yes</button>
               <button class = "no" @click="showConfirmPopup = false">No</button>
             </div>
           </div>
@@ -91,7 +79,6 @@
             <p><strong>Violation: </strong>{{ selectedReport.violation }}</p>
             <p><strong>Venue: </strong>{{ selectedReport.venue }}</p>
             <p><strong>Sanction: </strong>{{ selectedReport.sanction }}</p>
-            <p><strong>Status: </strong>{{ selectedReport.status }}</p>
             <p><strong>Guard: </strong>{{ selectedReport.guard }}</p>
             <div class="buttons">
               <button class = "yes" @click="yesExe">Yes</button>
@@ -99,13 +86,22 @@
             </div>
           </div>
         </div>
+        <div class="modalPopup" v-if="showConfirmPopupExe">
+          <div class="confirm-popup">
+            <p>Are you sure you want to make this report an exception?</p>
+            <button class = "yes" @click="yesExe">Yes</button>
+            <button class = "no" @click="showConfirmPopupExe = false">No</button>
+          </div>
+        </div>
+      </div>
       <p v-if="reportDeleted">Report has been deleted.</p>
     </div>
-  </div>
 </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -119,11 +115,9 @@ export default {
       editedReport: null,
       venue: "",
       sanction: "",
-      status: "",
       guard: "",
       guardOptions:[],
       venueOptions: [ "UIC Bonifacio", "UIC Bangkerohan", "UIC Bajada", "Outside the campus"],
-      statusOptions: [ "Pending","Approved", "Disapproved"],
       violationOptions: [ "Incomplete uniform","No ID", "Improper undershirt","Improper hair color","Bullying", "Littering", "Loitering", "Smoking"],
     };
   },
@@ -139,12 +133,12 @@ export default {
     this.fetchData();
   },
   methods: {
-    
     exception() {
-
+      this.showConfirmPopupExe = true;
     },
     edit() {
       this.editedReport = Object.assign({}, this.selectedReport);
+      this.getAssignedLoc();
     },
     save() {
       this.showConfirmPopup = true;
@@ -155,7 +149,6 @@ export default {
         violation: this.editedReport.violation,
         venue: this.editedReport.venue,
         sanction: this.editedReport.sanction,
-        status: this.editedReport.status,
         guard: this.editedReport.guard
       };
       const id = this.editedReport.pReportID;
@@ -166,17 +159,31 @@ export default {
         }
       }
       const params = new URLSearchParams(formData).toString();
-      const newData = id + "?" + params;
-      axios.put(`http://127.0.0.1:8000/pendingUpdate/${newData}`)
+      axios.post(`http://127.0.0.1:8000/violationDetailsPost?${params}`)
       .then((response) => {
         console.log(response.data);
         this.editedReport = null;
         this.showConfirmPopup = false;
+        this.deleteReport();
+        this.reportDeleted = true;
         alert('Changes saved successfully!');
       })
       .catch((error) => {
         console.error(error);
       });
+    },
+    getAssignedLoc(){
+      const data = this.editedReport.guard
+      
+      console.log(data);
+      const params = new URLSearchParams(data).toString();
+      axios.get(`http://127.0.0.1:8000/sekyuUsers/assignedLoc/${data}`)
+      .then((response) => {
+        this.editedReport.venue = response.data.assignedLoc;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     messageClicked(report) {
       this.selectedReport = report;
@@ -184,7 +191,7 @@ export default {
     },
     close() {
       this.$emit("goHome");
-      this.$emit('handleReportClose', false); // Emitting the event
+      this.$emit('handleReportClose', false);
       this.closeReport = false;
       this.$emit("close"); 
     },
@@ -224,31 +231,7 @@ export default {
       });
     },
     approve() {
-      const formData = {
-        studentID: this.selectedReport.studentID,
-        dateTime: this.selectedReport.dateTime,
-        violation: this.selectedReport.violation,
-        venue: this.selectedReport.venue,
-        sanction: this.selectedReport.sanction,
-        status: this.selectedReport.status,
-        guard: this.selectedReport.guard
-      };
-      for (let key in formData) {
-        if (!formData[key]) {
-          console.error(`Missing value for ${key}`);
-          return;
-        }
-      }
-      const params = new URLSearchParams(formData).toString();
-      axios.post(`http://127.0.0.1:8000/violationDetailsPost?${params}`)
-        .then((response) => {
-          console.log(response.data);
-          this.deleteReport();
-          this.reportDeleted = true;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      this.showConfirmPopup = true;
     },
     closePop() {
       this.editedReport = null;
@@ -282,7 +265,6 @@ export default {
   background-color: #f1f1f1;
   z-index: 2;
 }
-
 
 li {
   margin-bottom: 10px;
@@ -336,6 +318,7 @@ h2, p {
   background-color: rgba(0,0,0,0.4);
   transition: 0.3s;
 }
+
 .modalPopup .exit-button{
   position: absolute;
   top: 1%;
@@ -378,7 +361,13 @@ h2, p {
 #exceptionButton:hover {
   background-color: #0073a6;
 }
-
+.confirmButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 #details button {
   padding: 10px;
   margin: 2%;

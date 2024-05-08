@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "cypress": "^13.8.1"
+  },
+  "devDependencies": {
+    "vite": "^5.2.11",
+    "vue": "^3.4.26"
+  }
+}

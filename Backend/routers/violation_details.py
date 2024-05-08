@@ -19,7 +19,7 @@ def get_violation_count(db: Session = Depends(get_db)):
 def get_specifyViolation(report_id: int, db: Session = Depends(get_db)):
     get_specify = db.query(ViolationDetails).filter(ViolationDetails.reportID == report_id).first()
     if get_specify:
-        return {"id": get_specify.reportID, "date": get_specify.dateTime, "status": get_specify.status, "venue":get_specify.venue}
+        return {"id": get_specify.reportID, "date": get_specify.dateTime, "venue":get_specify.venue}
     raise HTTPException(status_code=404, detail="Violation not found")
 
 @router.get("/violationDetails/student/{studentID}")
@@ -34,7 +34,6 @@ async def create_violation_details(
     dateTime: datetime,
     venue: str,
     sanction: str,
-    status: str,
     guard: str,
     db: Session = Depends(get_db)):
     try:
@@ -48,7 +47,6 @@ async def create_violation_details(
             dateTime=dateTime,
             venue=venue,
             sanction=sanction,
-            status=status,
             guard=guard)
         db.add(violation)
         db.commit()

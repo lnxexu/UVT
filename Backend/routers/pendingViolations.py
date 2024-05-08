@@ -10,7 +10,7 @@ router = APIRouter(tags=["Pending"])
 
 @router.get("/pending")
 def pending(db: Session = Depends(get_db)):
-    stmt = text("SELECT * FROM pendingv")
+    stmt = text("SELECT * FROM pendingv ORDER BY pReportID DESC")
     result = db.execute(stmt)
     pending = [row._asdict() for row in result]
     return pending
@@ -20,7 +20,6 @@ def pending_count(db: Session = Depends(get_db)):
     stmt = text("SELECT COUNT(*) FROM pendingv")
     result = db.execute(stmt).scalar()
     return result
-
 
 @router.post("/pendingAdd/")
 async def send_report(
@@ -51,8 +50,6 @@ async def send_report(
         raise HTTPException(status_code=500, detail=str(e))
     
 
-
-
 @router.delete("/pendingDelete/{pReportID}")
 def delete_pending(pReportID: int, db: Session = Depends(get_db)):
     delete = db.query(PendingViolationDetails).filter(PendingViolationDetails.pReportID == pReportID).first()
@@ -63,19 +60,6 @@ def delete_pending(pReportID: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Not found")
 
 
-@router.put("/pendingUpdate/{pReportID}")
-def update_pending(pReportID: int, violation: str, venue: str, sanction: str, status: str, guard: str, db: Session = Depends(get_db)):
-    update = db.query(PendingViolationDetails).filter(PendingViolationDetails.pReportID == pReportID).first()
-    if update:
-        update.violation = violation
-        update.venue = venue
-        update.sanction = sanction
-        update.status = status
-        update.guard = guard
-        db.commit()
-        return {"message": "Updated"}
-    print(f"Did not find record with pReportID {pReportID}")
-    raise HTTPException(status_code=404, detail="Not found")
 
 
     

@@ -9,7 +9,6 @@
           <th>Student ID</th>
           <th>Date</th>
           <th>Venue</th>
-          <th>Status</th>
           <th>Sanctions</th>
           <th>Violation</th>
           <th>Guard</th>
@@ -21,7 +20,6 @@
           <td>{{ selectedViolation.studentID }}</td>
           <td>{{ selectedViolation.dateTime }}</td>
           <td>{{ selectedViolation.venue }}</td>
-          <td>{{ selectedViolation.status }}</td>
           <td>{{ selectedViolation.sanction }}</td>
           <td>{{ selectedViolation.violation }}</td>
           <td>{{ selectedViolation.guard }}</td>

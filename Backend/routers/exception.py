@@ -16,7 +16,6 @@ async def add_exception_report(
     dateTime: datetime,
     venue: str,
     sanction: str,
-    status: str,
     guard: str,
     db: Session = Depends(get_db)):
     try:
@@ -29,7 +28,6 @@ async def add_exception_report(
             dateTime=dateTime,
             venue=venue,
             sanction=sanction,
-            status=status,
             guard=guard)
         db.add(violation)
         db.commit()

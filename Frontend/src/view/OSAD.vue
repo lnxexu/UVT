@@ -37,6 +37,9 @@
 <div v-else-if="violationsPage" @close="closeContentPage">
   <Violations @handleViolationsPageClose="handleViolationsPageClose" @goHome1="this.home = true" />
 </div>
+<div v-else-if="addStudent" @close="closeContentPage">
+  <AddAccount @handleViolationsPageClose="handleAddStudentPageClose" @goHome1="this.home = true" />
+</div>
 <div v-else-if="SecurityAccounts" @close="closeContentPage">
   <SecurityAccounts @handleSecurityAccountsClose="handleSecurityAccountsClose" @goHome="home = true" />
 </div>
@@ -70,8 +73,8 @@
       <div id="2nd" @click = "showHome()">
         <li><img src="../assets/homepage.png" class = "icon1"><a>Home Page</a></li>
       </div>
-      <div id="3rd" @click = "showSecurityAccounts()">
-        <li><img src="../assets/securityAccount.png" class = "icon2"><a>Security Accounts</a></li>
+      <div id="3rd" @click = "showAddStudent()">
+        <li><img src="../assets/securityAccount.png" class = "icon2"><a>Add Student</a></li>
       </div>
       <div id="4th" @click="showViolations()">
         <li><img src="../assets/clock.png" class = "icon3"><a>Violation Tracker</a></li>
@@ -96,11 +99,12 @@ import SecurityAccounts from "../components/SecurityAccounts.vue";
 import Reports from "../components/Reports.vue";
 import PendingAccounts from "../components/PendingAccounts.vue";
 import axios from 'axios';
+import AddAccount from '../components/AddAccount.vue';
 import { ref } from 'vue';
 
 export default {
   name: 'OSAD',
-  components: { bg, Popup, Violations, SecurityAccounts, Reports,PendingAccounts },
+  components: { bg, Popup, Violations, SecurityAccounts, Reports,PendingAccounts, AddAccount },
   data() {
     return{
       violationsPage: false,
@@ -116,10 +120,20 @@ export default {
       username: '',
       home: true,
       isNavigationOpen: false,
+      addStudent: false,
     }
   },
   emits: ['handlePendingAccountsClose', 'handleSecurityAccountsClose', 'handleReportClose', 'goHome', 'goHome1', 'goHome2'],
   methods: {
+    showAddStudent(){
+      this.addStudent = true;
+      this.SecurityAccounts = false;
+      this.Reports = false;
+      this.PendingAccounts = false;
+      this.violationsPage = false;
+      this.home = false;
+      this.toggle();
+    },
     handleNavigationClose() {
       this.isNavigationOpen = false;
     },
@@ -148,6 +162,9 @@ export default {
     handlePendingAccountsClose(value) {
       this.PendingAccounts = value;
     },
+    handleAddStudentPageClose(value) {
+      this.addStudent = value;
+    },
     show() {
       document.querySelector('.hamburger').classList.toggle('open')
       document.querySelector('.navigation').classList.toggle('active')
@@ -158,6 +175,7 @@ export default {
       this.SecurityAccounts = false;
       this.Reports = false;
       this.PendingAccounts = false;
+      this.addStudent = false;
       this.toggle();
     },
     toggle(){
@@ -165,11 +183,12 @@ export default {
       document.querySelector('.navigation').classList.remove('active')
     },
     showViolations(){
-      this.violationsPage = !this.violationsPage;
+      this.violationsPage = true;
       this.SecurityAccounts = false;
       this.Reports = false;
       this.PendingAccounts = false;
       this.home = false;
+      this.addStudent = false;
       this.toggle();
     },
     showSecurityAccounts(){
@@ -178,14 +197,16 @@ export default {
       this.Reports = false;
       this.PendingAccounts = false;
       this.home = false;
+      this.addStudent = false;
       this.toggle();
     },
     showReports(){
       this.violationsPage = false;
       this.SecurityAccounts = false;
-      this.Reports = !this.Reports;
+      this.Reports = true;
       this.PendingAccounts = false;
       this.home = false;
+      this.addStudent = false;
       this.toggle();
     },
     showPendingAccounts(){
@@ -194,6 +215,7 @@ export default {
       this.home = false;
       this.Reports = false;
       this.PendingAccounts = !this.PendingAccounts;
+      this.addStudent = false;
       this.$emit('goHome2');
       this.$emit('handlePendingAccountsClose');
       this.toggle();
@@ -266,9 +288,7 @@ export default {
         container.classList.add("loaded");
       }
     }, visibilityDuration);
-    
   },
-  
 };
 </script>
 

@@ -68,6 +68,17 @@ async def delete_user(email: str, db: Session = Depends(get_db)):
     else:
         return HTTPException(status_code=404, detail="User not found")
     
+# get only the assignedLoc column in the sekyuacc table by thier fullName
+@router.get("/sekyuUsers/assignedLoc/{fullName}")
+def get_assignedLoc(fullName: str, db: Session = Depends(get_db)):
+    stmt = text("SELECT assignedLoc FROM sekyuacc WHERE fullName = :fullName")
+    result = db.execute(stmt, {"fullName": fullName})
+    assignedLoc = result.fetchone()
+    if assignedLoc:
+        return {"assignedLoc": assignedLoc[0]}
+    else:
+        raise HTTPException(status_code=404, detail="User not found")
+
 
 
 
