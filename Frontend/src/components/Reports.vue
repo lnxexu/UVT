@@ -11,13 +11,13 @@
       <h1><strong>Received Reports</strong></h1>
       <div class="w3-row">&nbsp;</div>
       <div class="w3-row">&nbsp;</div>
-      <ul v-if="this.receivedReports.length > 0">
+      <ul v-if="this.receivedReports.length > 0" class="scrollable-list">
         <li v-for="(report, index) in receivedReports" :key="index" @click="messageClicked(report)">
           {{ report.pReportID }} , {{ report.studentID }}
         </li>
       </ul>
       <p v-else>No reports received yet.</p>
-      <div id= "details" v-if="selectedReport">
+      <div class = "details" v-if="selectedReport">
         <h2><strong>Report ID: {{ selectedReport.pReportID }}</strong></h2>
         <hr>
         <p><strong>Student ID:</strong> {{ selectedReport.studentID }}</p>
@@ -26,7 +26,7 @@
         <p><strong>Venue: </strong> {{ selectedReport.venue }}</p>
         <p><strong>Sanction: </strong> {{ selectedReport.sanction }}</p>
         <p><strong>Guard: </strong> {{ selectedReport.guard }}</p>
-        <div class="confirmButtons">
+        <div class="edit">
           <button id="editButton" @click="edit">Edit</button>
           <button id="deleteReportButton" @click="deleteReport">Delete</button>
         </div>
@@ -94,6 +94,9 @@
           </div>
         </div>
       </div>
+      <div class = "details" v-else>
+        <h2 style="position: fixed; top:30%; display: flex; justify-content: center;"><strong>Select a report.</strong></h2>
+      </div>
       <p v-if="reportDeleted">Report has been deleted.</p>
     </div>
 </div>
@@ -144,29 +147,35 @@ export default {
       this.showConfirmPopup = true;
     },
     yes() {
+      console.log(this.editedReport);
       this.showConfirmPopup = false;
+      const dateTime = new Date(this.editedReport.dateTime.replace(' at ', ' '));
+      const formattedDate = dateTime.toISOString().split('.')[0];
+      this.editedReport.dateTime = formattedDate;
       const formData = {
+        studentID: this.editedReport.studentID,
+        dateTime: this.editedReport.dateTime,
         violation: this.editedReport.violation,
         venue: this.editedReport.venue,
         sanction: this.editedReport.sanction,
         guard: this.editedReport.guard
       };
-      const id = this.editedReport.pReportID;
       for (let key in formData) {
         if (!formData[key]) {
-          console.error(`Missing value for ${key}`);
+          alert(`Missing value for ${key}`);
           return;
         }
       }
+      console.log(formData);
       const params = new URLSearchParams(formData).toString();
-      axios.post(`http://127.0.0.1:8000/violationDetailsPost?${params}`)
+      axios.post(`http://127.0.0.1:8000/violationDetailsPost/?${params}`)
       .then((response) => {
         console.log(response.data);
+        alert('Changes saved successfully!');
         this.editedReport = null;
         this.showConfirmPopup = false;
         this.deleteReport();
         this.reportDeleted = true;
-        alert('Changes saved successfully!');
       })
       .catch((error) => {
         console.error(error);
@@ -334,19 +343,24 @@ h2, p {
   padding: 20px;
   border-radius: 5px;
   width: 70%;
+  height: 55%;
 }
 
 #editButton {
   background-color: #f0a500;
+  width: 30%;
 }
 #deleteReportButton {
   background-color: #f44336;
+  width: 30%;
 }
 #approveButton{
   background-color: #4CAF50;
+  width: 100%;
 }
 #exceptionButton {
   background-color: #008CBA;
+  width: 100%;
 }
 
 #editButton:hover {
@@ -361,24 +375,8 @@ h2, p {
 #exceptionButton:hover {
   background-color: #0073a6;
 }
-.confirmButtons {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-#details button {
-  padding: 10px;
-  margin: 2%;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-transform: uppercase;
-  color: white ;
-  display: inline;
-  width: 15%;
-}
+
+
 .input{
   padding: 10px;
   margin: 5px;
@@ -407,7 +405,7 @@ ul {
   width: 45%;
 }
 
-.main-content #details {
+.main-content .details {
   display: inline-block;
   justify-content: center;
   align-items: center;
@@ -476,7 +474,7 @@ ul {
   display: inline;
   justify-content: center;
   align-items: center;
-  width: 30%;
+  width: 100%;
 }
 
 .modalPopup  p {
@@ -500,6 +498,64 @@ ul {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.scrollable-list {
+  height: 670px; 
+  overflow-y: auto;
+}
+.confirmButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 2%;
+  margin-top: 4%;
+}
+button {
+  padding: 10px;
+  margin: 5px;
+  background-color: #cccccc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  display: inline;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: white;
+}
+.edit{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 2%;
+  margin-top: 4%;
+  width: 70%;
+  position: relative;
+  left: 15%;
+}
+.edit #editButton {
+  margin-right: 20%;
+}
+.edit #deleteReportButton {
+  width: 30%;
+}
+.buttons{
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  display: inline;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: white;
+}
+.buttons .yes, .buttons .no {
+  width: 30%;
 }
 
 </style>

@@ -179,85 +179,85 @@ export default {
       });
     },
     approveSekyu() {
-      // const data = {
-      //   fullName: this.selectedSekyu.fullName,
-      //   age: this.selectedSekyu.age,
-      //   gender: this.selectedSekyu.gender,
-      //   suffix: this.selectedSekyu.suffix,
-      //   birthDate: this.selectedSekyu.birthDate,
-      //   address: this.selectedSekyu.address,
-      //   contactInformation: this.selectedSekyu.contactInformation,
-      //   email: this.selectedSekyu.email,
-      //   password: this.selectedSekyu.password,
-      // };
-      // for (let key in data) {
-      //   if (!data[key]) {
-      //     console.error(`Missing value for ${key}`);
-      //     return;
-      //   }
-      // }
-      // const params = new URLSearchParams(data).toString();
-      // axios.post(`http://127.0.0.1:8000/sekyuUsers/addUser?${params}`)
-      // .then((response) => {
-      //   console.log(response);
-      //   this.popupApprove = true;
-      //   this.rejectSekyu();
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      //   this.popupReject = true;
-      // }); 
+      const data = {
+        fullName: this.selectedSekyu.fullName,
+        age: this.selectedSekyu.age,
+        gender: this.selectedSekyu.gender,
+        suffix: this.selectedSekyu.suffix,
+        birthDate: this.selectedSekyu.birthDate,
+        address: this.selectedSekyu.address,
+        contactInformation: this.selectedSekyu.contactInformation,
+        email: this.selectedSekyu.email,
+        password: this.selectedSekyu.password,
+      };
+      for (let key in data) {
+        if (!data[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
+      }
+      const params = new URLSearchParams(data).toString();
+      axios.post(`http://127.0.0.1:8000/sekyuUsers/addUser?${params}`)
+      .then((response) => {
+        console.log(response);
+        this.popupApprove = true;
+        this.rejectSekyu();
+      })
+      .catch((error) => {
+        console.error(error);
+        this.popupReject = true;
+      }); 
       this.popupApprove = true;
       console.log("Approve Sekyu");
     },
     approveOSAD() {
-      // const data = {
-      //   fullName: this.selectedOSAD.fullName,
-      //   age: this.selectedOSAD.age,
-      //   gender: this.selectedOSAD.gender,
-      //   suffix: this.selectedOSAD.suffix,
-      //   birthDate: this.selectedOSAD.birthDate,
-      //   address: this.selectedOSAD.address,
-      //   contactInformation: this.selectedOSAD.contactInformation,
-      //   email: this.selectedOSAD.email,
-      //   password: this.selectedOSAD.password,
-      // };
-      // for (let key in data) {
-      //   if (!data[key]) {
-      //     console.error(`Missing value for ${key}`);
-      //     return;
-      //   }
-      // }
-      // const params = new URLSearchParams(data).toString();
-      // axios.post(`http://127.0.0.1:8000/osadUsers/addUser?${params}`)
-      // .then((response) => {
-      //   console.log(response);
-      //   this.popupApprove = true;
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      //   this.popupReject = true;
-      // });
+      const data = {
+        fullName: this.selectedOSAD.fullName,
+        age: this.selectedOSAD.age,
+        gender: this.selectedOSAD.gender,
+        suffix: this.selectedOSAD.suffix,
+        birthDate: this.selectedOSAD.birthDate,
+        address: this.selectedOSAD.address,
+        contactInformation: this.selectedOSAD.contactInformation,
+        email: this.selectedOSAD.email,
+        password: this.selectedOSAD.password,
+      };
+      for (let key in data) {
+        if (!data[key]) {
+          console.error(`Missing value for ${key}`);
+          return;
+        }
+      }
+      const params = new URLSearchParams(data).toString();
+      axios.post(`http://127.0.0.1:8000/osadUsers/addUser?${params}`)
+      .then((response) => {
+        console.log(response);
+        this.popupApprove = true;
+      })
+      .catch((error) => {
+        console.error(error);
+        this.popupReject = true;
+      });
       this.popupApprove = true;
       console.log("Approve OSAD");
     },
     rejectSekyu() {
-      // axios.delete(`http://127.0.0.1:8000/RejectAccountSekyu/${this.selectedSekyu.email}`)
-      // .then((response) => {
-      //   console.log(response);
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      // });
+      axios.delete(`http://127.0.0.1:8000/RejectAccountSekyu/${this.selectedSekyu.email}`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     },
     rejectOSAD() {
-      // axios.delete(`http://127.0.0.1:8000/RejectAccountOSAD/${this.selectedOSAD.email}`)
-      // .then((response) => {
-      //   console.log(response);
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      // });
+      axios.delete(`http://127.0.0.1:8000/RejectAccountOSAD/${this.selectedOSAD.email}`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     },
   }
 };

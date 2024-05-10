@@ -28,7 +28,7 @@ def get_violation_details(studentID: int, db: Session = Depends(get_db)):
     return violation_details
 
 @router.post("/violationDetailsPost/")
-async def create_violation_details(
+async def add_violation(
     studentID: int,
     violation: str,
     dateTime: datetime,
@@ -37,25 +37,19 @@ async def create_violation_details(
     guard: str,
     db: Session = Depends(get_db)):
     try:
-        # Check if the student exists in the database
-        student = db.query(Student).filter(Student.studentID == studentID).first()
-        if not student:
-            raise HTTPException(status_code=400, detail="Student not found")
-        violation = ViolationDetails(
+        add_violation = ViolationDetails(
             studentID=studentID,
             violation=violation,
             dateTime=dateTime,
             venue=venue,
             sanction=sanction,
-            guard=guard)
-        db.add(violation)
+            guard=guard
+        )
+        db.add(add_violation)
         db.commit()
-        db.refresh(violation)
-        return violation
-    except IntegrityError:
-        db.rollback()
-        raise HTTPException(status_code=400, detail="Foreign key constraint failed")
-    except Exception as e:
+        db.refresh(add_violation)
+        return {"data": add_violation}
+    except IntegrityError as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
 

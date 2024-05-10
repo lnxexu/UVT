@@ -21,3 +21,18 @@ def get_student_by_id(student_id: int, db: Session = Depends(get_db)):
     if student is None:
         raise HTTPException(status_code=404, detail="Student not found")
     return dict(student._mapping) if student else None
+
+@router.post("/student")
+async def add_student(studentID: int, section: str, name: str, gender: str, age: int, contactInformation: str, address: str, birthDate: str, db: Session = Depends(get_db)):
+    try:
+        student = Student(studentID = studentID, section = section, name = name, gender = gender, age = age, contactInformation = contactInformation, address = address, birthDate = birthDate)
+        db.add(student)
+        db.commit()
+        db.refresh(student)
+        return student
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
+    

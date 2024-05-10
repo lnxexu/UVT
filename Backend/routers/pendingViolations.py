@@ -10,14 +10,14 @@ router = APIRouter(tags=["Pending"])
 
 @router.get("/pending")
 def pending(db: Session = Depends(get_db)):
-    stmt = text("SELECT * FROM pendingv ORDER BY pReportID DESC")
+    stmt = text("SELECT * FROM pendingviolations ORDER BY pReportID DESC")
     result = db.execute(stmt)
     pending = [row._asdict() for row in result]
     return pending
 
 @router.get("/pendingCount")
 def pending_count(db: Session = Depends(get_db)):
-    stmt = text("SELECT COUNT(*) FROM pendingv")
+    stmt = text("SELECT COUNT(*) FROM pendingviolations")
     result = db.execute(stmt).scalar()
     return result
 

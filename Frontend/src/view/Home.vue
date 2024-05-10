@@ -384,21 +384,29 @@ export default {
   },
   methods: {
     validateFormOSAD(){
-      if (this.passwordOSAD !== this.confirmPasswordOSAD) {
-        alert("Passwords do not match");
-        return "Passwords do not match";
+      if(this.firstNameOSAD === ''){
+        alert("No first name");
+        return "No first name";
       }
-      if (!this.emailOSAD.includes("@") || !this.emailOSAD.includes(".")) {
-        alert("Invalid email");
-        return "Invalid email";
+      if(this.lastNameOSAD === ''){
+        alert("No last name");
+        return "No last name";
       }
-      if (isNaN(this.contactOSAD) || this.contactOSAD.length !== 11 || !this.contactOSAD.startsWith("09")) {
-        alert("Invalid contact number");
-        return "Invalid contact number";
+      if(this.suffixOSAD === ''){
+        alert("No suffix");
+        return "No suffix";
+      }
+      if(this.genderOSAD === ''){
+        alert("No gender");
+        return "No gender";
       }
       if (isNaN(this.ageOSAD)) {
         alert("Age must be a number");
         return "Age must be a number";
+      }
+      if(this.birthdateOSAD === ''){
+        alert("No birth date");
+        return "No birth date";
       }
       else{
         if(this.ageOSAD < 18){
@@ -406,29 +414,48 @@ export default {
           return "Age must be 18 and above";
         }
       }
+      if (isNaN(this.contactOSAD) || this.contactOSAD.length !== 11 || !this.contactOSAD.startsWith("09")) {
+        alert("Invalid contact number");
+        return "Invalid contact number";
+      }
+      if (!this.emailOSAD.includes("@") || !this.emailOSAD.includes(".")) {
+        alert("Invalid email");
+        return "Invalid email";
+      }
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       if (!passwordRegex.test(this.passwordOSAD)) {
         alert("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character");
         return "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character";
-  }
-
-    },
-    validateFormSekyu() {
-      if (this.passwordSekyu !== this.confirmPasswordSekyu) {
+      }
+      if (this.passwordOSAD !== this.confirmPasswordOSAD) {
         alert("Passwords do not match");
         return "Passwords do not match";
       }
-      if (!this.emailSekyu.includes("@") || !this.emailSekyu.includes(".")) {
-        alert("Invalid email");
-        return "Invalid email";
+    },
+    validateFormSekyu() {
+      if(this.firstNameSekyu === ''){
+        alert("No first name");
+        return "No first name";
       }
-      if (isNaN(this.contactSekyu) || this.contactSekyu.length !== 11 || !this.contactSekyu.startsWith("09")) {
-        alert("Invalid contact number");
-        return "Invalid contact number";
+      if(this.lastNameSekyu === ''){
+        alert("No last name");
+        return "No last name";
+      }
+      if(this.suffixSekyu === ''){
+        alert("No suffix");
+        return "No suffix";
+      }
+      if(this.genderSekyu === ''){
+        alert("No gender");
+        return "No gender";
       }
       if (isNaN(this.ageSekyu)) {
         alert("Age must be a number");
         return "Age must be a number";
+      }
+      if(this.birthdateSekyu === ''){
+        alert("No birth date");
+        return "No birth date";
       }
       else{
         if(this.ageSekyu < 18){
@@ -436,11 +463,22 @@ export default {
           return "Age must be 18 and above";
         }
       }
-
+      if (isNaN(this.contactSekyu) || this.contactSekyu.length !== 11 || !this.contactSekyu.startsWith("09")) {
+        alert("Invalid contact number");
+        return "Invalid contact number";
+      }
+      if (!this.emailSekyu.includes("@") || !this.emailSekyu.includes(".")) {
+        alert("Invalid email");
+        return "Invalid email";
+      }
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       if (!passwordRegex.test(this.passwordSekyu)) {
         alert("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character");
         return "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character";
+      }
+      if (this.passwordSekyu !== this.confirmPasswordSekyu) {
+        alert("Passwords do not match");
+        return "Passwords do not match";
       }
     },
     clearDataSekyu() {
