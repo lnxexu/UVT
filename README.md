@@ -12,26 +12,27 @@ git clone https://github.com/lnxexu/UVT.git
 
 
 **FRONT END**
-$ cd frontend
-$ npm install
-$ npm run dev  
-$
+- cd frontend
+- npm install
+- npm run dev  
+
+
 
 **BACK END**
 
 INSTALL VenV or miniconda Python environment
-$ cd backend
-$ pip install sqlalchemy
-$ pip install fastapi uvicorn mysql-connector-python
-$ pip install pymysql
-$ uvicorn main:app   
-$
+- cd backend
+- pip install sqlalchemy
+- pip install fastapi uvicorn mysql-connector-python
+- pip install pymysql
+- uvicorn main:app   
+
 
 **TEST**
-$ cd test-dev
-$ npm install --cypress --save-dev
-$ npx cypress open
-$
+- cd test-dev
+- npm install --cypress --save-dev
+- npx cypress open
+
 
 
 
