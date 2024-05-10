@@ -26,7 +26,7 @@
         <p><strong>Venue: </strong> {{ selectedReport.venue }}</p>
         <p><strong>Sanction: </strong> {{ selectedReport.sanction }}</p>
         <p><strong>Guard: </strong> {{ selectedReport.guard }}</p>
-        <div class="edit">
+        <div class="editViolation" v-if="edit">
           <button id="editButton" @click="edit">Edit</button>
           <button id="deleteReportButton" @click="deleteReport">Delete</button>
         </div>
@@ -51,7 +51,7 @@
             </p>
             <p><strong>Sanction: </strong><input class="input" type="text" v-model="editedReport.sanction"></p>
             <div class="confirmButtons">
-              <button id="approveButton" @click="approve()">Approve</button>
+              <button id="approveButton" @click="approve(),fetchData()">Approve</button>
               <button id="exceptionButton" @click="showConfirmPopupExe = true">Exception</button>
             </div>
           </div>
@@ -120,8 +120,8 @@ export default {
       sanction: "",
       guard: "",
       guardOptions:[],
-      venueOptions: [ "UIC Bonifacio", "UIC Bangkerohan", "UIC Bajada", "Outside the campus"],
       violationOptions: [ "Incomplete uniform","No ID", "Improper undershirt","Improper hair color","Bullying", "Littering", "Loitering", "Smoking"],
+      edit: false,
     };
   },
   computed: {
@@ -139,7 +139,7 @@ export default {
     exception() {
       this.showConfirmPopupExe = true;
     },
-    edit() {
+    editViolation() {
       this.editedReport = Object.assign({}, this.selectedReport);
       this.getAssignedLoc();
     },
@@ -183,9 +183,6 @@ export default {
     },
     getAssignedLoc(){
       const data = this.editedReport.guard
-      
-      console.log(data);
-      const params = new URLSearchParams(data).toString();
       axios.get(`http://127.0.0.1:8000/sekyuUsers/assignedLoc/${data}`)
       .then((response) => {
         this.editedReport.venue = response.data.assignedLoc;
@@ -259,6 +256,14 @@ export default {
   mounted() {
     this.fetchData();
     this.getGuards();
+  },
+  watch: {
+    receivedReports: {
+      handler: function() {
+        this.fetchData();
+      },
+      immediate: true,
+    },
   },
 };
 </script>

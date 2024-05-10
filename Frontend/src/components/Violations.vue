@@ -15,7 +15,7 @@
         <button id= "submit"@click="fetchData(), selectedViolation = null">Submit</button>
         <span id="studentExists"v-if="studentExists">Student does not have any violations or exist in the database.</span>
       </div>
-      <ul>
+      <ul class="scrollable-list">
         <li v-for="(violation, index) in violations" :key="index" @click="showViolationDetails(violation)">
           {{ violation.reportID }} ({{ violation.dateTime }}) 
         </li>
@@ -50,14 +50,29 @@ export default {
       });
     },
   },
+  mounted() {
+    this.getAllApprovedViolations();
+  },
   methods: {
+    getAllApprovedViolations() {
+      axios.get(`http://127.0.0.1:8000/violationDetailsAll`)
+      .then(response => {
+        this.violations = response.data.map(report => {
+          let dateTime = new Date(report.dateTime);
+          let formattedDateTime = dateTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+          return { ...report, dateTime: formattedDateTime};
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    },
     async fetchData() {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/violationDetails/student/${this.student_id}`);
         this.violations = response.data.map(report => {
           let dateTime = new Date(report.dateTime);
           let formattedDateTime = dateTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
-
           return { ...report, dateTime: formattedDateTime};
         });
         if (this.violations.length === 0) {
@@ -71,12 +86,9 @@ export default {
         this.studentExists = false;
       }
     },
-    toggleExpansion() {
-      document.querySelector('.violation-list-container').classList.toggle('expanded');
-    },
     showViolationDetails(violation) {
       this.selectedViolation = violation;
-      
+      console.log(this.selectedViolation);
     },
     close() { 
       this.$emit("goHome1");
@@ -169,7 +181,6 @@ li:hover {
   background-color: #ddd;
   border-radius: 5px;
   cursor: pointer;
-
 }
 
 #searchbar {
@@ -188,7 +199,11 @@ li:hover {
   color: red;
   font-size: 20px;
   margin-top: 5%;
+}
 
+.scrollable-list {
+  height: 600px; 
+  overflow-y: auto;
 }
 
 </style>

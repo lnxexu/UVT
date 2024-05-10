@@ -38,15 +38,15 @@
   <Violations @handleViolationsPageClose="handleViolationsPageClose" @goHome1="this.home = true" />
 </div>
 <div v-else-if="addStudent" @close="closeContentPage">
-  <AddAccount @handleViolationsPageClose="handleAddStudentPageClose" @goHome1="this.home = true" />
+  <AddStudent @handleViolationsPageClose="handleAddStudentPageClose" @goHome1="this.home = true" />
 </div>
-<div v-else-if="SecurityAccounts" @close="closeContentPage">
+<!-- <div v-else-if="SecurityAccounts" @close="closeContentPage">
   <SecurityAccounts @handleSecurityAccountsClose="handleSecurityAccountsClose" @goHome="home = true" />
-</div>
+</div> -->
 <div v-else-if="Reports" @close="closeContentPage" >
   <Reports @handleReportClose="handleReportClose" @goHome="home = true" />
 </div>
-<div v-else-if=" PendingAccounts" @close="closeContentPage" >
+<div v-else-if="PendingAccounts" @close="closeContentPage" >
   <PendingAccounts @handlePendingAccountsClose="handlePendingAccountsClose" @goHome2="home = true"/>
 </div>
 <div v-if=" Popup" @close="closeContentPage">
@@ -98,13 +98,14 @@ import Violations from '../components/Violations.vue';
 import SecurityAccounts from "../components/SecurityAccounts.vue";
 import Reports from "../components/Reports.vue";
 import PendingAccounts from "../components/PendingAccounts.vue";
+import AddStudent from "../components/AddStudent.vue";
 import axios from 'axios';
-import AddAccount from '../components/AddAccount.vue';
 import { ref } from 'vue';
+
 
 export default {
   name: 'OSAD',
-  components: { bg, Popup, Violations, SecurityAccounts, Reports,PendingAccounts, AddAccount },
+  components: { bg, Popup, Violations, SecurityAccounts, Reports,PendingAccounts, AddStudent },
   data() {
     return{
       violationsPage: false,
@@ -140,8 +141,8 @@ export default {
     getUsername() {
       axios.get(`http://127.0.0.1:8000/loginOSAD`)
         .then((response) => {
-          this.username = response.data.fullName;
-          console.log(response.data);
+          this.username = response.data.fullname;
+          console.log(this.username);
         })
         .catch((error) => {
           console.error(error);
@@ -214,10 +215,8 @@ export default {
       this.SecurityAccounts = false;
       this.home = false;
       this.Reports = false;
-      this.PendingAccounts = !this.PendingAccounts;
+      this.PendingAccounts = true;
       this.addStudent = false;
-      this.$emit('goHome2');
-      this.$emit('handlePendingAccountsClose');
       this.toggle();
     },
     showPopup(){

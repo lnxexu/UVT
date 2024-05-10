@@ -54,17 +54,6 @@
 
         <div class="w3-col">&nbsp;</div>
 
-        <div class="w3-half">
-            <p>Complete Address:</p>
-            <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="address" required>
-        </div>
-        <div class="w3-half">
-            <p>Contact Number:</p>
-            <input class="w3-input w3-border" type="text" name="phone" pattern="^(09|\+639)\d{9}$" placeholder="Contact Number" v-model="contact" required>
-        </div>
-
-        <div class="w3-col">&nbsp;</div>
-        
         <div class="w3-third">
             <p>Student ID:</p>
             <input class="w3-input w3-border" type="text" placeholder="Student ID" v-model="studentID" required>
@@ -93,18 +82,32 @@
         </div>
 
         <div class="w3-col">&nbsp;</div>
+        
+        <div class="w3-third">
+            <p>Contact Number:</p>
+            <input class="w3-input w3-border" type="text" name="phone" pattern="^(09|\+639)\d{9}$" placeholder="Contact Number" v-model="contact" required>
+        </div>
+
+        <div class="w3-third">
+            <p>Complete Address:</p>
+            <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="address" required>
+        </div>
+
+        <div class="w3-third">
+            <p>School Email:</p>
+            <input class="w3-input w3-border" type="text" name="email"  placeholder="Automatic" v-model="computedEmail" readonly>
+        </div>
+
+        <div class="w3-col">&nbsp;</div>
         <div class="w3-col">&nbsp;</div>
 
         <div class="w3-center">
-            <button class="button-57" type="submit" @click="showModal=true"><i class="fa fa-paper-plane"></i> <span class="text"> ADD STUDENT </span><span><i class="fa fa-paper-plane-o"></i> ADD STUDENT</span></button>
+            <button class="button-57" type="submit" @click="validate"><i class="fa fa-paper-plane"></i> <span class="text"> ADD STUDENT </span><span><i class="fa fa-paper-plane-o"></i> ADD STUDENT</span></button>
         </div>
         
         <div v-if="showModal" class="modal">
           <div class="modal-content">
-            <div class="exit-button" @click="showModal = false" >
-              <div class="bar2"></div>
-              <div class="bar2"></div>
-            </div>
+
             <div class="content">
               <p><strong>Are you sure do you want to add this student to the school's database?</strong></p>
               <p>Full Name: {{ firstname }} {{ lastname }} {{ suffix }}</p>
@@ -116,8 +119,12 @@
               <p>Student ID: {{ studentID }}</p>
               <p>Department: {{ department }}</p>
               <p>Section: {{ section }}</p>
+              <p>Email: {{ computedEmail }}</p>
             </div> 
-            <button></button>
+            <div class="w3-center buttons">
+              <button class="green" @click="addStudent()">Yes</button>
+              <button class="red"  @click="showModal = false">Cancel</button>
+            </div>
           </div>
         </div>
       </div>
@@ -141,7 +148,13 @@ export default {
       department: '',
       showModal: false,
       closeAddStudent: true,
+      computedEmail: '',
     }
+  },
+  computed: {
+    computedEmail() {
+      return this.computedEmail = this.firstname.charAt(0).toLowerCase() + this.lastname.toLowerCase() + "_" + this.studentID + "@uic.edu.ph";
+    },
   },
   methods: {
       close() {
@@ -153,45 +166,92 @@ export default {
       validate() {
         if (this.firstname == '' ) {
           alert("Please enter your first name.");
+          return
         } 
         if (this.lastname == '') {
           alert("Please enter your last name.");
+          return
         } 
         if (this.suffix == '') {
           alert("Please enter your suffix.");
+          return
         }
         if (this.gender == '') {
           alert("Please enter your gender.");
+          return
         }
         if (this.age == '') {
           alert("Please enter your age.");
+          return
         }
         if (this.birthdate == '') {
           alert("Please enter your birthdate.");
+          return
         }
         if (this.address == '') {
           alert("Please enter your address.");
+          return
         }
         if (this.contact == '') {
           alert("Please enter your contact number.");
+          return
         }
         if (this.studentID == '') {
           alert("Please enter your student ID.");
+          return
         }
         if (this.department == '') {
           alert("Please enter your department.");
+          return
         }
         if (this.section == '') {
           alert("Please enter your section.");
+          return
         }
-        if (NaN(this.age)) {
+        if (isNaN(this.age)) {
           alert("Please enter a valid age.");
+          return
         }
-        if (NaN(this.contact)) {
-          alert("Please enter a valid Con.");
+        if (isNaN(this.contact)) {
+          alert("Please enter a valid Contact Number.");
+          return
         }
+        this.showModal = true;
+        
+      },
+      addStudent() {
 
-    },
+        const formData = {
+          name: this.firstname + " " + this.lastname + " " + this.suffix,
+          email: this.computedEmail,
+          gender: this.gender,
+          age: this.age,
+          birthDate: this.birthdate,
+          address: this.address,
+          contactInformation: this.contact,
+          studentID: this.studentID,
+          department: this.department,
+          section: this.section,
+        }
+        console.log(formData);
+        for (let key in formData) {
+          if (!formData[key]) {
+            alert(`Missing value for ${key}`);
+            return;
+          }
+        }
+        console.log(formData);
+        const params = new URLSearchParams(formData).toString();
+        axios.post(`http://127.0.0.1:8000/addStudent?${params}`)
+        .then(response => {
+          console.log(response);
+          alert("Student added successfully!");
+          this.close();
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      }
   }
 }
 </script>
@@ -313,7 +373,7 @@ export default {
 .modal {
   display: block; 
   position: fixed; 
-  z-index: 1; 
+  z-index: 2; 
   padding-top: 100px; 
   left: 0;
   top: 0;
@@ -349,5 +409,52 @@ export default {
   top: 27%;
 }
 
+.green {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.red {
+  background-color: #f44336; /* Red */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.green:hover {
+  background-color: #129c18;
+  transition: 0.3s ease-in-out;
+}
+.red:hover {
+  background-color: #e0251b;
+  transition: 0.3s ease-in-out;
+}
+.buttons {
+  position: fixed;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 10%;
+}
+.buttons button {
+  margin: 30px;
+ 
+  
+}
 
 </style>

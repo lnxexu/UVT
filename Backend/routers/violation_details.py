@@ -8,7 +8,10 @@ from sqlalchemy.sql import select
 
 router = APIRouter(tags=["Violation Details"])
 
-
+@router.get("/violationDetailsAll")
+def get_violation_details(db: Session = Depends(get_db)):
+    violation_details = db.query(ViolationDetails).all()
+    return violation_details
 
 @router.get("/violationDetails")
 def get_violation_count(db: Session = Depends(get_db)):

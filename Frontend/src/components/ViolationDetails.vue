@@ -1,7 +1,7 @@
 <template>
   <div class="blackBG">
-    <h2>{{ selectedViolation.reportID }}</h2>
-    <p>{{ selectedViolation.studentID }}</p>
+    <h2> {{ fullName }}</h2>
+    <p> Report Number:{{ selectedViolation.reportID }}</p>
     <table class="table">
       <thead>
         <tr>
@@ -14,8 +14,8 @@
           <th>Guard</th>
         </tr>
       </thead>
-      <tbody>
-        <tr in selectedViolation >
+      <tbody in selectedViolation>
+        <tr>
           <td>{{ selectedViolation.reportID }}</td>
           <td>{{ selectedViolation.studentID }}</td>
           <td>{{ selectedViolation.dateTime }}</td>
@@ -30,9 +30,35 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "ViolationDetails",
   props: ['selectedViolation'],
+  data() {
+    return {
+      fullName: '',
+    };
+  },
+  methods: {  
+    getFullName() {
+      axios.get(`http://127.0.0.1:8000/student/${this.selectedViolation.studentID}`)
+      .then(response => {
+        this.fullName = response.data.name;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+      
+    },
+    
+    
+  },
+  watch: {
+    selectedViolation: {
+      handler: 'getFullName',
+      immediate: true,
+    },
+  },
 };
 </script>
 

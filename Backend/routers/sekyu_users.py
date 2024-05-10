@@ -51,8 +51,8 @@ async def change_password(email: str, password: str, db: Session = Depends(get_d
         return HTTPException(status_code=404, detail="User not found")
 
 @router.post("/sekyuUsers/addUser")
-async def add_account(fullName: str, email: str, gender: str, age:int, suffix: str, address: str, contactInformation: str, birthDate: date, password: str, db: Session = Depends(get_db)):
-    user = SekyuAccount(fullName = fullName,email=email, password = password, gender = gender, age = age, suffix = suffix, address = address, contactInformation = contactInformation, birthDate = birthDate)
+async def add_account(fullName: str, email: str, gender: str, age:int, suffix: str, address: str, contactInformation: str, birthDate: date, password: str, assignedLoc: str, db: Session = Depends(get_db)):
+    user = SekyuAccount(fullName = fullName,email=email, password = password, gender = gender, age = age, suffix = suffix, address = address, contactInformation = contactInformation, birthDate = birthDate, assignedLoc = assignedLoc)
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -78,6 +78,10 @@ def get_assignedLoc(fullName: str, db: Session = Depends(get_db)):
         return {"assignedLoc": assignedLoc[0]}
     else:
         raise HTTPException(status_code=404, detail="User not found")
+    
+
+
+    
 
 
 

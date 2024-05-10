@@ -18,11 +18,11 @@ class Student(Base):
     name = Column(String)
     section = Column(String)
     contactInformation = Column(String)
-    suffix = Column(String)
     gender = Column(String)
     age = Column(Integer)
     address = Column(String)
     birthDate = Column(Date)
+    email = Column(String)
 
 class ViolationDetails(Base):
     __tablename__ = "violationdetails"
