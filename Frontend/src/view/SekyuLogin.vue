@@ -1,3 +1,28 @@
+<template>
+  <div class="Sekyu-login-container">
+    <button id ="back"  @click="goBack"><i id="fa fa-long-arrow-left"></i><strong> Back</strong></button>
+    <div class="shadow-box">
+      <h1>For Security Guards</h1>
+      <div id="forms">
+        <hr>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="text" id="email" class="size" pattern="^[a-zA-Z0-9]+@gmail\.com$" v-model="email" required/>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" class="size" v-model="password" required/>
+        </div>
+        <div id="signup">
+          <p>Don't have an account?<a href="/#signup">Sign Up</a></p>
+          <p>Forgot your password? <a href="/ForgotPasswordSecurity">Click Here</a></p>
+        </div>
+      </div>
+      <button id="login-button" class="raise" @click = "login(), postLogin()">LOG IN</button>
+    </div>
+  </div>
+</template>
+
 <script>
 import bg from "../components/Background.vue"
 import axios from 'axios';
@@ -17,7 +42,9 @@ export default {
     this.timestamp();
   },
   methods: {
-    //method for timestampLogin
+    goBack() {
+      this.$router.go(-1);
+    },
     timestamp() {
       var dateTime = new Date();
       var year = dateTime.getFullYear();
@@ -97,32 +124,6 @@ export default {
 };
 </script>
 
-<template>
-<div class = "bg">
-  <div class="Sekyu-login-container">
-    <div class="shadow-box">
-      <h1>For Security Guards</h1>
-      <div id="forms">
-        <hr>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="text" id="email" class="size" pattern="^[a-zA-Z0-9]+@gmail\.com$" v-model="email" required/>
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" class="size" v-model="password" required/>
-        </div>
-        <div id="signup">
-          <p>Don't have an account?<a href="/#signup">Sign Up</a></p>
-          <p>Forgot your password?<a href="/ForgotPasswordSecurity">Click Here</a></p>
-        </div>
-      </div>
-      <button id="login-button" class="raise" @click = "login(), postLogin()">LOG IN</button>
-    </div>
-  </div>
-</div>
-</template>
-
 <style scoped>
 .bg{
   background-color: #0D0D0D;
@@ -139,7 +140,6 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 2%;
-  border-radius: 1%;
   display: flex;
   flex-direction: column;
   align-items: center; 
@@ -205,7 +205,7 @@ h1{
   --color: #292929;
   --hover: #000000;
 }
-button {  
+button:not(#back){  
   color: var(--color);
   transition: 0.25s;
   background: none;
@@ -289,5 +289,24 @@ button:focus {
   }
 }
 * {font-family:"Raleway", sans-serif}
+
+
+#back {
+  width: 3%;
+  height: 3%;
+  position: absolute;
+  left: 2%;
+  top: 3%;
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+}
+
+#back:hover {
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  border: 1px solid #000000;
+  border-radius: 5px;
+  transition: 0.3s;
+}
 </style>
 

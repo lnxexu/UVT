@@ -220,7 +220,6 @@ export default {
         
       },
       addStudent() {
-
         const formData = {
           name: this.firstname + " " + this.lastname + " " + this.suffix,
           email: this.computedEmail,

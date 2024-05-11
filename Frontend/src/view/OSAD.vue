@@ -40,9 +40,9 @@
 <div v-else-if="addStudent" @close="closeContentPage">
   <AddStudent @handleViolationsPageClose="handleAddStudentPageClose" @goHome1="this.home = true" />
 </div>
-<!-- <div v-else-if="SecurityAccounts" @close="closeContentPage">
+<div v-else-if="SecurityAccounts" @close="closeContentPage">
   <SecurityAccounts @handleSecurityAccountsClose="handleSecurityAccountsClose" @goHome="home = true" />
-</div> -->
+</div>
 <div v-else-if="Reports" @close="closeContentPage" >
   <Reports @handleReportClose="handleReportClose" @goHome="home = true" />
 </div>
@@ -62,7 +62,6 @@
 </button>
 <div class="navigation">
   <div id = "user">
-    <img src="../assets/user.png" id = "userIcon">
     <span id = "userSpan">{{ username }}</span>
   </div>
   <nav>
@@ -75,6 +74,9 @@
       </div>
       <div id="3rd" @click = "showAddStudent()">
         <li><img src="../assets/securityAccount.png" class = "icon2"><a>Add Student</a></li>
+      </div>
+      <div id="3rd" @click = "showSecurityAccounts()">
+        <li><img src="../assets/securityAccount.png" class = "icon2"><a>E </a></li>
       </div>
       <div id="4th" @click="showViolations()">
         <li><img src="../assets/clock.png" class = "icon3"><a>Violation Tracker</a></li>
@@ -355,7 +357,7 @@ button {
 
 nav {
   position: absolute;
-  top: 30%;
+  top: 20%;
   left: 35%;
   transform: translateX(-50%);
 }
@@ -414,13 +416,6 @@ nav ul li a:hover::after {
   height: 15%;
 }
 
-#userIcon {
-  position:relative;
-  top: 17%;
-  left: 10%;
-  display: block;
-
-}
 
 #userSpan {
   position: relative;

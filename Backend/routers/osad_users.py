@@ -44,7 +44,7 @@ async def add_account(fullName: str, email: str, gender: str, age:int, suffix: s
     db.refresh(user)
     return user
 
-
+# change password that requires new password and confirm password
 @router.put("/OSADusers/changePassword/{email}")
 async def change_password(email: str, password: str, db: Session = Depends(get_db)):
     user = db.query(OSADAccount).filter(OSADAccount.email == email).first()
@@ -54,6 +54,8 @@ async def change_password(email: str, password: str, db: Session = Depends(get_d
         return {"message": "Password changed successfully"}
     else:
         return HTTPException(status_code=404, detail="User not found")
+    
+
     
 
 

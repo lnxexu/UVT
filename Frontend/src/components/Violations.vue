@@ -11,7 +11,6 @@
       <h1>Violation List</h1>
       <div id="searchbar">
         <input id = "search" type="text" v-model="student_id" placeholder="Search Student" />
-        <!-- make a span that will show after the button is clicked if the student is existing in the database  -->
         <button id= "submit"@click="fetchData(), selectedViolation = null">Submit</button>
         <span id="studentExists"v-if="studentExists">Student does not have any violations or exist in the database.</span>
       </div>
@@ -20,7 +19,8 @@
           {{ violation.reportID }} ({{ violation.dateTime }}) 
         </li>
       </ul>
-      <ViolationDetails id="details" v-if="selectedViolation" :selectedViolation="selectedViolation" @close="closeViolation = false" />
+      <ViolationDetails id="details" v-if="selectedViolation" :selectedViolation="selectedViolation" @close="closeViolation = false"  @resetEvent="reset" />
+      
     </div>
   </div>
 </template>
@@ -54,6 +54,10 @@ export default {
     this.getAllApprovedViolations();
   },
   methods: {
+    reset(){
+      this.getAllApprovedViolations();
+      this.selectedViolation = false;
+    },
     getAllApprovedViolations() {
       axios.get(`http://127.0.0.1:8000/violationDetailsAll`)
       .then(response => {

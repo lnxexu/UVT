@@ -9,7 +9,7 @@ router = APIRouter(tags=["Security Guard"])
 
 @router.get("/sekyuUsers")
 def read_users(db: Session = Depends(get_db)):
-    result = db.execute(text("select fullname, suffix, age, gender, contactInformation, address, birthDate from sekyuacc"))
+    result = db.execute(text("select fullname, suffix, age, gender, contactInformation, address, birthDate, assignedLoc from sekyuacc"))
     users = [{column: value for column, value in zip(result.keys(), row)} for row in result.fetchall()]
     return users
 

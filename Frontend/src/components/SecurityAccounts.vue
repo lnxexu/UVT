@@ -22,6 +22,7 @@
           <p><strong>Age:</strong> {{ selectedGuard.age }}</p>
           <p><strong>Address:</strong> {{ selectedGuard.address }}</p>
           <p><strong>Contact Number:</strong> {{ selectedGuard.contactInformation }}</p>
+          <p><strong>Contact Number:</strong> {{ selectedGuard.assignedLoc }}</p>
           <!-- Add more personal information as needed -->
         </div>
       </div>

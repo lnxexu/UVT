@@ -1,7 +1,7 @@
 <template>
   <div class="blackBG">
     <h2> {{ fullName }}</h2>
-    <p> Report Number:{{ selectedViolation.reportID }}</p>
+    <p> Report Number: {{ selectedViolation.reportID }}</p>
     <table class="table">
       <thead>
         <tr>
@@ -26,6 +26,10 @@
         </tr>
       </tbody>
     </table>
+    <div class="button">
+      <button class="click" id="clear" @click="emitResetEvent">Clear</button>
+      <button class="click" id="Refresh" @click="emitResetEvent">Refresh List</button>
+    </div>
   </div>
 </template>
 
@@ -39,7 +43,10 @@ export default {
       fullName: '',
     };
   },
-  methods: {  
+  methods: {
+    emitResetEvent() {
+      this.$emit('resetEvent');
+    },
     getFullName() {
       axios.get(`http://127.0.0.1:8000/student/${this.selectedViolation.studentID}`)
       .then(response => {
@@ -48,10 +55,7 @@ export default {
       .catch(error => {
         console.error(error);
       });
-      
     },
-    
-    
   },
   watch: {
     selectedViolation: {
@@ -92,5 +96,28 @@ export default {
 
 .table tbody tr:hover {
   background-color: #555;
+}
+
+.click {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  width: 150px;
+
+}
+.click:hover {
+  background-color: #cccccc;
+}
+.button {
+  display: flex;
+  justify-content: space-evenly;
+}
+.table th{
+  text-align: center;
+
 }
 </style>
