@@ -1,6 +1,6 @@
 <template>
   <div class="blackBG">
-    <h2> {{ fullName }}</h2>
+    <h2> {{ selectedViolation.fullName }}</h2>
     <p> Report Number: {{ selectedViolation.reportID }}</p>
     <table class="table">
       <thead>
@@ -28,7 +28,7 @@
     </table>
     <div class="button">
       <button class="click" id="clear" @click="emitResetEvent">Clear</button>
-      <button class="click" id="Refresh" @click="emitResetEvent">Refresh List</button>
+      <button class="click" id="Refresh" @click="emitResetList">Refresh List</button>
     </div>
   </div>
 </template>
@@ -47,21 +47,9 @@ export default {
     emitResetEvent() {
       this.$emit('resetEvent');
     },
-    getFullName() {
-      axios.get(`http://127.0.0.1:8000/student/${this.selectedViolation.studentID}`)
-      .then(response => {
-        this.fullName = response.data.name;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    },
-  },
-  watch: {
-    selectedViolation: {
-      handler: 'getFullName',
-      immediate: true,
-    },
+    emitResetList() {
+      this.$emit('resetList');
+    }
   },
 };
 </script>

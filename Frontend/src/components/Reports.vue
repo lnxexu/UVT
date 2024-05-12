@@ -26,8 +26,8 @@
         <p><strong>Venue: </strong> {{ selectedReport.venue }}</p>
         <p><strong>Sanction: </strong> {{ selectedReport.sanction }}</p>
         <p><strong>Guard: </strong> {{ selectedReport.guard }}</p>
-        <div class="editViolation" v-if="edit">
-          <button id="editButton" @click="edit">Edit</button>
+        <div class="editViolation" >
+          <button id="editButton" @click="editedReport=!editedReport, editViolation()">Edit</button>
           <button id="deleteReportButton" @click="deleteReport">Delete</button>
         </div>
         <div class = "modalPopup" v-if="editedReport">
@@ -52,7 +52,7 @@
             <p><strong>Sanction: </strong><input class="input" type="text" v-model="editedReport.sanction"></p>
             <div class="confirmButtons">
               <button id="approveButton" @click="approve(),fetchData()">Approve</button>
-              <button id="exceptionButton" @click="showConfirmPopupExe = true">Exception</button>
+              <button id="exceptionButton" @click="exception()">Exception</button>
             </div>
           </div>
           <div class="confirm-popup" v-if="showConfirmPopup">
@@ -86,13 +86,6 @@
             </div>
           </div>
         </div>
-        <div class="modalPopup" v-if="showConfirmPopupExe">
-          <div class="confirm-popup">
-            <p>Are you sure you want to make this report an exception?</p>
-            <button class = "yes" @click="yesExe">Yes</button>
-            <button class = "no" @click="showConfirmPopupExe = false">No</button>
-          </div>
-        </div>
       </div>
       <div class = "details" v-else>
         <h2 style="position: fixed; top:30%; display: flex; justify-content: center;"><strong>Select a report.</strong></h2>
@@ -119,7 +112,6 @@ export default {
       venue: "",
       sanction: "",
       guard: "",
-      guardOptions:[],
       violationOptions: [ "Incomplete uniform","No ID", "Improper undershirt","Improper hair color","Bullying", "Littering", "Loitering", "Smoking"],
       edit: false,
     };
@@ -137,7 +129,7 @@ export default {
   },
   methods: {
     exception() {
-      this.showConfirmPopupExe = true;
+        this.showConfirmPopupExe = true;
     },
     editViolation() {
       this.editedReport = Object.assign({}, this.selectedReport);
@@ -147,7 +139,6 @@ export default {
       this.showConfirmPopup = true;
     },
     yes() {
-      console.log(this.editedReport);
       this.showConfirmPopup = false;
       const dateTime = new Date(this.editedReport.dateTime.replace(' at ', ' '));
       const formattedDate = dateTime.toISOString().split('.')[0];
@@ -192,8 +183,7 @@ export default {
         });
     },
     messageClicked(report) {
-      this.selectedReport = report;
-      this.editedReport = null;
+      this.selectedReport = report; 
     },
     close() {
       this.$emit("goHome");
@@ -252,18 +242,6 @@ export default {
         console.error(error);
       });
     }
-  },
-  mounted() {
-    this.fetchData();
-    this.getGuards();
-  },
-  watch: {
-    receivedReports: {
-      handler: function() {
-        this.fetchData();
-      },
-      immediate: true,
-    },
   },
 };
 </script>

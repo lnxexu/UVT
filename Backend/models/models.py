@@ -6,11 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class SchoolRules(Base):
-    __tablename__ = "schoolRules"
-    ruleID = Column(Integer, primary_key=True, index=True)
-    description = Column(String)
-    category = Column(String)
+
 
 class Student(Base):
     __tablename__ = "student"

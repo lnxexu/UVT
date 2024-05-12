@@ -9,11 +9,23 @@ router = APIRouter(tags=["Security Guard"])
 
 @router.get("/sekyuUsers")
 def read_users(db: Session = Depends(get_db)):
-    result = db.execute(text("select fullname, suffix, age, gender, contactInformation, address, birthDate, assignedLoc from sekyuacc"))
+    result = db.execute(text("select fullName, suffix, age, gender, contactInformation, address, birthDate, assignedLoc, email, id from sekyuacc"))
     users = [{column: value for column, value in zip(result.keys(), row)} for row in result.fetchall()]
     return users
 
-# Get guards names form dropdown
+@router.get("/sekyuUsers/search")
+def search_user(query: str, db: Session = Depends(get_db)):
+    stmt = text("""
+        SELECT * FROM sekyuacc 
+        WHERE fullname LIKE :query 
+        OR email LIKE :query 
+    """)
+    result = db.execute(stmt, {"query": "%" + query + "%"})
+    users = [{column: value for column, value in zip(result.keys(), row)} for row in result.fetchall()]
+    if not users:
+        raise HTTPException(status_code=404, detail="User not found")
+    return users
+
 @router.get("/sekyuUsers/guards")
 def get_guards(db: Session = Depends(get_db)):
     result = db.execute(text("SELECT fullName FROM sekyuacc"))

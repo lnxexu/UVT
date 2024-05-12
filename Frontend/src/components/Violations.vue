@@ -10,8 +10,13 @@
     <div class="main-content">
       <h1>Violation List</h1>
       <div id="searchbar">
-        <input id = "search" type="text" v-model="student_id" placeholder="Search Student" />
-        <button id= "submit"@click="fetchData(), selectedViolation = null">Submit</button>
+        <input id = "search" type="text" v-model="student_id" placeholder="Search Student"  />
+        <!-- <ul v-if="searchResults.length" class="search">
+          <li v-for="violation in searchResults" @click="selectV(violation)">
+            {{ violation.fullName }}
+          </li>
+        </ul> -->
+        <button id= "submit" @click="fetchData(), selectedViolation = null">Submit</button>
         <span id="studentExists"v-if="studentExists">Student does not have any violations or exist in the database.</span>
       </div>
       <ul class="scrollable-list">
@@ -19,7 +24,7 @@
           {{ violation.reportID }} ({{ violation.dateTime }}) 
         </li>
       </ul>
-      <ViolationDetails id="details" v-if="selectedViolation" :selectedViolation="selectedViolation" @close="closeViolation = false"  @resetEvent="reset" />
+      <ViolationDetails id="details" v-if="selectedViolation" :selectedViolation="selectedViolation" @close="closeViolation = false"  @resetEvent="reset" @resetList="resetList"/>
       
     </div>
   </div>
@@ -36,27 +41,38 @@ export default {
       violations: [],
       selectedViolation: null,
       closeViolation: true,
-      student_id: null,
+      student_id: '',
       studentExists: false,
+      searchResults: [],
     };
   },
   components: {
     ViolationDetails,
   },  
-  computed: {
-    filteredViolations() {
-      return this.violations.filter(violation => {
-        return violation.reportID.toLowerCase().includes(this.student_id.toLowerCase());
-      });
-    },
-  },
   mounted() {
     this.getAllApprovedViolations();
   },
   methods: {
+    // selectV(violation) {
+    //   this.student_id = '';
+    //   this.selectedGuard = violation;
+    //   this.searchResults = [];
+    // },
+    // filterViolations() {
+    //     if (!this.fetchData || !this.student_id) {
+    //       this.searchResults = [];
+    //       return;
+    //     }
+    //     this.filteredGuards = this.fetchData.filter(violation =>
+    //       violation.fullName && violation.fullName.toLowerCase().includes(this.student_id.toLowerCase())
+    //     );
+    //   },
     reset(){
       this.getAllApprovedViolations();
       this.selectedViolation = false;
+    },
+    resetList(){
+      this.getAllApprovedViolations();
     },
     getAllApprovedViolations() {
       axios.get(`http://127.0.0.1:8000/violationDetailsAll`)
@@ -73,12 +89,23 @@ export default {
     },
     async fetchData() {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/violationDetails/student/${this.student_id}`);
+        // if (!this.student_id) {
+        //   this.searchResults = [];
+        //   return;
+        // }
+        const data = { query : this.student_id };
+        const params = new URLSearchParams(data).toString();
+        const response = await axios.get(`http://127.0.0.1:8000/violationDetails/student/search?${params}`);
         this.violations = response.data.map(report => {
           let dateTime = new Date(report.dateTime);
           let formattedDateTime = dateTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
           return { ...report, dateTime: formattedDateTime};
         });
+        // this.searchResults = response.data.map(report => {
+        //   let dateTime = new Date(report.dateTime);
+        //   let formattedDateTime = dateTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+        //   return { ...report, dateTime: formattedDateTime};
+        // });
         if (this.violations.length === 0) {
           this.studentExists = true;
         } else {
@@ -87,7 +114,9 @@ export default {
       } 
       catch (error) {
         console.error(error);
+        alert("Student does not exist in the database.");
         this.studentExists = false;
+        this.getAllApprovedViolations();
       }
     },
     showViolationDetails(violation) {

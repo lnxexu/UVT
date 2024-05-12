@@ -6,14 +6,25 @@ from typing import List
 from datetime import date
 from sqlalchemy import text
 
-
 router = APIRouter(tags=["OSAD"])
 
 @router.get("/OSADusers")
 def get_all_users(db: Session = Depends(get_db)):
-    stmt = text("SELECT * FROM osadacc")
-    result =  db.execute(stmt)
-    users = [row._asdict() for row in result]
+    result = db.execute(text("select fullName, suffix, age, gender, contactInformation, address, birthDate, email,id from osadacc"))
+    users = [{column: value for column, value in zip(result.keys(), row)} for row in result.fetchall()]
+    return users
+
+@router.get("/OSADusers/search")
+def search_user(query: str, db: Session = Depends(get_db)):
+    stmt = text("""
+        SELECT * FROM osadacc 
+        WHERE fullname LIKE :query 
+        OR email LIKE :query 
+    """)
+    result = db.execute(stmt, {"query": "%" + query + "%"})
+    users = [{column: value for column, value in zip(result.keys(), row)} for row in result.fetchall()]
+    if not users:
+        raise HTTPException(status_code=404, detail="User not found")
     return users
 
 @router.get("/OSADusers/verify")

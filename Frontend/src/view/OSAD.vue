@@ -41,7 +41,7 @@
   <AddStudent @handleViolationsPageClose="handleAddStudentPageClose" @goHome1="this.home = true" />
 </div>
 <div v-else-if="SecurityAccounts" @close="closeContentPage">
-  <SecurityAccounts @handleSecurityAccountsClose="handleSecurityAccountsClose" @goHome="home = true" />
+  <SecurityAccounts @handleSecurityAccountsClose="handleSecurityAccountsClose" @goHome="home = true" @input=" "/>
 </div>
 <div v-else-if="Reports" @close="closeContentPage" >
   <Reports @handleReportClose="handleReportClose" @goHome="home = true" />
@@ -62,12 +62,15 @@
 </button>
 <div class="navigation">
   <div id = "user">
-    <span id = "userSpan">{{ username }}</span>
+    <span id = "userSpan">Welcome {{ username }}!</span>
   </div>
   <nav>
     <ul>
       <div id="1st" @click = "showReports()">
         <li><img src="../assets/bell.png" class = "icon4"><a>Reports</a></li>
+      </div>
+      <div @click="showPendingAccounts()">
+        <li><img src="../assets/bell.png" class = "icon3"><a>Pending Accounts</a></li>
       </div>
       <div id="2nd" @click = "showHome()">
         <li><img src="../assets/homepage.png" class = "icon1"><a>Home Page</a></li>
@@ -76,13 +79,10 @@
         <li><img src="../assets/securityAccount.png" class = "icon2"><a>Add Student</a></li>
       </div>
       <div id="3rd" @click = "showSecurityAccounts()">
-        <li><img src="../assets/securityAccount.png" class = "icon2"><a>E </a></li>
+        <li><img src="../assets/securityAccount.png" class = "icon2"><a>Accounts</a></li>
       </div>
       <div id="4th" @click="showViolations()">
         <li><img src="../assets/clock.png" class = "icon3"><a>Violation Tracker</a></li>
-      </div>
-      <div @click="showPendingAccounts()">
-        <li><img src="../assets/clock.png" class = "icon3"><a>Pending Accounts</a></li>
       </div>
       <div id="5th" @click="showPopup()">
         <li><img src="../assets/logout.png" class = "icon5"><a>Log Out</a></li>

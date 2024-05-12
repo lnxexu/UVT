@@ -1,7 +1,7 @@
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException
-from models.database import SessionLocal, get_db
-from models.models import PendingViolationDetails, PendingViolationDetailsInfo
+from models.database import get_db
+from models.models import PendingViolationDetails
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 
