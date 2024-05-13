@@ -5,7 +5,14 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-
+class Violation(Base):
+    __tablename__ = "violation"
+    violationID = Column(Integer, primary_key=True, index=True)
+    violationName = Column(String)
+    description = Column(String)
+    category = Column(String)
+    dateCreated = Column(Date)
+    createdBy = Column(String)
 
 
 class Student(Base):

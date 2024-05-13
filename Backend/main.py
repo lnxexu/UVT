@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from models.database import SessionLocal, engine
 from models.models import Base
-from routers import  student, violation_details, osad_users, sekyu_users, loginOSAD, loginSekyu, pendingViolations, pendingAccountsSekyu, pendingAccountsOSAD
+from routers import  student, violation_details, osad_users, sekyu_users, loginOSAD, loginSekyu, pendingViolations, pendingAccountsSekyu, pendingAccountsOSAD, exception, violation
 from fastapi.middleware.cors import CORSMiddleware
 from models.models import Base
 
@@ -19,6 +19,8 @@ app.include_router(loginOSAD.router)
 app.include_router(loginSekyu.router)
 app.include_router(pendingAccountsSekyu.router)
 app.include_router(pendingAccountsOSAD.router)
+app.include_router(exception.router)
+app.include_router(violation.router)
 
 app.add_middleware(
     CORSMiddleware,

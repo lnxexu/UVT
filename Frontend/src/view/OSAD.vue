@@ -40,14 +40,17 @@
 <div v-else-if="addStudent" @close="closeContentPage">
   <AddStudent @handleViolationsPageClose="handleAddStudentPageClose" @goHome1="this.home = true" />
 </div>
-<div v-else-if="SecurityAccounts" @close="closeContentPage">
-  <SecurityAccounts @handleSecurityAccountsClose="handleSecurityAccountsClose" @goHome="home = true" @input=" "/>
+<div v-else-if="Accounts" @close="closeContentPage">
+  <Accounts @handleSecurityAccountsClose="handleSecurityAccountsClose" @goHome="home = true" @input=" "/>
 </div>
 <div v-else-if="Reports" @close="closeContentPage" >
   <Reports @handleReportClose="handleReportClose" @goHome="home = true" />
 </div>
 <div v-else-if="PendingAccounts" @close="closeContentPage" >
   <PendingAccounts @handlePendingAccountsClose="handlePendingAccountsClose" @goHome2="home = true"/>
+</div>
+<div v-else-if="AddViolation" @close="closeContentPage" >
+  <AddViolation @handleAddViolationClose="handleAddViolationClose" @goHome2="home = true"/>
 </div>
 <div v-if=" Popup" @close="closeContentPage">
   <Popup @handlePopupClose="handlePopupClose"/>
@@ -67,25 +70,25 @@
   <nav>
     <ul>
       <div id="1st" @click = "showReports()">
-        <li><img src="../assets/bell.png" class = "icon4"><a>Reports</a></li>
+        <li><img src="../assets/bell.png" class = "icon0"><a>&nbsp;&nbsp;&nbsp;Reports</a></li>
       </div>
       <div @click="showPendingAccounts()">
-        <li><img src="../assets/bell.png" class = "icon3"><a>Pending Accounts</a></li>
+        <li><img src="../assets/pendingData.png" class = "icon0"><a>Pending Accounts</a></li>
       </div>
-      <div id="2nd" @click = "showHome()">
-        <li><img src="../assets/homepage.png" class = "icon1"><a>Home Page</a></li>
+      <div id="2nd" @click = "showAddViolation()">
+        <li><img src="../assets/create.png" class = "icon0"><a>Add Violation</a></li>
       </div>
       <div id="3rd" @click = "showAddStudent()">
-        <li><img src="../assets/securityAccount.png" class = "icon2"><a>Add Student</a></li>
+        <li><img src="../assets/securityAccount.png" class = "icon0"><a>Add Student</a></li>
       </div>
       <div id="3rd" @click = "showSecurityAccounts()">
-        <li><img src="../assets/securityAccount.png" class = "icon2"><a>Accounts</a></li>
+        <li><img src="../assets/search.png" class = "icon0"><a>&nbsp;Accounts</a></li>
       </div>
       <div id="4th" @click="showViolations()">
-        <li><img src="../assets/clock.png" class = "icon3"><a>Violation Tracker</a></li>
+        <li><img src="../assets/clock.png" class = "icon0"><a>Violation Tracker</a></li>
       </div>
       <div id="5th" @click="showPopup()">
-        <li><img src="../assets/logout.png" class = "icon5"><a>Log Out</a></li>
+        <li><img src="../assets/logout.png" class = "icon0">&nbsp;&nbsp;&nbsp;<a>Log Out</a></li>
       </div>
     </ul>
   </nav>
@@ -97,21 +100,22 @@
 import bg from "../components/Background.vue";
 import Popup from '../components/LogOutOSAD.vue';
 import Violations from '../components/Violations.vue';
-import SecurityAccounts from "../components/SecurityAccounts.vue";
+import Accounts from "../components/Accounts.vue";
 import Reports from "../components/Reports.vue";
 import PendingAccounts from "../components/PendingAccounts.vue";
 import AddStudent from "../components/AddStudent.vue";
+import AddViolation from "../components/ViolationCreation.vue";
 import axios from 'axios';
 import { ref } from 'vue';
 
 
 export default {
   name: 'OSAD',
-  components: { bg, Popup, Violations, SecurityAccounts, Reports,PendingAccounts, AddStudent },
+  components: { bg, Popup, Violations, Accounts, Reports,PendingAccounts, AddStudent, AddViolation},
   data() {
     return{
       violationsPage: false,
-      SecurityAccounts: false,
+      Accounts: false,
       Reports: false,
       Popup: false,
       PendingAccounts: false,
@@ -124,13 +128,14 @@ export default {
       home: true,
       isNavigationOpen: false,
       addStudent: false,
+      AddViolation: false,
     }
   },
   emits: ['handlePendingAccountsClose', 'handleSecurityAccountsClose', 'handleReportClose', 'goHome', 'goHome1', 'goHome2'],
   methods: {
     showAddStudent(){
       this.addStudent = true;
-      this.SecurityAccounts = false;
+      this.Accounts = false;
       this.Reports = false;
       this.PendingAccounts = false;
       this.violationsPage = false;
@@ -153,11 +158,14 @@ export default {
     handleReportClose(value) {
       this.Reports = value;
     },
+    handleAddViolationClose(value) {
+      this.AddViolation = value;
+    },
     handleViolationsPageClose(value) {
       this.violationsPage = value;
     },
     handleSecurityAccountsClose(value) {
-      this.SecurityAccounts = value;
+      this.Accounts = value;
     },
     handlePopupClose(value) {
       this.Popup = value;
@@ -175,7 +183,7 @@ export default {
     showHome(){
       this.home = true;
       this.violationsPage = false;
-      this.SecurityAccounts = false;
+      this.Accounts = false;
       this.Reports = false;
       this.PendingAccounts = false;
       this.addStudent = false;
@@ -187,7 +195,16 @@ export default {
     },
     showViolations(){
       this.violationsPage = true;
-      this.SecurityAccounts = false;
+      this.Accounts = false;
+      this.Reports = false;
+      this.PendingAccounts = false;
+      this.home = false;
+      this.addStudent = false;
+      this.toggle();
+    },
+    showAddViolation(){
+      this.AddViolation = true;
+      this.Accounts = false;
       this.Reports = false;
       this.PendingAccounts = false;
       this.home = false;
@@ -196,7 +213,7 @@ export default {
     },
     showSecurityAccounts(){
       this.violationsPage = false;
-      this.SecurityAccounts = !this.SecurityAccounts;
+      this.Accounts = !this.Accounts;
       this.Reports = false;
       this.PendingAccounts = false;
       this.home = false;
@@ -205,7 +222,7 @@ export default {
     },
     showReports(){
       this.violationsPage = false;
-      this.SecurityAccounts = false;
+      this.Accounts = false;
       this.Reports = true;
       this.PendingAccounts = false;
       this.home = false;
@@ -214,7 +231,7 @@ export default {
     },
     showPendingAccounts(){
       this.violationsPage = false;
-      this.SecurityAccounts = false;
+      this.Accounts = false;
       this.home = false;
       this.Reports = false;
       this.PendingAccounts = true;
@@ -643,6 +660,24 @@ hr{
   position: fixed;
   right: 0.2%;
   height: 87.5%;
+}
+.icon0{
+  width: 46px;
+  height: 46px;
+}
+
+a{
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  flex-wrap: wrap;
+
+}
+li{
+  list-style-type: none;
+  margin: 0;
+  text-align: center;
+  cursor: pointer;
 }
 
 </style>

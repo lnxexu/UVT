@@ -7,7 +7,7 @@
       <div class="bar2"></div>
       <div class="bar2"></div>
     </div>
-    <div class="main-content">
+    <div class="main-content modal-content">
       <h1>Violation List</h1>
       <div id="searchbar">
         <input id = "search" type="text" v-model="student_id" placeholder="Search Student"  />
@@ -239,4 +239,13 @@ li:hover {
   overflow-y: auto;
 }
 
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  width: 97%;
+  margin: 0 1.5%;
+}
 </style>

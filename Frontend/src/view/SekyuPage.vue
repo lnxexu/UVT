@@ -87,6 +87,7 @@
       </form>
     </div>
   </div>
+
 </div>
 
 <PopSekyu v-if="isPopupOpen1">

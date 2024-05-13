@@ -8,122 +8,124 @@
         <div class="bar2"></div>
         <div class="bar2"></div>
     </div>
-    <div class="main-content">
-        <h1>Add Account</h1>
-    </div>
-    <div class=" w3-row-padding">
-        <div class="w3-third">
-            <p>First Name:</p>
-            <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstname" required>
-        </div>
-        <div class="w3-third">
-            <p>Last Name:</p>
-            <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastname" required >
-        </div>
-        <div class="w3-third">
-            <p>Suffix:</p>
-            <select class="w3-select w3-border" name="option" v-model="suffix" required>
+    <div class="main-content modal-content">
+      <h1>Add Student</h1>
+      <div class="w3-col">&nbsp;</div>
+      <div class="w3-col">&nbsp;</div>
+      <div class=" w3-row-padding ">
+          <div class="w3-third">
+              <p>First Name:</p>
+              <input class="w3-input w3-border" type="text" placeholder="First Name" v-model="firstname" required>
+          </div>
+          <div class="w3-third">
+              <p>Last Name:</p>
+              <input class="w3-input w3-border" type="text" placeholder="Last Name" v-model="lastname" required >
+          </div>
+          <div class="w3-third">
+              <p>Suffix:</p>
+              <select class="w3-select w3-border" name="option" v-model="suffix" required>
+                  <option value="" disabled selected>Choose your option</option>
+                  <option value="NULL">None</option>
+                  <option value="Jr.">Jr.</option>
+                  <option value="Sr.">Sr.</option>
+                  <option value="III">III</option>
+                  <option value="IV">IV</option>
+                  <option value="V">V</option>
+              </select>
+          </div>
+          
+          <div class="w3-col">&nbsp;</div>
+
+          <div class="w3-third">
+              <p>Gender:</p>
+              <select class="w3-select w3-border" name="option" v-model="gender" required>
+                  <option value="" disabled selected>Choose your option</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+              </select>
+          </div>
+          <div class="w3-third">
+              <p>Age:</p>
+              <input class="w3-input w3-border" type="number" placeholder="Age" v-model="age" required>
+          </div>
+          <div class="w3-third">
+              <p>Birthdate:</p>
+              <input class="w3-input w3-border" type="date" placeholder="Date of Birth" v-model="birthdate" required >
+          </div>
+
+          <div class="w3-col">&nbsp;</div>
+
+          <div class="w3-third">
+              <p>Student ID:</p>
+              <input class="w3-input w3-border" type="text" placeholder="Student ID" v-model="studentID" required>
+          </div>
+
+          <div class="w3-third">
+              <p>Department: </p>
+              <select class="w3-select w3-border" name="option" v-model="department" required>
                 <option value="" disabled selected>Choose your option</option>
-                <option value="NULL">None</option>
-                <option value="Jr.">Jr.</option>
-                <option value="Sr.">Sr.</option>
-                <option value="III">III</option>
-                <option value="IV">IV</option>
-                <option value="V">V</option>
-            </select>
-        </div>
-        
-        <div class="w3-col">&nbsp;</div>
+                <option value="CSS">College of Computer Studies (CCS)</option>
+                <option value="CAH">College of Arts and Humanities (CAH)</option>
+                <option value="CoEA">College of Engineering and Architechture (COEA)</option>
+                <option value="CABE">College of Accounting and Business Education (CABE)</option>
+                <option value="CHEFS">College of Human Environmental sciences and Food Studies (CHEFS)</option>
+                <option value="CMBS">College of Medical Biological Sciences (CMBS)</option>
+                <option value="CoM">College of Music (CoM)</option>
+                <option value="CoN">College of Nursing (CoN)</option>
+                <option value="CPC">College of Pharmacy and Chemistry (CPC)</option>
+                <option value="CTE">College of Teacher Education (CTE)</option>
+              </select>
+          </div>
 
-        <div class="w3-third">
-            <p>Gender:</p>
-            <select class="w3-select w3-border" name="option" v-model="gender" required>
-                <option value="" disabled selected>Choose your option</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-        </div>
-        <div class="w3-third">
-            <p>Age:</p>
-            <input class="w3-input w3-border" type="number" placeholder="Age" v-model="age" required>
-        </div>
-        <div class="w3-third">
-            <p>Birthdate:</p>
-            <input class="w3-input w3-border" type="date" placeholder="Date of Birth" v-model="birthdate" required >
-        </div>
+          <div class="w3-third">
+              <p>Section: </p>
+              <input class="w3-input w3-border" type="text" placeholder="Section" v-model="section" required>
+          </div>
 
-        <div class="w3-col">&nbsp;</div>
+          <div class="w3-col">&nbsp;</div>
+          
+          <div class="w3-third">
+              <p>Contact Number:</p>
+              <input class="w3-input w3-border" type="text" name="phone" pattern="^(09|\+639)\d{9}$" placeholder="Contact Number" v-model="contact" required>
+          </div>
 
-        <div class="w3-third">
-            <p>Student ID:</p>
-            <input class="w3-input w3-border" type="text" placeholder="Student ID" v-model="studentID" required>
-        </div>
+          <div class="w3-third">
+              <p>Complete Address:</p>
+              <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="address" required>
+          </div>
 
-        <div class="w3-third">
-            <p>Department: </p>
-            <select class="w3-select w3-border" name="option" v-model="department" required>
-              <option value="" disabled selected>Choose your option</option>
-              <option value="CSS">College of Computer Studies (CCS)</option>
-              <option value="CAH">College of Arts and Humanities (CAH)</option>
-              <option value="CoEA">College of Engineering and Architechture (COEA)</option>
-              <option value="CABE">College of Accounting and Business Education (CABE)</option>
-              <option value="CHEFS">College of Human Environmental sciences and Food Studies (CHEFS)</option>
-              <option value="CMBS">College of Medical Biological Sciences (CMBS)</option>
-              <option value="CoM">College of Music (CoM)</option>
-              <option value="CoN">College of Nursing (CoN)</option>
-              <option value="CPC">College of Pharmacy and Chemistry (CPC)</option>
-              <option value="CTE">College of Teacher Education (CTE)</option>
-            </select>
-        </div>
+          <div class="w3-third">
+              <p>School Email:</p>
+              <input class="w3-input w3-border" type="text" name="email"  placeholder="Automatic" v-model="computedEmail" readonly>
+          </div>
 
-        <div class="w3-third">
-            <p>Section: </p>
-            <input class="w3-input w3-border" type="text" placeholder="Section" v-model="section" required>
-        </div>
+          <div class="w3-col">&nbsp;</div>
+          <div class="w3-col">&nbsp;</div>
 
-        <div class="w3-col">&nbsp;</div>
-        
-        <div class="w3-third">
-            <p>Contact Number:</p>
-            <input class="w3-input w3-border" type="text" name="phone" pattern="^(09|\+639)\d{9}$" placeholder="Contact Number" v-model="contact" required>
-        </div>
+          <div class="w3-center">
+              <button class="button-57" type="submit" @click="validate"><i class="fa fa-paper-plane"></i> <span class="text"> ADD STUDENT </span><span><i class="fa fa-paper-plane-o"></i> ADD STUDENT</span></button>
+          </div>
+          
+          <div v-if="showModal" class="modal">
+            <div class="modal-content">
 
-        <div class="w3-third">
-            <p>Complete Address:</p>
-            <input class="w3-input w3-border" type="text" placeholder="Complete Address" v-model="address" required>
-        </div>
-
-        <div class="w3-third">
-            <p>School Email:</p>
-            <input class="w3-input w3-border" type="text" name="email"  placeholder="Automatic" v-model="computedEmail" readonly>
-        </div>
-
-        <div class="w3-col">&nbsp;</div>
-        <div class="w3-col">&nbsp;</div>
-
-        <div class="w3-center">
-            <button class="button-57" type="submit" @click="validate"><i class="fa fa-paper-plane"></i> <span class="text"> ADD STUDENT </span><span><i class="fa fa-paper-plane-o"></i> ADD STUDENT</span></button>
-        </div>
-        
-        <div v-if="showModal" class="modal">
-          <div class="modal-content">
-
-            <div class="content">
-              <p><strong>Are you sure do you want to add this student to the school's database?</strong></p>
-              <p>Full Name: {{ firstname }} {{ lastname }} {{ suffix }}</p>
-              <p>Gender: {{ gender }}</p>
-              <p>Age: {{ age }}</p>
-              <p>Birthdate: {{ birthdate }}</p>
-              <p>Address: {{ address }}</p>
-              <p>Contact: {{ contact }}</p>
-              <p>Student ID: {{ studentID }}</p>
-              <p>Department: {{ department }}</p>
-              <p>Section: {{ section }}</p>
-              <p>Email: {{ computedEmail }}</p>
-            </div> 
-            <div class="w3-center buttons">
-              <button class="green" @click="addStudent()">Yes</button>
-              <button class="red"  @click="showModal = false">Cancel</button>
+              <div class="content">
+                <p><strong>Are you sure do you want to add this student to the school's database?</strong></p>
+                <p>Full Name: {{ firstname }} {{ lastname }} {{ suffix }}</p>
+                <p>Gender: {{ gender }}</p>
+                <p>Age: {{ age }}</p>
+                <p>Birthdate: {{ birthdate }}</p>
+                <p>Address: {{ address }}</p>
+                <p>Contact: {{ contact }}</p>
+                <p>Student ID: {{ studentID }}</p>
+                <p>Department: {{ department }}</p>
+                <p>Section: {{ section }}</p>
+                <p>Email: {{ computedEmail }}</p>
+              </div> 
+              <div class="w3-center buttons">
+                <button class="green" @click="addStudent()">Yes</button>
+                <button class="red"  @click="showModal = false">Cancel</button>
+              </div>
             </div>
           </div>
         </div>
@@ -452,8 +454,15 @@ export default {
 }
 .buttons button {
   margin: 30px;
- 
-  
 }
 
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  width: 97%;
+  margin: 0 1.5%;
+}
 </style>

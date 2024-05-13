@@ -10,7 +10,7 @@
 
   <div class="w3-col"></div>
 
-  <div class="main-content w3-half">
+  <div class="main-content w3-half modal-content">
     <h1>Security Pending Accounts</h1>
     <div class="w3-row">&nbsp;</div>
     <ul :class="{ 'scrollable-list': sekyuAccounts.length >= 5 }">
@@ -19,6 +19,7 @@
     
     <div class="selectionSekyu" v-if="selectedSekyu">
       <h2>{{ selectedSekyu.fullName }}</h2>
+      <hr>
       <p><strong>Age:</strong> {{ selectedSekyu.age }}</p>
       <p><strong>Gender:</strong> {{ selectedSekyu.gender }}</p>
       <p><strong>Birthdate:</strong> {{ selectedSekyu.birthDate }}</p>
@@ -26,7 +27,7 @@
       <p><strong>Contact Number:</strong> {{ selectedSekyu.contactInformation }}</p>
       <p>
         <strong>Assigned School Branch: &nbsp;&nbsp;</strong>
-        <select class="input" v-model="assignLocation" style="border-radius: 5px;">
+        <select class="input" v-model="assignLocation" style="border-radius: 5px;" required>
           <option v-for="option in assignLoc" :key="option.value" :value="option">{{ option }}</option>
         </select>
       </p>
@@ -34,15 +35,14 @@
       <p><strong>Password:</strong> {{ selectedSekyu.password }}</p>
       <div class="w3-row">&nbsp;</div>
       <div class="buttons">
-        <button class="green" @click="showConfirmPopupSekyu = true">Approve</button>
+        <button class="green" @click="noVenue()">Approve</button>
         <button class="red" @click="showRejectPopupSekyu = true">Reject</button>
       </div>
     </div>
   </div>
 
-  <div class="vl"></div>
 
-  <div class="main-content w3-half">
+  <div class="main-content w3-half modal-content">
     <h1>OSAD Pending Accounts</h1>
     <div class="w3-row">&nbsp;</div>
     <ul :class="{ 'scrollable-list': osadAccounts.length >= 5 }">
@@ -50,6 +50,7 @@
     </ul>
     <div class="selectionOSAD" v-if="selectedOSAD">
       <h2>{{ selectedOSAD.fullName }}</h2>
+      <hr>
       <p><strong>Age:</strong> {{ selectedOSAD.age }}</p>
       <p><strong>Gender:</strong> {{ selectedOSAD.gender }}</p>
       <p><strong>Birthdate:</strong> {{ selectedOSAD.birthDate }}</p>
@@ -205,6 +206,13 @@ export default {
   },
   emits: ['handlePendingAccountsClose','goHome2', 'close'],
   methods: {
+    noVenue(){
+      if(this.assignLocation == ''){
+        alert("Please select a venue");
+        return;
+      }
+      this.showConfirmPopupSekyu = true
+    },
     handleCloseApprove() {
       this.popupApprove = false;
       this.showConfirmPopupSekyu = false;
@@ -264,7 +272,7 @@ export default {
       };
       for (let key in data) {
         if (!data[key]) {
-          console.error(`Missing value for ${key}`);
+          alert(`Missing value for ${key}`);
           return;
         }
       }
@@ -510,8 +518,16 @@ li:hover {
   position: fixed;
   left: 0%;
   top: 44.3%;
-  width: 50%;
+  width: 46.5%;
+  margin: 0 30px;
+  height: auto;
 }
+
+.selectionOSAD .buttons{
+  position: relative;
+  top: 4%;
+}
+
 
 .selectionOSAD{
   padding: 20px;
@@ -519,7 +535,9 @@ li:hover {
   position: fixed;
   left: 50%;
   top: 44.3%;
-  width: 50%;
+  width: 46.5%;
+  margin: 0 30px;
+  height: 100%;
 }
 .w3-container h1, h6{
   text-align: center;
@@ -539,6 +557,20 @@ li:hover {
   left: 35%;
   top: 28%;
   display: block;
+  text-align: center;
+}
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  width: 48%;
+  margin: 0 1%;
+  height: 83%;
+}
+
+.modal-content h1{
   text-align: center;
 }
 
