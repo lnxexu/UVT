@@ -1,7 +1,7 @@
 <template>
   <div class="blackBG">
-    <h2>{{ selectedViolation.reportID }}</h2>
-    <p>{{ selectedViolation.studentID }}</p>
+    <h2> {{ selectedViolation.fullName }}</h2>
+    <p> Report Number: {{ selectedViolation.reportID }}</p>
     <table class="table">
       <thead>
         <tr>
@@ -14,8 +14,8 @@
           <th>Guard</th>
         </tr>
       </thead>
-      <tbody>
-        <tr in selectedViolation >
+      <tbody in selectedViolation>
+        <tr>
           <td>{{ selectedViolation.reportID }}</td>
           <td>{{ selectedViolation.studentID }}</td>
           <td>{{ selectedViolation.dateTime }}</td>
@@ -26,13 +26,31 @@
         </tr>
       </tbody>
     </table>
+    <div class="button">
+      <button class="click" id="clear" @click="emitResetEvent">Clear</button>
+      <button class="click" id="Refresh" @click="emitResetList">Refresh List</button>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "ViolationDetails",
   props: ['selectedViolation'],
+  data() {
+    return {
+      fullName: '',
+    };
+  },
+  methods: {
+    emitResetEvent() {
+      this.$emit('resetEvent');
+    },
+    emitResetList() {
+      this.$emit('resetList');
+    }
+  },
 };
 </script>
 
@@ -66,5 +84,28 @@ export default {
 
 .table tbody tr:hover {
   background-color: #555;
+}
+
+.click {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  width: 150px;
+
+}
+.click:hover {
+  background-color: #cccccc;
+}
+.button {
+  display: flex;
+  justify-content: space-evenly;
+}
+.table th{
+  text-align: center;
+
 }
 </style>

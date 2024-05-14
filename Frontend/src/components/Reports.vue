@@ -7,8 +7,9 @@
       <div class="bar2"></div>
       <div class="bar2"></div>
     </div>
-    <div class="main-content">
-      <h1><strong>Received Reports</strong></h1>
+    <div class="main-content modal-content">
+      <h1>Received Reports</h1>
+      <div class="w3-row">&nbsp;</div>
       <div class="w3-row">&nbsp;</div>
       <div class="w3-row">&nbsp;</div>
       <ul v-if="this.receivedReports.length > 0" class="scrollable-list">
@@ -17,8 +18,11 @@
         </li>
       </ul>
       <p v-else>No reports received yet.</p>
-      <div class = "details" v-if="selectedReport">
-        <h2><strong>Report ID: {{ selectedReport.pReportID }}</strong></h2>
+      <div class = "details" v-if="!selectedReport">
+        <h2 style="position: fixed; top:30%; display: flex; justify-content: center;">Select a report.</h2>
+      </div>
+      <div class = "details " v-else>
+        <h2>Report ID: {{ selectedReport.pReportID }}</h2>
         <hr>
         <p><strong>Student ID:</strong> {{ selectedReport.studentID }}</p>
         <p><strong>Date and Time:</strong> {{ selectedReport.dateTime }}</p>
@@ -26,9 +30,10 @@
         <p><strong>Venue: </strong> {{ selectedReport.venue }}</p>
         <p><strong>Sanction: </strong> {{ selectedReport.sanction }}</p>
         <p><strong>Guard: </strong> {{ selectedReport.guard }}</p>
-        <div class="edit">
-          <button id="editButton" @click="edit">Edit</button>
+        <div class="editViolation" >
+          <button id="editButton" @click="editedReport=!editedReport, editViolation()">Edit</button>
           <button id="deleteReportButton" @click="deleteReport">Delete</button>
+          <button id="refreshButton" @click="selectedReport=null">Refresh</button>
         </div>
         <div class = "modalPopup" v-if="editedReport">
           <div id="edit">
@@ -51,8 +56,8 @@
             </p>
             <p><strong>Sanction: </strong><input class="input" type="text" v-model="editedReport.sanction"></p>
             <div class="confirmButtons">
-              <button id="approveButton" @click="approve()">Approve</button>
-              <button id="exceptionButton" @click="showConfirmPopupExe = true">Exception</button>
+              <button id="approveButton" @click="approve(),fetchData()">Approve</button>
+              <button id="exceptionButton" @click="exception()">Exception</button>
             </div>
           </div>
           <div class="confirm-popup" v-if="showConfirmPopup">
@@ -86,17 +91,8 @@
             </div>
           </div>
         </div>
-        <div class="modalPopup" v-if="showConfirmPopupExe">
-          <div class="confirm-popup">
-            <p>Are you sure you want to make this report an exception?</p>
-            <button class = "yes" @click="yesExe">Yes</button>
-            <button class = "no" @click="showConfirmPopupExe = false">No</button>
-          </div>
-        </div>
       </div>
-      <div class = "details" v-else>
-        <h2 style="position: fixed; top:30%; display: flex; justify-content: center;"><strong>Select a report.</strong></h2>
-      </div>
+      
       <p v-if="reportDeleted">Report has been deleted.</p>
     </div>
 </div>
@@ -119,9 +115,8 @@ export default {
       venue: "",
       sanction: "",
       guard: "",
-      guardOptions:[],
-      venueOptions: [ "UIC Bonifacio", "UIC Bangkerohan", "UIC Bajada", "Outside the campus"],
       violationOptions: [ "Incomplete uniform","No ID", "Improper undershirt","Improper hair color","Bullying", "Littering", "Loitering", "Smoking"],
+      edit: false,
     };
   },
   computed: {
@@ -137,9 +132,9 @@ export default {
   },
   methods: {
     exception() {
-      this.showConfirmPopupExe = true;
+        this.showConfirmPopupExe = true;
     },
-    edit() {
+    editViolation() {
       this.editedReport = Object.assign({}, this.selectedReport);
       this.getAssignedLoc();
     },
@@ -147,7 +142,6 @@ export default {
       this.showConfirmPopup = true;
     },
     yes() {
-      console.log(this.editedReport);
       this.showConfirmPopup = false;
       const dateTime = new Date(this.editedReport.dateTime.replace(' at ', ' '));
       const formattedDate = dateTime.toISOString().split('.')[0];
@@ -183,9 +177,6 @@ export default {
     },
     getAssignedLoc(){
       const data = this.editedReport.guard
-      
-      console.log(data);
-      const params = new URLSearchParams(data).toString();
       axios.get(`http://127.0.0.1:8000/sekyuUsers/assignedLoc/${data}`)
       .then((response) => {
         this.editedReport.venue = response.data.assignedLoc;
@@ -195,8 +186,7 @@ export default {
         });
     },
     messageClicked(report) {
-      this.selectedReport = report;
-      this.editedReport = null;
+      this.selectedReport = report; 
     },
     close() {
       this.$emit("goHome");
@@ -255,10 +245,6 @@ export default {
         console.error(error);
       });
     }
-  },
-  mounted() {
-    this.fetchData();
-    this.getGuards();
   },
 };
 </script>
@@ -362,6 +348,16 @@ h2, p {
   background-color: #008CBA;
   width: 100%;
 }
+#refreshButton{
+  background-color: #008CBA;
+  width: 30%;
+}
+
+#refreshButton::after{
+  background-color: #0073a6;
+}
+
+
 
 #editButton:hover {
   background-color: #e69500;
@@ -406,16 +402,17 @@ ul {
 }
 
 .main-content .details {
-  display: inline-block;
+  display: block;
   justify-content: center;
   align-items: center;
-  margin: 10px;
-  padding: 10px;
   border-radius: 5px;
-  width: 50%;
+  margin: 0;
+  height: 40.2%;
   position: fixed;
-  left: 47.8%;
-  top: 23%;
+  top: 29%;
+  width: 47%;
+  border-radius: 0px;
+  left: 50%;
 }
 
 .confirm-popup {
@@ -500,7 +497,7 @@ ul {
   align-items: center;
 }
 .scrollable-list {
-  height: 670px; 
+  height: 650px; 
   overflow-y: auto;
 }
 .confirmButtons {
@@ -556,6 +553,20 @@ button {
 }
 .buttons .yes, .buttons .no {
   width: 30%;
+}
+
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  width: 97%;
+  margin: 0 1.5%;
+}
+.main-content.modal-content{
+  height: 85%;
 }
 
 </style>

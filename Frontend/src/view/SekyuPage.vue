@@ -11,9 +11,8 @@
       <div id="bar2" class="bar"></div>
       <div id="bar3" class="bar"></div>
     </button>
-    <div id="user">
-      <img src="../assets/user.png" id="userIcon">
-      <span id = "userSpan">{{ username }}</span>
+    <div id="user" >
+      <span id = "userSpan">Welcome {{ username }}!</span>
     </div>
     <nav>
       <ul>
@@ -50,6 +49,7 @@
     <div id="container-content">
       <form class="needs-validation" @submit.prevent="submitForm()" ref="form" >
         <div id="header">
+        
           <h2 id="first">Student ID</h2>
           <input v-model="studentID" type="text" class="form-control" id="stud" @input="validateInputs" />
           <button id="search" @click="getStudentInfo()"><i class="fa fa-search"></i></button>
@@ -87,6 +87,7 @@
       </form>
     </div>
   </div>
+
 </div>
 
 <PopSekyu v-if="isPopupOpen1">
@@ -189,7 +190,7 @@ export default {
         });
     },
     getStudentInfo() {
-      const stud = this.studentID.trim();
+      const stud = this.studentID;
       if (!stud) {
         this.error1 = true;
         return;
@@ -201,6 +202,7 @@ export default {
       const params = parseInt(stud);
       axios.get(`http://127.0.0.1:8000/student/${params}`)
         .then((response) => {
+          console.log(response.data);
           this.name = response.data.name;
           this.section = response.data.section;
           this.error4 = false;
@@ -630,7 +632,10 @@ button {
 }
 #user {
   position: relative;
-  top: 17%;
+  top: 13%;
+  left: 0%;
+  display: block;
+  height: 15%;
 }
 #userIcon {
   position: relative;
@@ -736,7 +741,9 @@ a {
   color: #f3f3f3;
   text-align: center;
   height: 1.7em;
-  width: auto;
+  width: 150%;
+  left: -57%;
+  position: fixed;
 } 
 * {font-family:"Raleway", sans-serif}
 #userSpan {

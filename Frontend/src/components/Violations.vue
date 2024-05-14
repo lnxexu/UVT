@@ -7,20 +7,25 @@
       <div class="bar2"></div>
       <div class="bar2"></div>
     </div>
-    <div class="main-content">
+    <div class="main-content modal-content">
       <h1>Violation List</h1>
       <div id="searchbar">
-        <input id = "search" type="text" v-model="student_id" placeholder="Search Student" />
-        <!-- make a span that will show after the button is clicked if the student is existing in the database  -->
-        <button id= "submit"@click="fetchData(), selectedViolation = null">Submit</button>
+        <input id = "search" type="text" v-model="student_id" placeholder="Search Student"  />
+        <!-- <ul v-if="searchResults.length" class="search">
+          <li v-for="violation in searchResults" @click="selectV(violation)">
+            {{ violation.fullName }}
+          </li>
+        </ul> -->
+        <button id= "submit" @click="fetchData(), selectedViolation = null">Submit</button>
         <span id="studentExists"v-if="studentExists">Student does not have any violations or exist in the database.</span>
       </div>
-      <ul>
+      <ul class="scrollable-list">
         <li v-for="(violation, index) in violations" :key="index" @click="showViolationDetails(violation)">
           {{ violation.reportID }} ({{ violation.dateTime }}) 
         </li>
       </ul>
-      <ViolationDetails id="details" v-if="selectedViolation" :selectedViolation="selectedViolation" @close="closeViolation = false" />
+      <ViolationDetails id="details" v-if="selectedViolation" :selectedViolation="selectedViolation" @close="closeViolation = false"  @resetEvent="reset" @resetList="resetList"/>
+      
     </div>
   </div>
 </template>
@@ -36,30 +41,71 @@ export default {
       violations: [],
       selectedViolation: null,
       closeViolation: true,
-      student_id: null,
+      student_id: '',
       studentExists: false,
+      searchResults: [],
     };
   },
   components: {
     ViolationDetails,
   },  
-  computed: {
-    filteredViolations() {
-      return this.violations.filter(violation => {
-        return violation.reportID.toLowerCase().includes(this.student_id.toLowerCase());
-      });
-    },
+  mounted() {
+    this.getAllApprovedViolations();
   },
   methods: {
-    async fetchData() {
-      try {
-        const response = await axios.get(`http://127.0.0.1:8000/violationDetails/student/${this.student_id}`);
+    // selectV(violation) {
+    //   this.student_id = '';
+    //   this.selectedGuard = violation;
+    //   this.searchResults = [];
+    // },
+    // filterViolations() {
+    //     if (!this.fetchData || !this.student_id) {
+    //       this.searchResults = [];
+    //       return;
+    //     }
+    //     this.filteredGuards = this.fetchData.filter(violation =>
+    //       violation.fullName && violation.fullName.toLowerCase().includes(this.student_id.toLowerCase())
+    //     );
+    //   },
+    reset(){
+      this.getAllApprovedViolations();
+      this.selectedViolation = false;
+    },
+    resetList(){
+      this.getAllApprovedViolations();
+    },
+    getAllApprovedViolations() {
+      axios.get(`http://127.0.0.1:8000/violationDetailsAll`)
+      .then(response => {
         this.violations = response.data.map(report => {
           let dateTime = new Date(report.dateTime);
           let formattedDateTime = dateTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
-
           return { ...report, dateTime: formattedDateTime};
         });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    },
+    async fetchData() {
+      try {
+        // if (!this.student_id) {
+        //   this.searchResults = [];
+        //   return;
+        // }
+        const data = { query : this.student_id };
+        const params = new URLSearchParams(data).toString();
+        const response = await axios.get(`http://127.0.0.1:8000/violationDetails/student/search?${params}`);
+        this.violations = response.data.map(report => {
+          let dateTime = new Date(report.dateTime);
+          let formattedDateTime = dateTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+          return { ...report, dateTime: formattedDateTime};
+        });
+        // this.searchResults = response.data.map(report => {
+        //   let dateTime = new Date(report.dateTime);
+        //   let formattedDateTime = dateTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+        //   return { ...report, dateTime: formattedDateTime};
+        // });
         if (this.violations.length === 0) {
           this.studentExists = true;
         } else {
@@ -68,15 +114,14 @@ export default {
       } 
       catch (error) {
         console.error(error);
+        alert("Student does not exist in the database.");
         this.studentExists = false;
+        this.getAllApprovedViolations();
       }
-    },
-    toggleExpansion() {
-      document.querySelector('.violation-list-container').classList.toggle('expanded');
     },
     showViolationDetails(violation) {
       this.selectedViolation = violation;
-      
+      console.log(this.selectedViolation);
     },
     close() { 
       this.$emit("goHome1");
@@ -169,7 +214,6 @@ li:hover {
   background-color: #ddd;
   border-radius: 5px;
   cursor: pointer;
-
 }
 
 #searchbar {
@@ -188,7 +232,20 @@ li:hover {
   color: red;
   font-size: 20px;
   margin-top: 5%;
-
 }
 
+.scrollable-list {
+  height: 600px; 
+  overflow-y: auto;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  width: 97%;
+  margin: 0 1.5%;
+}
 </style>

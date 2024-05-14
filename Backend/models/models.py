@@ -5,12 +5,15 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-
-class SchoolRules(Base):
-    __tablename__ = "schoolRules"
-    ruleID = Column(Integer, primary_key=True, index=True)
+class Violation(Base):
+    __tablename__ = "violation"
+    violationID = Column(Integer, primary_key=True, index=True)
+    violationName = Column(String)
     description = Column(String)
     category = Column(String)
+    dateCreated = Column(Date)
+    createdBy = Column(String)
+
 
 class Student(Base):
     __tablename__ = "student"
@@ -18,11 +21,11 @@ class Student(Base):
     name = Column(String)
     section = Column(String)
     contactInformation = Column(String)
-    suffix = Column(String)
     gender = Column(String)
     age = Column(Integer)
     address = Column(String)
     birthDate = Column(Date)
+    email = Column(String)
 
 class ViolationDetails(Base):
     __tablename__ = "violationdetails"
