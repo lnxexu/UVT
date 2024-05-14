@@ -9,6 +9,7 @@
     </div>
     <div class="main-content modal-content">
       <h1>Received Reports</h1>
+      <hr>
       <div class="w3-row">&nbsp;</div>
       <div class="w3-row">&nbsp;</div>
       <div class="w3-row">&nbsp;</div>
@@ -49,8 +50,8 @@
             <p><strong>Venue: </strong>{{ editedReport.venue }}</p>
             <p><strong>Violation:</strong> {{ editedReport.violation }}
               <select class="input" v-model="editedReport.violation">
-                <option v-for="option in violationOptions" :key="option.value" :value="option">
-                  {{ option }}
+                <option v-for="option in violationOptions" :key="option.violationName" :value="option.violationName">
+                  {{ option.violationName }}
                 </option>
               </select>
             </p>
@@ -115,7 +116,7 @@ export default {
       venue: "",
       sanction: "",
       guard: "",
-      violationOptions: [ "Incomplete uniform","No ID", "Improper undershirt","Improper hair color","Bullying", "Littering", "Loitering", "Smoking"],
+      violationOptions: [],
       edit: false,
     };
   },
@@ -126,6 +127,7 @@ export default {
   },
   mounted() {
     this.fetchData();
+    this.getViolation();
   },
   created() {
     this.fetchData();
@@ -244,7 +246,17 @@ export default {
       .catch((error) => {
         console.error(error);
       });
-    }
+    },
+    getViolation() {
+      axios.get(`http://127.0.0.1:8000/violation`)
+      .then((response) => {
+        this.violationOptions = response.data;
+        console.log(this.violationOptions);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    },
   },
 };
 </script>

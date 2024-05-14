@@ -60,16 +60,8 @@
           <h2 id="second">Violation</h2>
           <div class="btn-group">
             <select v-model="violation" id="display" class="form-select" aria-label="Default select example" @change="validateInputs">
-              <option value="0" disabled selected>Select violation</option>
-              <option value="Incomplete uniform">Incomplete uniform</option>
-              <option value="Improper haircut">Improper haircut</option>
-              <option value="NO ID">No ID</option>
-              <option value="Improper undershirt">Improper undershirt</option>
-              <option value="Improper hair color">Improper hair color</option>
-              <option value="Bullying">Bullying</option>
-              <option value="Littering">Littering</option>
-              <option value="Loitering">Loitering</option>
-              <option value="Smoking">Smoking</option>
+              <option value="" selected disabled hidden>Choose here</option>
+              <option v-for="data in tableData2" :key="data.violationName" :value="data.violationName">{{ data.violationName }}</option>
             </select>
             <span v-if="error2" class="error" id="error2">This field is required.</span>
           </div>
@@ -143,6 +135,7 @@ export default {
       dateTime: '',
       description: '',
       tableData: [],
+      tableData2: [],
       isPopupOpen1: false,
       isPopupOpen2: false,
       isLoaded: false,
@@ -161,6 +154,7 @@ export default {
     };
   },
   mounted() {
+    this.getViolation();
     this.getUsername();
     this.updateDateTime();
     const visibilityDuration = 1000;
@@ -212,6 +206,16 @@ export default {
         .catch((error) => {
           console.error(error);
           this.notFound = true;
+        });
+    },
+    getViolation() {
+      axios.get(`http://127.0.0.1:8000/violation`)
+        .then((response) => {
+          this.tableData2 = response.data;
+          console.log(this.tableData2);
+        })
+        .catch((error) => {
+          console.error(error);
         });
     },
     handlePopupClose(value) {
@@ -330,7 +334,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .Sekyu-page-container{
   overflow: hidden;
   padding: 0;

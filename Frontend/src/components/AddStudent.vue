@@ -8,8 +8,9 @@
         <div class="bar2"></div>
         <div class="bar2"></div>
     </div>
-    <div class="main-content modal-content">
+    <div class="main-content modal-content1">
       <h1>Add Student</h1>
+      <hr>
       <div class="w3-col">&nbsp;</div>
       <div class="w3-col">&nbsp;</div>
       <div class=" w3-row-padding ">
@@ -25,7 +26,7 @@
               <p>Suffix:</p>
               <select class="w3-select w3-border" name="option" v-model="suffix" required>
                   <option value="" disabled selected>Choose your option</option>
-                  <option value="NULL">None</option>
+                  <option value=" ">None</option>
                   <option value="Jr.">Jr.</option>
                   <option value="Sr.">Sr.</option>
                   <option value="III">III</option>
@@ -103,7 +104,7 @@
           <div class="w3-col">&nbsp;</div>
 
           <div class="w3-center">
-              <button class="button-57" type="submit" @click="validate"><i class="fa fa-paper-plane"></i> <span class="text"> ADD STUDENT </span><span><i class="fa fa-paper-plane-o"></i> ADD STUDENT</span></button>
+            <button class="button-57" type="submit" @click="validate"><i class="fa fa-paper-plane"></i> <span class="text"> ADD STUDENT </span><span><i class="fa fa-paper-plane-o"></i> ADD STUDENT</span></button>
           </div>
           
           <div v-if="showModal" class="modal">
@@ -386,8 +387,7 @@ export default {
 }
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto; 
-  padding: 20px;
+  margin: 1% auto; 
   border: 1px solid #888;
   width: 45%; 
   padding: 40px;
@@ -405,9 +405,10 @@ export default {
   left: 92%;
   width: 5%
 }
+
 .content{
   position: fixed;
-  top: 27%;
+  top: 17%;
 }
 
 .green {
@@ -446,7 +447,7 @@ export default {
 }
 .buttons {
   position: fixed;
-  top: 70%;
+  top: 64%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: auto;
@@ -456,13 +457,14 @@ export default {
   margin: 30px;
 }
 
-.modal-content {
+.modal-content1 {
   background-color: #fefefe;
   padding: 20px;
   border: 1px solid #888;
   border-radius: 5px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   width: 97%;
+  height: 85%;
   margin: 0 1.5%;
 }
 </style>

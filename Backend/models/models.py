@@ -11,9 +11,8 @@ class Violation(Base):
     violationName = Column(String)
     description = Column(String)
     category = Column(String)
-    dateCreated = Column(Date)
+    dateCreated = Column(DateTime)
     createdBy = Column(String)
-
 
 class Student(Base):
     __tablename__ = "student"

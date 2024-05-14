@@ -9,6 +9,7 @@
     </div>
     <div class="main-content modal-content">
       <h1>Violation List</h1>
+      <hr>
       <div id="searchbar">
         <input id = "search" type="text" v-model="student_id" placeholder="Search Student"  />
         <!-- <ul v-if="searchResults.length" class="search">
@@ -134,6 +135,7 @@ export default {
 
 <style scoped>
 * {font-family:"Raleway", sans-serif}
+
 .exit-button {
   cursor: pointer;
   display: inline-block;
@@ -187,8 +189,8 @@ ul {
   border-radius: 5px;
   width: 50%;
   position: fixed;
-  left: 47.8%;
-  top: 31%;
+  left: 46.8%;
+  top: 35%;
 }
 li {
   margin-bottom: 10px;
@@ -247,5 +249,6 @@ li:hover {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   width: 97%;
   margin: 0 1.5%;
+  height: 85%;
 }
 </style>

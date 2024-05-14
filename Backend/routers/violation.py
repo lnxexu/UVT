@@ -9,7 +9,6 @@ from sqlalchemy import text
 router = APIRouter(tags=["Violation"])
 
 
-# post for adding a violation law
 @router.post("/violation")
 async def add_violation(
     violationName: str,
@@ -35,5 +34,10 @@ async def add_violation(
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+    
+@router.get("/violation")
+async def get_violations(db: Session = Depends(get_db)):
+    return db.query(Violation).all()
+
 
 

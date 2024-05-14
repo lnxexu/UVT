@@ -10,6 +10,7 @@
       <div class="w3-row">&nbsp;</div>
       <div class="main-content w3-half modal-content">
         <h1 class="w3-center">Security Guards List</h1>
+        <hr>
         <div class="w3-row">&nbsp;</div>
 
         <div class="w3-row w3-half center">
@@ -47,6 +48,7 @@
       </div>
       <div class="main-content w3-half modal-content">
         <h1 class="w3-center">OSAD Staffs List</h1>
+        <hr>
         <div class="w3-row">&nbsp;</div>
         <div class="w3-row w3-half center">
           <div class="w3-col s9 ">
@@ -323,7 +325,7 @@ li:hover {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   width: 47%;
   margin: 0 1.5%;
-  height: 80%;
+  height: 82%;
 }
 .center{
   position: relative;

@@ -133,27 +133,8 @@ export default {
   },
   emits: ['handlePendingAccountsClose', 'handleSecurityAccountsClose', 'handleReportClose', 'goHome', 'goHome1', 'goHome2'],
   methods: {
-    showAddStudent(){
-      this.addStudent = true;
-      this.Accounts = false;
-      this.Reports = false;
-      this.PendingAccounts = false;
-      this.violationsPage = false;
-      this.home = false;
-      this.toggle();
-    },
     handleNavigationClose() {
       this.isNavigationOpen = false;
-    },
-    getUsername() {
-      axios.get(`http://127.0.0.1:8000/loginOSAD`)
-        .then((response) => {
-          this.username = response.data.fullname;
-          console.log(this.username);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     },
     handleReportClose(value) {
       this.Reports = value;
@@ -180,6 +161,20 @@ export default {
       document.querySelector('.hamburger').classList.toggle('open')
       document.querySelector('.navigation').classList.toggle('active')
     },
+    toggle(){
+      document.querySelector('.hamburger').classList.remove('open')
+      document.querySelector('.navigation').classList.remove('active')
+    },
+    showAddStudent(){
+      this.addStudent = true;
+      this.violationsPage = false;
+      this.Accounts = false;
+      this.Reports = false;
+      this.PendingAccounts = false;
+      this.home = false;
+      this.AddViolation = false;
+      this.toggle();
+    },
     showHome(){
       this.home = true;
       this.violationsPage = false;
@@ -187,11 +182,8 @@ export default {
       this.Reports = false;
       this.PendingAccounts = false;
       this.addStudent = false;
+      this.AddViolation = false;
       this.toggle();
-    },
-    toggle(){
-      document.querySelector('.hamburger').classList.remove('open')
-      document.querySelector('.navigation').classList.remove('active')
     },
     showViolations(){
       this.violationsPage = true;
@@ -200,10 +192,12 @@ export default {
       this.PendingAccounts = false;
       this.home = false;
       this.addStudent = false;
+      this.AddViolation = false;
       this.toggle();
     },
     showAddViolation(){
       this.AddViolation = true;
+      this.violationsPage = false;
       this.Accounts = false;
       this.Reports = false;
       this.PendingAccounts = false;
@@ -213,11 +207,12 @@ export default {
     },
     showSecurityAccounts(){
       this.violationsPage = false;
-      this.Accounts = !this.Accounts;
+      this.Accounts = true;
       this.Reports = false;
       this.PendingAccounts = false;
       this.home = false;
       this.addStudent = false;
+      this.AddViolation = false;
       this.toggle();
     },
     showReports(){
@@ -227,6 +222,7 @@ export default {
       this.PendingAccounts = false;
       this.home = false;
       this.addStudent = false;
+      this.AddViolation = false;
       this.toggle();
     },
     showPendingAccounts(){
@@ -243,6 +239,16 @@ export default {
     },
     closeContentPage(){
       this.contentPageVisible = false;
+    },
+    getUsername() {
+      axios.get(`http://127.0.0.1:8000/loginOSAD`)
+        .then((response) => {
+          this.username = response.data.fullname;
+          console.log(this.username);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     getCurrentTime() {
       const now = new Date();

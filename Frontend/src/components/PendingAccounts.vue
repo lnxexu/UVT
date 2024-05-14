@@ -12,6 +12,7 @@
 
   <div class="main-content w3-half modal-content">
     <h1>Security Pending Accounts</h1>
+    <hr>
     <div class="w3-row">&nbsp;</div>
     <ul :class="{ 'scrollable-list': sekyuAccounts.length >= 5 }">
       <li v-for="sekyu in sekyuAccounts" :key="sekyu.fullName" @click="showAccountDetailsSekyu(sekyu)">{{ sekyu.fullName }}</li>
@@ -44,6 +45,7 @@
 
   <div class="main-content w3-half modal-content">
     <h1>OSAD Pending Accounts</h1>
+    <hr>
     <div class="w3-row">&nbsp;</div>
     <ul :class="{ 'scrollable-list': osadAccounts.length >= 5 }">
       <li v-for="OSAD in osadAccounts" :key="OSAD.fullName" @click="showAccountDetailsOSAD(OSAD)">{{ OSAD.fullName }}</li>
@@ -129,7 +131,7 @@
       <p><strong>Password:</strong> {{ selectedSekyu.password }}</p>
     </div>
     <div class="buttons">
-      <button class="green" @click="rejectSekyu()">Yes, reject</button>
+      <button class="green" @click="rejectSekyuPopup()">Yes, reject</button>
       <button class="red" @click="showRejectPopupSekyu = false">No, go back</button>
     </div>
   </div>
@@ -151,7 +153,7 @@
       <p><strong>Password:</strong> {{ selectedOSAD.password }}</p>
     </div>
     <div class="buttons">
-      <button class="green" @click="rejectOSAD()">Yes, reject</button>
+      <button class="green" @click="rejectOSADPopup()">Yes, reject</button>
       <button class="red" @click="showRejectPopupOSAD = false" >No, go back</button>
     </div>
   </div>
@@ -322,6 +324,16 @@ export default {
       axios.delete(`http://127.0.0.1:8000/RejectAccountSekyu/${this.selectedSekyu.email}`)
       .then((response) => {
         console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Error rejecting account");
+      });
+    },
+    rejectSekyuPopup() {
+      axios.delete(`http://127.0.0.1:8000/RejectAccountSekyu/${this.selectedSekyu.email}`)
+      .then((response) => {
+        console.log(response);
         this.popupReject = true;
       })
       .catch((error) => {
@@ -330,6 +342,16 @@ export default {
       });
     },
     rejectOSAD() {
+      axios.delete(`http://127.0.0.1:8000/RejectAccountOSAD/${this.selectedOSAD.email}`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Error rejecting account");
+      });
+    },
+    rejectOSADPopup() {
       axios.delete(`http://127.0.0.1:8000/RejectAccountOSAD/${this.selectedOSAD.email}`)
       .then((response) => {
         console.log(response);
@@ -568,6 +590,7 @@ li:hover {
   width: 48%;
   margin: 0 1%;
   height: 83%;
+  
 }
 
 .modal-content h1{

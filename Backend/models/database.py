@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from fastapi import FastAPI
 
 
-DATABASE_URL = "mysql+pymysql://kobe:oliviahyejoo@localhost:3306/dbg12"
+DATABASE_URL = "mysql+pymysql://myk:mykmyk@localhost:3306/dbg12"
 
 app = FastAPI()
 engine = create_engine(DATABASE_URL)
